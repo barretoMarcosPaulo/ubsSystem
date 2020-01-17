@@ -1,0 +1,15 @@
+*.pyc
+*.pyo
+*.json
+.vscodde
+db.sqlite3
+settings_local.py
+/env
+/assessoria-internacional
+.DS_Store
+/media
+
+/migrations/*
+/_pycache_/*
+
+/env
