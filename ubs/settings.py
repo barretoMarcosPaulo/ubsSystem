@@ -29,9 +29,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     #My Apps
-    'core',
-    'accounts',
-    'medical_query',
+    'ubs.core',
+    'ubs.accounts',
+    'ubs.medical_query',
 ]
 
 MIDDLEWARE = [
