@@ -29,8 +29,11 @@ class MedicalQuery(AuditModel):
         verbose_name_plural = 'Consultas Medicas'
         ordering = ['-created_on']
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 1a9792efcc911cce7a2593bc78ae53543750e906
 class Patient(AuditModel):
     sex_option = (
         ('Masculino','Masculino'),
@@ -62,6 +65,11 @@ class Patient(AuditModel):
     
     def get_absolute_url(self):
         return reverse("patient:register_patient")
+
+    def Meta:
+        verbose_name = 'Paciente'
+        verbose_name_plural = 'Pacientes'
+        ordering = ['-created_on']
     
 class PhysicalExam(AuditModel):
     
