@@ -1,5 +1,6 @@
 from django.db import models
 from ubs.accounts.models import User
+from ubs.core.models import AuditModel
 
 class MedicalQuery(AuditModel):
     
@@ -24,11 +25,13 @@ class MedicalQuery(AuditModel):
         return reverse('medical_query:medical_querys_list')
 
     class Meta:
-        verbose_name = 'Publicar Competência'
-        verbose_name_plural = 'Publicar Competências'
+        verbose_name = 'Consulta Medica'
+        verbose_name_plural = 'Consultas Medicas'
         ordering = ['-created_on']
 
-class Patient(models.Model):
+
+
+class Patient(AuditModel):
     sex_option = (
         ('Masculino','Masculino'),
         ('Feminino', 'Feminino'),
@@ -60,3 +63,23 @@ class Patient(models.Model):
     def get_absolute_url(self):
         return reverse("patient:register_patient")
     
+class PhysicalExam(AuditModel):
+    
+    pa = models.CharField('PA', max_length=50)
+    p = models.CharField('P', max_length=50)
+    fc = models.TextField('FC', max_length=50, blank=False, null=False)
+    epidemiological_history = models.CharField('FR', max_length=50, blank=False, null=False)
+    previous_pathological_history = models.CharField('TAX', max_length=50, blank=False, null=False)
+    family_history = models.CharField('Peso', max_length=50, blank=False, null=False)
+    physiological_personal_ antecedents = models.CharField('Altura', max_length=50, blank=False, null=False)
+
+    def __int__(self):
+        return self.patient
+
+    def get_absolute_url(self):
+        return reverse('medical_query:medical_querys_list')
+
+    class Meta:
+        verbose_name = 'Exame Fisico'
+        verbose_name_plural = 'Exames Fisicos'
+        ordering = ['-created_on']
