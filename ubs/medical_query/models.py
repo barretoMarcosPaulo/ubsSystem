@@ -17,7 +17,7 @@ class Patient(models.Model):
     ) 
 
     full_name = models.CharField('Nome Completo',blank=True)
-    date_birth = DateField('Data de Nascimento', blank=True)
+    date_birth = models.DateField('Data de Nascimento', blank=True)
     sex = models.CharField('Sexo',choices=sex_option)
     color = models.CharField('Cor')
     marital_state = models.CharField('Estado Conjugal', blank=True,choices=marital_state_option)
