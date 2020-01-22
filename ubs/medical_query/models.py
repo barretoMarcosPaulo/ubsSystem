@@ -28,12 +28,7 @@ class MedicalQuery(AuditModel):
         verbose_name = 'Consulta Medica'
         verbose_name_plural = 'Consultas Medicas'
         ordering = ['-created_on']
-
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 1a9792efcc911cce7a2593bc78ae53543750e906
+        
 class Patient(AuditModel):
     sex_option = (
         ('Masculino','Masculino'),
