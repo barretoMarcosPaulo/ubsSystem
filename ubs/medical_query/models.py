@@ -28,7 +28,7 @@ class MedicalQuery(AuditModel):
         verbose_name_plural = 'Publicar Competências'
         ordering = ['-created_on']
 
-class Patient(models.Model):
+class Patient(AuditModel):
     sex_option = (
         ('Masculino','Masculino'),
         ('Feminino', 'Feminino'),
@@ -59,4 +59,9 @@ class Patient(models.Model):
     
     def get_absolute_url(self):
         return reverse("patient:register_patient")
+
+    def Meta:
+        verbose_name = 'Paciente'
+        verbose_name_plural = 'Pacientes'
+        ordering = ['-created_on']
     
