@@ -10,4 +10,6 @@ urlpatterns = [
     path('paciente/delete/<int:id> ', views.delete_patient, name='delete_patient'),
 
     path('consulta/add', views.QueryCreate.as_view(), name='add_query'),
+    path('consulta/list', views.ListQuerys.as_view(), name='list_query'),
+    path('consulta/edit/<int:pk> ', views.QueryUpdate.as_view(), name='update_query'),
 ]
