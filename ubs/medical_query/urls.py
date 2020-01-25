@@ -4,5 +4,7 @@ from . import views
 app_name = 'medical_query'
 
 urlpatterns = [
-    path('', views.new_patient, name='patient'),
+    path('paciente/add', views.new_patient, name='add_patient'),
+
+    path('consulta/add', views.QueryCreate.as_view(), name='add_query'),
 ]
