@@ -1,12 +1,18 @@
 from django.shortcuts import render
 # Create your views here.
-from .forms import PatientForm,MedicalQueryForm
-from .models import *
+from .forms import PatientForm,MedicalQueryForm,PhysicalExamForm
+from .models import Patient,MedicalQuery,PhysicalExam
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.urls import reverse_lazy
+
+from django.http import HttpResponseRedirect
+from django.urls import reverse, reverse_lazy
+
+from django.db import IntegrityError, transaction
+
 
 def new_patient(request):
     if request.POST:
@@ -84,29 +90,64 @@ class PatientUpdate(UpdateView):
 #     return reverse('nucleo:vivencia_list')
 
 
-class DeleteSegment(DeleteView):
-    model = Patient
-    success_url = reverse_lazy('list_patient')
+def delete_patient(request, id):
+    patient = Patient.objects.get(id=id)
+    patient.delete()
+    return HttpResponseRedirect(reverse('medical_query:list_patient'))
 
 
 
 class QueryCreate(CreateView):
-	model = MedicalQuery
-	template_name = 'querys/add.html'
-	form_class = MedicalQueryForm
+    model = MedicalQuery
+    template_name = 'querys/add.html'
+    form_class = MedicalQueryForm
+    second_form_class = PhysicalExamForm
 
-	# def form_valid(self, form):
-	# 	form.save()
-	# 	messages.success(self.request, 'Vivência cadastrada com sucesso.')
-	# 	return HttpResponseRedirect(self.get_success_url())
+    def get(self, request, *args, **kwargs):
+        
 
-	# def form_invalid(self, form):
-	# 	messages.error(self.request, 'Ocorreu um erro ao cadastrar a vivência.')
-	# 	return self.render_to_response(
-	# 		self.get_context_data(
-	# 			form=form
-	# 		)
-	# 	)
+        self.object = None
+        form = self.form_class
+        exam_form = self.second_form_class
+        return self.render_to_response(
+            self.get_context_data(
+                form=form,
+                exam_form=exam_form,
+            )
+        )
 
-	# def get_success_url(self):
-	# 	return reverse('nucleo:vivencia_list')
+    def post(self, request, *args, **kwargs):
+        self.object = None
+        form = self.form_class(self.request.POST, self.request.FILES)
+        exam_form = self.second_form_class(self.request.POST)
+        if form.is_valid() and exam_form.is_valid():
+            return self.form_valid(form, exam_form)
+        else:
+            return self.form_invalid(form, exam_form)
+
+    def form_valid(self, form, exam_form):
+       
+        with transaction.atomic():
+            print("OK")
+
+            query = form.save(commit=False)
+            # query.medical = self.request.user
+            query.save()
+
+            exam = exam_form.save(commit=False)
+            exam.query = query
+            exam.save()
+
+            return HttpResponseRedirect(self.get_success_url())
+
+    def form_invalid(self, form, exam_form):
+        print("Formulario Invalido")
+        return self.render_to_response(
+            self.get_context_data(
+                    form=form,
+                    exam_form=exam_form,
+                )
+            )
+
+    def get_success_url(self):
+        return reverse('medical_query:add_query')
