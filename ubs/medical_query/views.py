@@ -14,24 +14,13 @@ from django.urls import reverse, reverse_lazy
 from django.db import IntegrityError, transaction
 
 
-def new_patient(request):
-    if request.POST:
-        full_name = request.POST['full_name']
-        date_birth = request.POST['date_birth']
-        sex = request.POST['sex']
-        color = request.POST['color']
-        marital_state = request.POST['marital_state']
-        ocupation = request.POST['ocupation']
-        local_birth = request.POST['local_birth']
-        health_insurance = request.POST['health_insurance']
-        address = request.POST['address']
-        phone = request.POST['phone']
-        fax = request.POST['fax']
-        email = request.POST['email']
-        patient = Patient.objects.create(full_name=full_name, date_birth=date_birth, sex=sex,color=color, marital_state=marital_state, ocupation=ocupation, local_birth=local_birth, health_insurance=health_insurance, address=address, phone=phone, fax=fax, email=email )
-        patient.save()
-        # return HttpResponseRedirect(reverse('partner:index'))
-    return render(request, 'patient/add.html')
+class PatientCreate(CreateView):
+    model = Patient
+    template_name = 'patient/add.html'
+    form_class = PatientForm
+
+    def get_success_url(self):
+        return reverse('medical_query:list_patient')
 
 class ListPatient(ListView):
 
@@ -86,16 +75,14 @@ class PatientUpdate(UpdateView):
     #         )
     #     )
 
-#   def get_success_url(self):
-#     return reverse('nucleo:vivencia_list')
+    def get_success_url(self):
+        return reverse('medical_query:list_patient')
 
 
 def delete_patient(request, id):
     patient = Patient.objects.get(id=id)
     patient.delete()
     return HttpResponseRedirect(reverse('medical_query:list_patient'))
-
-
 
 class QueryCreate(CreateView):
     model = MedicalQuery

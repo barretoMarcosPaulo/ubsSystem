@@ -1,71 +1,64 @@
 {% extends 'core/base.html' %}
+{% load widget_tweaks %}
 
-{% block title %}Cadastro de paciente{% endblock %}
+{% block title %}Cadastro de Paciente{% endblock %}
 
 {% block body %}
-    <div class="content col-md-12" >
-        <div class="animated fadeIn">
-            <form method="post" >
+<div class="content col-md-12">
+    <div class="animated fadeIn">
+        <form method="post">
             {% csrf_token %}
-                <div class="row" >
-                    <div class="col-md-10"style="margin: 20px auto;">
+                <div class="row">
+                    <div class="col-md-10" style="margin: 20px auto;">
                         <div class="card">
-                            <div class="card-header"><strong>Paciente</strong><small> Cadastro de novo paciente</small></div>
-                            <div class="card-body card-block">
-                                <div class="form-group col-md-6" ><label for="company" class=" form-control-label">Nome Completo</label><input name="full_name" type="text" id="full_name" placeholder="Nome completo" class="form-control" required></div>
-                                    <div class="form-group col-md-6" ><label for="vat" class=" form-control-label">Data de Nascimento</label><input name="date_birth" type="date" id="date"  class="form-control" ></div>
-                                    
-                                    <div class="form-group col-md-4" ><label for="vat" class=" form-control-label">Cor</label><input name="color" type="text" id="color" placeholder="Ex: pardo" class="form-control" ></div>
-                                    
-                                    <div class="form-group col-md-4"> 
-                                        <label for="street" class="form-control-label">Sexo</label>
-                                        <div class="row form-group ">
-                                            <div class="col-md-12">
-                                                <select name="sex" id="select" class="form-control" required>
-                                                    <option value="Masculino">Masculino</option>
-                                                    <option value="Feminino">Feminino</option>
-                                                    <option value="Outro">Outro</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                
-                                
-                                    <div class="form-group col-md-4">
-                                        <label for="street" class=" form-control-label">Estado conjugal</label>
-                                        
-                                        <div class="row form-group">
-                                            <div class="col-md-12">
-                                                <select name="marital_state" id="select" class="form-control" >
-                                                    <option value="Solteiro (a)">Solteiro (a)</option>
-                                                    <option value="Casado (a)">Casado (a)</option>
-                                                    <option value="Divorciado (a)">Divorciado (a)</option>
-                                                    <option value="Viúvo (a)">Viúvo (a)</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    
-                                    <div class="form-group col-md-6"><label for="vat" class=" form-control-label">Ocupação</label><input name="ocupation" type="text" id="ocupation" placeholder="Ex: pedreiro" class="form-control" ></div>
-                                    <div class="form-group col-md-3"><label for="vat" class=" form-control-label">Local de Nascimento</label><input name="local_birth" type="text" id="local_birth" placeholder="Ex: Picos" class="form-control" ></div>
-                                    <div class="form-group col-md-3"><label for="vat" class=" form-control-label">Convênio</label><input name="health_insurance" type="text" id="health_insurance" placeholder="Ex: Santa inês" class="form-control" ></div>
-                                    <div class="form-group col-md-12"><label for="vat" class=" form-control-label">Endereço</label><input name="address" type="text" id="Endereco" placeholder="Rua cicero duarte, bairro junco, número 600" class="form-control" ></div>
-                                    <div class="form-group col-md-4"><label for="vat" class=" form-control-label">Telefone</label><input name="phone" type="text" id="phone" placeholder="Ex: 89994010203" class="form-control" ></div>
-                                    <div class="form-group col-md-4"><label for="vat" class=" form-control-label">Fax</label><input name="fax" type="text" id="fax" placeholder="" class="form-control" ></div>
-                                    <div class="form-group col-md-4"><label for="vat" class=" form-control-label">Email</label><input name="email" type="email" id="email" placeholder="Ex: joao@gmail.com" class="form-control" ></div>
-                                    <div class="form-actions form-group col-md-3"><button type="submit" class="btn btn-success" style="border-radius: 3px;">Finalizar</button></div>
-
-                                </div>
+                            <div class="card-header"><strong>Consulta</strong><small> Consulta de Paciente</small>
                             </div>
+                            
+                    <fieldset>
+
+                        <div class="form-group">
+                            {% for field in form %}
+                                {% if field.errors %}
+                                    <div
+                                        class="col-md-{% if field.name in 'name' %}8{% elif field.name in 'main_complaint\email' %}6{% elif field.name in 'username\sex\birth_date\marital_status\phone\cpf\rg\matricula' %}4{% elif field.name in 'nome_mae\nome_pai' %}6{% else %}12{% endif %} margin-bottom-15 has-error has-feedback">
+                                        <label class="control-label">{{ field.label }}</label>
+                                        {{ field|add_class:"form-control input-md" }}
+                                        <span class="text-danger"> <strong>{{ field.help_text }}</strong> </span>
+                                        {% for error in field.errors%}
+                                        <span class="help-inline error">{{ error}}</span>
+                                        {% endfor%}
+                                    </div>
+                                {%else%}
+                                    <div
+                                        class="col-md-{% if field.name in 'full_name\date_birth\ocupation' %}6
+                                        {% elif field.name in 'color\sex\marital_state\phone\fax\email' %}4
+                                        {% elif field.name in 'address' %}12
+                                        {% elif field.name in 'local_birth\health_insurance' %}3
+                                        {% elif field.name in 'summary' %}12
+                                        {% else %}6
+                                        {% endif %} margin-bottom-15">
+
+                                        <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
+                                        {{ field|add_class:"form-control input-md" }}
+                                        <span class="text-danger"> <strong>{{ field.help_text }}</strong></span>
+                                    </div>
+                            {%endif%}
+                            {% endfor %}
                         </div>
-                    </div> 
-                </div>         
-            </form>
-        </div>         
-    </div>         
-                                  
+                    </fieldset>
+                    
+                    <br>
+                    
+                    <div class="form-actions form-group col-md-3"><button type="submit" class="btn btn-success" style="border-radius: 3px;">Finalizar</button></div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    </form>
+</div>
+</div>
+
 {% endblock %}
-
-
