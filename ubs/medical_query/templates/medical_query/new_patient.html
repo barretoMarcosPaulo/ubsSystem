@@ -5,13 +5,14 @@
 {% block body %}
     <div class="content col-md-12">
         <div class="animated fadeIn">
-            <form type="POST">{% csrf_token %}
+            <form method="post">
+            {% csrf_token %}
                 <div class="row">
                     <div class="col-md-10">
                         <div class="card">
                             <div class="card-header"><strong>Paciente</strong><small> Cadastro de novo paciente</small></div>
                             <div class="card-body card-block">
-                                <div class="form-group col-md-6" ><label for="company" class=" form-control-label">Nome Completo</label><input name="full_name" type="text" id="name" placeholder="Nome completo" class="form-control" required></div>
+                                <div class="form-group col-md-6" ><label for="company" class=" form-control-label">Nome Completo</label><input name="full_name" type="text" id="full_name" placeholder="Nome completo" class="form-control" required></div>
                                     <div class="form-group col-md-6" ><label for="vat" class=" form-control-label">Data de Nascimento</label><input name="date_birth" type="date" id="date"  class="form-control" ></div>
                                     
                                     <div class="form-group col-md-4" ><label for="vat" class=" form-control-label">Cor</label><input name="color" type="text" id="color" placeholder="Ex: pardo" class="form-control" ></div>
@@ -50,7 +51,7 @@
                                     <div class="form-group col-md-6"><label for="vat" class=" form-control-label">Ocupação</label><input name="ocupation" type="text" id="ocupation" placeholder="Ex: pedreiro" class="form-control" ></div>
                                     <div class="form-group col-md-3"><label for="vat" class=" form-control-label">Local de Nascimento</label><input name="local_birth" type="text" id="local_birth" placeholder="Ex: Picos" class="form-control" ></div>
                                     <div class="form-group col-md-3"><label for="vat" class=" form-control-label">Convênio</label><input name="health_insurance" type="text" id="health_insurance" placeholder="Ex: Santa inês" class="form-control" ></div>
-                                    <div class="form-group col-md-12"><label for="vat" class=" form-control-label">Endereço</label><input name="Endereco" type="text" id="Endereco" placeholder="Rua cicero duarte, bairro junco, número 600" class="form-control" ></div>
+                                    <div class="form-group col-md-12"><label for="vat" class=" form-control-label">Endereço</label><input name="address" type="text" id="Endereco" placeholder="Rua cicero duarte, bairro junco, número 600" class="form-control" ></div>
                                     <div class="form-group col-md-4"><label for="vat" class=" form-control-label">Telefone</label><input name="phone" type="text" id="phone" placeholder="Ex: 89994010203" class="form-control" ></div>
                                     <div class="form-group col-md-4"><label for="vat" class=" form-control-label">Fax</label><input name="fax" type="text" id="fax" placeholder="" class="form-control" ></div>
                                     <div class="form-group col-md-4"><label for="vat" class=" form-control-label">Email</label><input name="email" type="email" id="email" placeholder="Ex: joao@gmail.com" class="form-control" ></div>
