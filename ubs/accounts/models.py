@@ -25,6 +25,8 @@ class User(AbstractBaseUser, PermissionsMixin):
   is_Medical= models.BooleanField('Médico', default=False)
   is_Triagem = models.BooleanField('Triagem', default=True)
   is_superuser = models.BooleanField('Super Usuário', default=False)
+  is_staff = models.BooleanField('Equipe', default=False)
+  is_active = models.BooleanField('Ativo', default=True)
 
   objects = UserManager()
 
