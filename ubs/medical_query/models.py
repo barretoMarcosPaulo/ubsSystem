@@ -68,6 +68,10 @@ class MedicalQuery(AuditModel):
     peso_exam = models.CharField('Peso(g)', max_length=50, blank=False, null=False)
     heigth_exam = models.CharField('Altura(cm)', max_length=50, blank=False, null=False)
 
+    priority = models.BooleanField('Paciente Prioritário', default=False)
+    opened = models.BooleanField('Consulta em Aberto', default=True)
+    
+
     def __int__(self):
         return self.patient
 

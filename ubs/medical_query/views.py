@@ -130,22 +130,22 @@ class QueryCreate(CreateView):
         return reverse('medical_query:add_query')
 
 
-class ListQuerys(ListView):
+class ListQuerysHistory(ListView):
 
     model = MedicalQuery
     http_method_names = ['get']
-    template_name = 'querys/list.html'
+    template_name = 'querys/history.html'
     context_object_name = 'object_list'
     paginate_by = 20
 
     def get_queryset(self):
-        self.queryset = super(ListQuerys, self).get_queryset()
+        self.queryset = super(ListQuerysHistory, self).get_queryset()
         if self.request.GET.get('search_box', False):
             self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']) | Q(first_name__icontains=self.q))
         return self.queryset
 
     def get_context_data(self, **kwargs):
-        _super = super(ListQuerys, self)
+        _super = super(ListQuerysHistory, self)
         context = _super.get_context_data(**kwargs)
         adjacent_pages = 3
         page_number = context['page_obj'].number
@@ -170,51 +170,9 @@ class QueryUpdate(UpdateView):
     template_name = 'querys/add.html'
     form_class = MedicalQueryForm
 
+    def get_success_url(self):
+        return reverse('medical_query:list_query_history')
 
-
-
-class QueryUpdate(UpdateView):
-	model = MedicalQuery
-	template_name = 'querys/add.html'
-	form_class = MedicalQueryForm
-
-	def get(self, request, *args, **kwargs):
-		self.object = self.get_object()
-		form = self.form_class(instance=self.object)
-		
-		return self.render_to_response(
-			self.get_context_data(
-				form=form,	
-			)
-		)
-
-	def post(self, request, *args, **kwargs):
-		self.object = self.get_object()
-		form = self.form_class(
-			self.request.POST, self.request.FILES, instance=self.object)
-
-		if form.is_valid():
-			return self.form_valid(form)
-		else:
-			return self.form_invalid(form)
-
-	def form_valid(self, form):
-
-		with transaction.atomic():
-
-			query = form.save(commit=False)
-			query.medical = self.request.user
-			query.save()
-
-
-		return HttpResponseRedirect(self.get_success_url())
-
-	def form_invalid(self, form):
-		return self.render_to_response(
-			self.get_context_data(
-				form=form,
-			)
-		)
 
 
 class QueryDetail(DetailView):
