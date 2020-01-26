@@ -30,15 +30,14 @@
                                     </div>
                                 {%else%}
                                     <div
-                                        class="col-md-{% if field.name in 'patient' %}12
+                                        class="col-md-{% if field.name in 'patient\summary\review_of_systems' %}12
                                         {% elif field.name in 'main_complaint\current_health_history/epidemiological_history/previous_pathological_history/family_history/physiological_personal_antecedents' %}6
-                                        {% elif field.name in 'review_of_systems' %}12
-                                        {% elif field.name in 'physical_exam' %}3
-                                        {% elif field.name in 'summary' %}12
+                                        {% elif field.name in 'physical_exam\pa_exam\p_exam\fc_exam\fr_exam\tax_exam\peso_exam\heigth_exam' %}3         
+
                                         {% else %}6
                                         {% endif %} margin-bottom-15">
 
-                                        <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
+                                        <label  class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
                                         {{ field|add_class:"form-control input-md" }}
                                         <span class="text-danger"> <strong>{{ field.help_text }}</strong></span>
                                     </div>
@@ -47,39 +46,6 @@
                         </div>
                     </fieldset>
 
-                    <br>
-
-                    <fieldset class="col-md-12">
-                        <h4>
-                            <strong>Exame Físico</strong>
-                        </h4>
-
-
-                        <div class="form-group">
-                            {% for field in exam_form %}
-                            {% if field.errors %}
-                            <div
-                                class="col-md-{% if field.name in 'name' %}8{% elif field.name in 'main_complaint\email' %}6{% elif field.name in 'username\sex\birth_date\marital_status\phone\cpf\rg\matricula' %}4{% elif field.name in 'nome_mae\nome_pai' %}6{% else %}12{% endif %} margin-bottom-15 has-error has-feedback">
-                                <label class="control-label">{{ field.label }}</label>
-                                {{ field|add_class:"form-control input-md" }}
-                                <span class="text-danger"> <strong>{{ field.help_text }}</strong> </span>
-                                {% for error in field.errors%}
-                                <span class="help-inline error">{{ error}}</span>
-                                {% endfor%}
-                            </div>
-                            {%else%}
-                            <div class="col-md-3">
-                        
-                                <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
-                                {{ field|add_class:"form-control input-md" }}
-                                <span class="text-danger"> <strong>{{ field.help_text }}</strong></span>
-                            </div>
-                            {%endif%}
-                            {% endfor %}
-                        </div>
-
-                    </fieldset>
-                    
                     <br>
                     
                     <div class="form-actions form-group col-md-3"><button type="submit" class="btn btn-success" style="border-radius: 3px;">Finalizar</button></div>

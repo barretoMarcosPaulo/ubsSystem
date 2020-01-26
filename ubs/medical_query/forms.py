@@ -12,9 +12,3 @@ class PatientForm(forms.ModelForm):
     class Meta:
         model = Patient
         fields= "__all__"
-
-class PhysicalExamForm(forms.ModelForm):
-    class Meta:
-        model = PhysicalExam
-        exclude = ['query']
-        fields= "__all__"

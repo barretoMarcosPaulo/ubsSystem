@@ -3,6 +3,7 @@ from ubs.accounts.models import User
 from ubs.core.models import AuditModel
 from datetime import date
 from django.utils import timezone
+from django.urls import reverse
 
 class Patient(AuditModel):
     sex_option = (
@@ -58,11 +59,20 @@ class MedicalQuery(AuditModel):
     take_duct = models.CharField('Conduta Tomada', max_length=400, blank=False, null=False)
     medical = models.ForeignKey(User , verbose_name="Paciente", null=True, blank=True, on_delete=models.SET_NULL)
 
+
+    pa_exam = models.CharField('PA(mmHg)', max_length=50)
+    p_exam = models.CharField('P(bpm)', max_length=50)
+    fc_exam = models.CharField('FC(bpm)', max_length=50, blank=False, null=False)
+    fr_exam = models.CharField('FR(irpm)', max_length=50, blank=False, null=False)
+    tax_exam = models.CharField('TAX(ºC)', max_length=50, blank=False, null=False)
+    peso_exam = models.CharField('Peso(g)', max_length=50, blank=False, null=False)
+    heigth_exam = models.CharField('Altura(cm)', max_length=50, blank=False, null=False)
+
     def __int__(self):
         return self.patient
 
     def get_absolute_url(self):
-        return reverse('medical_query:medical_querys_list')
+        return reverse('medical_query:list_query')
 
     class Meta:
         verbose_name = 'Consulta Medica'

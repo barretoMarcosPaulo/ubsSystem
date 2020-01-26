@@ -25,22 +25,22 @@
                             <table class="table table-striped table-bordered">
                                 <thead>
                                     <tr>
+                                        <th>#Código</th>
                                         <th>Paciente</th>
                                         <th>Data da Consulta</th>
-                                        <th width="18%">Ações</th>
+                                        <th width="10%">Ações</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% for object in object_list%}
                                     <tr >
+                                        <td>{{ object.id}}</td>
                                         <td>{{ object.patient}}</td>
-
-                                        
                                         <td> {{ object.date }} </td>
-                             
-
+                            
                                         <td>
-                                            <a>
+                                            
+                                            <a href="{% url 'medical_query:detail_query' object.id %}">
                                                 <button 
                                                     type="button" 
                                                     class="btn btn-primary btn-sm"
@@ -51,17 +51,9 @@
 
                                             <a href="{% url 'medical_query:update_query' object.id %}"> 
                                                 <button
-                                                    type="button" class="btn btn-warning btn-sm"
+                                                    type="button" class="btn btn-warning btn-sm "
                                                     style="border-radius: 3px;">
                                                     <i class="fa fa-edit"></i>
-                                                </button> 
-                                            </a>
-
-                                            <a href="{% url 'medical_query:delete_patient' object.id %}"> 
-                                                <button
-                                                    type="button" class="btn btn-danger btn-sm"
-                                                    style="border-radius: 3px;">
-                                                    <i class="fa fa-trash-o"></i>
                                                 </button> 
                                             </a>
                                            
@@ -86,15 +78,12 @@
 {% endblock%}
 
 {% comment %} {% block js %}
-<script src={% static "vendors/datatables.net/js/jquery.dataTables.min.js" %}></script>
-<script src={% static "vendors/datatables.net-bs4/js/dataTables.bootstrap4.min.js" %}></script>
-<script src={% static "vendors/datatables.net-buttons/js/dataTables.buttons.min.js" %}></script>
-<script src={% static "vendors/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js" %}></script>
-<script src={% static "vendors/jszip/dist/jszip.min.js" %}></script>
-<script src={% static "vendors/pdfmake/build/pdfmake.min.js" %}></script>
-<script src={% static "vendors/pdfmake/build/vfs_fonts.js" %}></script>
-<script src={% static "vendors/datatables.net-buttons/js/buttons.html5.min.js" %}></script>
-<script src={% static "vendors/datatables.net-buttons/js/buttons.print.min.js" %}></script>
-<script src={% static "vendors/datatables.net-buttons/js/buttons.colVis.min.js" %}></script>
-<script src={% static "assets/js/init-scripts/data-table/datatables-init.js" %}></script>
+{% endblock %}
+
+
+{% block scripts %}
+
+{{ block.super }}
+{{ form.media }}
+
 {% endblock%} {% endcomment %}

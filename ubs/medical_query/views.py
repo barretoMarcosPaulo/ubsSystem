@@ -1,7 +1,7 @@
 from django.shortcuts import render
 # Create your views here.
-from .forms import PatientForm,MedicalQueryForm,PhysicalExamForm
-from .models import Patient,MedicalQuery,PhysicalExam
+from .forms import PatientForm,MedicalQueryForm
+from .models import Patient,MedicalQuery
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from django.views.generic.detail import DetailView
@@ -88,51 +88,41 @@ class QueryCreate(CreateView):
     model = MedicalQuery
     template_name = 'querys/add.html'
     form_class = MedicalQueryForm
-    second_form_class = PhysicalExamForm
 
     def get(self, request, *args, **kwargs):
-        
-
         self.object = None
         form = self.form_class
-        exam_form = self.second_form_class
         return self.render_to_response(
             self.get_context_data(
                 form=form,
-                exam_form=exam_form,
+                
             )
         )
 
     def post(self, request, *args, **kwargs):
         self.object = None
         form = self.form_class(self.request.POST, self.request.FILES)
-        exam_form = self.second_form_class(self.request.POST)
-        if form.is_valid() and exam_form.is_valid():
-            return self.form_valid(form, exam_form)
+ 
+        if form.is_valid() :
+            return self.form_valid(form)
         else:
-            return self.form_invalid(form, exam_form)
+            return self.form_invalid(form)
 
-    def form_valid(self, form, exam_form):
+    def form_valid(self, form):
        
         with transaction.atomic():
-            print("OK")
 
             query = form.save(commit=False)
-            # query.medical = self.request.user
+            query.medical = self.request.user
             query.save()
-
-            exam = exam_form.save(commit=False)
-            exam.query = query
-            exam.save()
 
             return HttpResponseRedirect(self.get_success_url())
 
-    def form_invalid(self, form, exam_form):
+    def form_invalid(self, form):
         print("Formulario Invalido")
         return self.render_to_response(
             self.get_context_data(
                     form=form,
-                    exam_form=exam_form,
                 )
             )
 
@@ -182,18 +172,52 @@ class QueryUpdate(UpdateView):
 
 
 
-    # def form_valid(self, form):
-    #     form.save()
-    #     messages.success(self.request, 'Editado com sucesso.')
-    #     return HttpResponseRedirect(self.get_success_url())
 
-    # def form_invalid(self, form):
-    #     messages.error(self.request, 'Ocorreu um erro ao atualizar os dados do paciente')
-    #     return self.render_to_response(
-    #         self.get_context_data(
-    #         form=form
-    #         )
-    #     )
+class QueryUpdate(UpdateView):
+	model = MedicalQuery
+	template_name = 'querys/add.html'
+	form_class = MedicalQueryForm
 
-#   def get_success_url(self):
-#     return reverse('nucleo:vivencia_list')
+	def get(self, request, *args, **kwargs):
+		self.object = self.get_object()
+		form = self.form_class(instance=self.object)
+		
+		return self.render_to_response(
+			self.get_context_data(
+				form=form,	
+			)
+		)
+
+	def post(self, request, *args, **kwargs):
+		self.object = self.get_object()
+		form = self.form_class(
+			self.request.POST, self.request.FILES, instance=self.object)
+
+		if form.is_valid():
+			return self.form_valid(form)
+		else:
+			return self.form_invalid(form)
+
+	def form_valid(self, form):
+
+		with transaction.atomic():
+
+			query = form.save(commit=False)
+			query.medical = self.request.user
+			query.save()
+
+
+		return HttpResponseRedirect(self.get_success_url())
+
+	def form_invalid(self, form):
+		return self.render_to_response(
+			self.get_context_data(
+				form=form,
+			)
+		)
+
+
+class QueryDetail(DetailView):
+	model = MedicalQuery
+	template_name = 'querys/detail.html'
+	form_class = MedicalQueryForm
