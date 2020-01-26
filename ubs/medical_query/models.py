@@ -55,7 +55,7 @@ class MedicalQuery(AuditModel):
     family_history = models.CharField('História Familiar', max_length=400, blank=False, null=False)
     physiological_personal_antecedents = models.CharField('Antecedentes Pessoais Fisiológicas', max_length=400, blank=False, null=False)
     summary = models.CharField('Sumário dos Postos Principais da História e Exame Físico', max_length=400, blank=False, null=False)
-    Diagnostic_hypotheses = models.CharField('Hipótese(s) Diagnósticada(s)', max_length=400, blank=False, null=False)
+    diagnostic_hypotheses = models.CharField('Hipótese(s) Diagnósticada(s)', max_length=400, blank=False, null=False)
     take_duct = models.CharField('Conduta Tomada', max_length=400, blank=False, null=False)
     medical = models.ForeignKey(User , verbose_name="Paciente", null=True, blank=True, on_delete=models.SET_NULL)
 
