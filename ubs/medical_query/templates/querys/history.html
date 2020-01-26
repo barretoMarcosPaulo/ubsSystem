@@ -1,0 +1,83 @@
+{% extends 'core/base.html' %}
+{% load staticfiles %}
+
+{% block title %} Listagem de paciente {% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href={% static "vendors/datatables.net-bs4/css/dataTables.bootstrap4.min.css" %}>
+<link rel="stylesheet" href={% static "vendors/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" %}>
+{% endblock%}
+
+{% block body %}
+
+<!-- Right Panel -->
+
+    <div class="content mt-3">
+        <div class="animated fadeIn">
+            <div class="row">
+
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <strong class="card-title">Histórico de Consultas Realizadas</strong>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>#Código</th>
+                                        <th>Paciente</th>
+                                        <th>Data da Consulta</th>
+                                        <th width="5%">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for object in object_list%}
+                                        {% if not object.opened %}
+                                            <tr >
+                                                <td>{{ object.id}}</td>
+                                                <td>{{ object.patient}}</td>
+                                                <td> {{ object.date }} </td>
+                                    
+                                                <td class="text-center">
+                                                    
+                                                    <a href="{% url 'medical_query:detail_query' object.id %}">
+                                                        <button 
+                                                            type="button" 
+                                                            class="btn btn-primary btn-sm"
+                                                            style="border-radius: 3px;">
+                                                            <i class="fa fa-eye"></i>
+                                                        </button> 
+                                                    </a>
+                                                
+                                                </td>
+                                            </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div><!-- .animated -->
+    </div><!-- .content -->
+
+
+
+<!-- Right Panel -->
+
+{% endblock%}
+
+{% comment %} {% block js %}
+{% endblock %}
+
+
+{% block scripts %}
+
+{{ block.super }}
+{{ form.media }}
+
+{% endblock%} {% endcomment %}

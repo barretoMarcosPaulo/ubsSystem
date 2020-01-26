@@ -55,7 +55,7 @@ class MedicalQuery(AuditModel):
     family_history = models.CharField('História Familiar', max_length=400, blank=False, null=False)
     physiological_personal_antecedents = models.CharField('Antecedentes Pessoais Fisiológicas', max_length=400, blank=False, null=False)
     summary = models.CharField('Sumário dos Postos Principais da História e Exame Físico', max_length=400, blank=False, null=False)
-    Diagnostic_hypotheses = models.CharField('Hipótese(s) Diagnósticada(s)', max_length=400, blank=False, null=False)
+    diagnostic_hypotheses = models.CharField('Hipótese(s) Diagnósticada(s)', max_length=400, blank=False, null=False)
     take_duct = models.CharField('Conduta Tomada', max_length=400, blank=False, null=False)
     medical = models.ForeignKey(User , verbose_name="Paciente", null=True, blank=True, on_delete=models.SET_NULL)
 
@@ -67,6 +67,10 @@ class MedicalQuery(AuditModel):
     tax_exam = models.CharField('TAX(ºC)', max_length=50, blank=False, null=False)
     peso_exam = models.CharField('Peso(g)', max_length=50, blank=False, null=False)
     heigth_exam = models.CharField('Altura(cm)', max_length=50, blank=False, null=False)
+
+    priority = models.BooleanField('Paciente Prioritário', default=False)
+    opened = models.BooleanField('Consulta em Aberto', default=True)
+    
 
     def __int__(self):
         return self.patient

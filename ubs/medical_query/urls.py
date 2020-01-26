@@ -11,7 +11,7 @@ urlpatterns = [
     path('paciente/detalhes/<int:pk> ', views.PatientDetail.as_view(), name='detail_patient'),
 
     path('consulta/add', views.QueryCreate.as_view(), name='add_query'),
-    path('consulta/list', views.ListQuerys.as_view(), name='list_query'),
+    path('consulta-historico/list', views.ListQuerysHistory.as_view(), name='list_query_history'),
     path('consulta/edit/<int:pk> ', views.QueryUpdate.as_view(), name='update_query'),
     path('consulta/detalhes/<int:pk> ', views.QueryDetail.as_view(), name='detail_query'),
 ]
