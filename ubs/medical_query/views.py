@@ -84,6 +84,11 @@ def delete_patient(request, id):
     patient.delete()
     return HttpResponseRedirect(reverse('medical_query:list_patient'))
 
+class PatientDetail(DetailView):
+	model = Patient
+	template_name = 'patient/detail.html'
+	form_class = PatientForm
+
 class QueryCreate(CreateView):
     model = MedicalQuery
     template_name = 'querys/add.html'

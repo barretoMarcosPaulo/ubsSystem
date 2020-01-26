@@ -1,0 +1,58 @@
+{% extends 'core/base.html' %}
+{% load widget_tweaks %}
+
+{% block title %}Cadastro de Paciente{% endblock %}
+
+{% block body %}
+    <div class="col-md-9 offset-md-1">
+        <aside class="profile-nav alt">
+            <section class="card">
+                <div class="card-header user-header alt bg-dark">
+                    <div class="media">
+                        <div class="media-body">
+                            <h2 class="text-light display-6"> {{ object.full_name}}</h2>
+                        </div>
+                    </div>
+                </div>
+
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        Data de Nascimento: <span class="pull-right"> {{ object.date_birth}} </span>
+                    </li>
+                    <li class="list-group-item">
+                        Sexo: <span class="pull-right"> {{ object.sex}} </span>
+                    </li>
+                    <li class="list-group-item">
+                        Cor: <span class="pull-right"> {{ object.color}} </span>
+                    </li>
+                    <li class="list-group-item">
+                        Estado Conjugal: <span class="pull-right"> {{ object.marital_state}} </span>
+                    </li>
+                    <li class="list-group-item">
+                        Ocupação: <span class="pull-right"> {{ object.ocupation}} </span>
+                    </li>
+                    <li class="list-group-item">
+                        Local de Nascimento: <span class="pull-right"> {{ object.local_birth}} </span>
+                    </li>
+                    <li class="list-group-item">
+                        Convênio: <span class="pull-right"> {{ object.health_insurance}} </span>
+                    </li>
+                    <li class="list-group-item">
+                        Endereço: <span class="pull-right"> {{ object.address}} </span>
+                    </li>
+                    <li class="list-group-item">
+                        Telefone: <span class="pull-right"> {{ object.phone}} </span>
+                    </li>
+                    <li class="list-group-item">
+                        Fax: <span class="pull-right"> {{ object.fax}} </span>
+                    </li>
+                    <li class="list-group-item">
+                        Email: <span class="pull-right"> {{ object.email}} </span>
+                    </li>
+                    
+                </ul>
+
+            </section>
+        </aside>
+    </div>
+{% endblock %}
