@@ -88,3 +88,4 @@ class PatientDetail(DetailView):
 	model = Patient
 	template_name = 'patient/detail.html'
 	form_class = PatientForm   
+
