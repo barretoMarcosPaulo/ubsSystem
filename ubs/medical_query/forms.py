@@ -38,8 +38,3 @@ class MedicalQueryAttendanceForm(forms.ModelForm):
         model = MedicalQuery
         exclude = ['medical','date','patient']
         fields= "__all__"
-
-class PatientForm(forms.ModelForm):
-    class Meta:
-        model = Patient
-        fields= "__all__"
