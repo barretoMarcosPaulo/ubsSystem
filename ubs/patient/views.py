@@ -82,8 +82,8 @@ class PatientUpdate(UpdateView):
 def delete_patient(request, id):
     patient = Patient.objects.get(id=id)
     patient.delete()
-    return HttpResponseRedirect(reverse('patient:list_patient'))
-
+    return HttpResponseRedirect(reverse('patient:list_patient'))  
+ 
 class PatientDetail(DetailView):
 	model = Patient
 	template_name = 'patient/detail.html'
