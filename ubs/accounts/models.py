@@ -39,6 +39,15 @@ from django.contrib.auth.models import AbstractBaseUser, UserManager, Permission
 '''
 
 class User(AbstractBaseUser, PermissionsMixin): 
+    user_type_option = (
+        ('1','Admin'),
+        ('2', 'Médico(a)'),
+        ('3', 'Atendente'),
+    )
+    user_status = (
+        ('1','Ativo'),
+        ('2','Inativo'),
+    )
 
     username = models.CharField(
         'Usuário', max_length=200, default=uuid.uuid4, unique=True, validators=[
@@ -56,8 +65,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     phone = models.CharField('Telefone', max_length=13)
     email = models.EmailField('Email',max_length=100)
     password = models.CharField('Senha', max_length=255)
-    type_user = models.IntegerField('Tipo de usuário')
-    status = models.IntegerField('Status do usuário')
+    type_user = models.IntegerField('Tipo de usuário',choices=user_type_option)
+    status = models.IntegerField('Status do usuário',choices=user_status)
     image = models.CharField('Imagem', max_length=255)
 
     def __str__(self):
