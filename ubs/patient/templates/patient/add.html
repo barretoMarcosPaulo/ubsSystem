@@ -6,7 +6,7 @@
 {% block body %}
 <div class="content col-md-12">
     <div class="animated fadeIn">
-        <form method="post">
+        <form enctype="multipart/form-data" method="post">
             {% csrf_token %}
                 <div class="row">
                     <div class="col-md-10" style="margin: 20px auto;">

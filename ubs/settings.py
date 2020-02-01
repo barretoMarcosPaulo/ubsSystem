@@ -31,8 +31,8 @@ INSTALLED_APPS = [
     #My Apps
     'ubs.core',
     'ubs.accounts',
-    'ubs.medical_query',
     'ubs.patient',
+    'ubs.medical_query',
 
     #Terceiros
     'widget_tweaks',
@@ -112,3 +112,6 @@ DATE_INPUT_FORMATS = ( "DD-MM-AAAA", )
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+MEDIA_URL = '/ubs/media_images/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'ubs/media_images')

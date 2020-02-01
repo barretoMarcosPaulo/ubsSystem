@@ -6,7 +6,7 @@ class TypeLogradouro(AuditModel):
     desc_logradouro = models.CharField('Logradouro',max_length=45)
 
 class State(AuditModel):
-    state = models.CharField("Estado", max_length=50)
+    State_codIBGE_UF = models.CharField("Estado", max_length=50)
     UF = models.CharField("UF", max_length=2)
     region = models.CharField("Região", max_length=25)
 
@@ -44,31 +44,36 @@ class Patient(AuditModel):
     sex = models.CharField('Sexo',choices=sex_option,max_length=1)
     date_birth = models.DateField('Data de Nascimento')
     local_birth = models.CharField('Local de Nascimento',max_length=60)
-    type_Logradouro_id = models.ForeignKey(TypeLogradouro,verbose_name="Logradouro",null=True,blank=True,on_delete=models.SET_NULL)                                                                                                                   
+    Type_Logradouro_idLogradouro = models.ForeignKey(TypeLogradouro,verbose_name="Logradouro",null=True,blank=True,on_delete=models.SET_NULL)                                                                                                                   
     address_name = models.CharField('Nome do Endereço',max_length=60)
     address_numero = models.CharField('Número do Endereço',max_length=6)
     address_complement = models.CharField('Complemento do Endereço',max_length=50, null=True, blank=True)
     address_cep = models.CharField('cep do Endereço',max_length=8)
     address_neighborhood = models.CharField('Vizinhança do Endereço',max_length=45)
-    city_cod = models.ForeignKey(City,verbose_name="Cidade",null=True,blank=True,on_delete=models.SET_NULL)
+    City_codIBGE = models.ForeignKey(City,verbose_name="Cidade",null=True,blank=True,on_delete=models.SET_NULL)
     email = models.EmailField('email',max_length=50,null=True, blank=True)
-    color_id = models.ForeignKey(Color,verbose_name="Cor",null=True,blank=True,on_delete=models.SET_NULL)
-    marital_state_id = models.ForeignKey(MaritalState,verbose_name="Estado Conjugal",null=True,blank=True,on_delete=models.SET_NULL)
-    ocupation_id = models.ForeignKey(Ocupation,verbose_name="Ocupação",null=True,blank=True,on_delete=models.SET_NULL)
-    medical_Insurance_id = models.ForeignKey(MedicalInsurance,verbose_name="Convênio",null=True,blank=True,on_delete=models.SET_NULL)
-
+    image_patient = models.ImageField(upload_to='patient',blank = True, null = True)
+    Color_idColor = models.ForeignKey(Color,verbose_name="Cor",null=True,blank=True,on_delete=models.SET_NULL)
+    Marital_State_idMarital_State = models.ForeignKey(MaritalState,verbose_name="Estado Conjugal",null=True,blank=True,on_delete=models.SET_NULL)
+    Ocupation_idOcupation = models.ForeignKey(Ocupation,verbose_name="Ocupação",null=True,blank=True,on_delete=models.SET_NULL)
+    Medical_Insurance_idMedical_insurance = models.ForeignKey(MedicalInsurance,verbose_name="Convênio",null=True,blank=True,on_delete=models.SET_NULL)
+    
     def __str__(self):
         return self.full_name
     
     def get_absolute_url(self):
         return reverse("patient:register_patient")
 
+
     class Meta:
         verbose_name = 'Paciente'
         verbose_name_plural = 'Pacientes'
         ordering = ['-created_on']
+
+    
+
     
 class Phone(AuditModel):
-    phone_number = models.CharField('Número de telefone',max_length=13)
+    phone_number = models.CharField('Número de telefone',max_length=13,unique=True)
     phone_type = models.CharField('Tipo de telefone',max_length=11)
-    patient_id = models.ForeignKey(Patient,verbose_name="Telefone",null=True,blank=True,on_delete=models.SET_NULL)
+    Patient_idPatient = models.ForeignKey(Patient,verbose_name="Telefone",null=True,blank=True,on_delete=models.SET_NULL)
