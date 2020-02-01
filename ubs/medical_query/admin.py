@@ -1,6 +1,6 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import MedicalQuery
+from .models import Query
 
-admin.site.register(MedicalQuery)
+admin.site.register(Query)

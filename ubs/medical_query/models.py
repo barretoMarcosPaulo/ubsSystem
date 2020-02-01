@@ -6,10 +6,24 @@ from datetime import date
 from django.utils import timezone
 from django.urls import reverse
 
-class MedicalQuery(AuditModel):
+class PhisicalExam(AuditModel):
     
-    patient = models.ForeignKey(Patient , verbose_name="Paciente", null=True, blank=True, on_delete=models.SET_NULL)
-    date = models.DateField('Data', default=timezone.now())
+    pa = models.CharField('PA(mmHg)', max_length=45,blank=True, null=True)
+    p = models.CharField('P(bpm)', max_length=45,blank=True, null=True)
+    fc = models.CharField('FC(bpm)',max_length=50,blank=True, null=True)
+    fr = models.CharField('FR(irpm)', max_length=45,blank=True, null=True)
+    tax = models.CharField('TAX(ºC)', max_length=50, blank=True, null=True)
+    weigth = models.DecimalField('Peso',max_digits=5, decimal_places=3,blank=True, null=True)
+    heigth = models.DecimalField('Altura(cm)',max_digits=3,decimal_places=3, blank=True, null=True)
+
+class Query(AuditModel):
+    query_type = (
+        ('1','Consulta'),
+        ('2', 'Retorno'),
+    )
+    
+    date_query = models.DateField('Data', default=timezone.now())
+    type_query = models.IntegerField('Tipo de Consulta',choices=query_type)
     main_complaint = models.CharField('Queixa Principal', max_length=400, blank=False, null=False)
     current_health_history = models.CharField('História da Doença Atual', max_length=400, blank=False, null=False)
     review_of_systems = models.TextField('Revisão de Sistemas', max_length=400, blank=False, null=False)
@@ -20,20 +34,14 @@ class MedicalQuery(AuditModel):
     summary = models.CharField('Sumário dos Postos Principais da História e Exame Físico', max_length=400, blank=False, null=False)
     diagnostic_hypotheses = models.CharField('Hipótese(s) Diagnósticada(s)', max_length=400, blank=False, null=False)
     take_duct = models.CharField('Conduta Tomada', max_length=400, blank=False, null=False)
-    medical = models.ForeignKey(User , verbose_name="Paciente", null=True, blank=True, on_delete=models.SET_NULL)
+    PhisicalExam_idPhisicalExam = models.ForeignKey(PhisicalExam,verbose_name='Exame Físico',blank=True, null=True,on_delete=models.SET_NULL) #OBS
+    Patient_idPatient = models.ForeignKey(Patient,verbose_name="Paciente", null=True, blank=True, on_delete=models.SET_NULL)
+    User_idUser = models.ForeignKey(User,verbose_name="Paciente", null=True, blank=True, on_delete=models.SET_NULL)
 
-
-    pa_exam = models.CharField('PA(mmHg)', max_length=50)
-    p_exam = models.CharField('P(bpm)', max_length=50)
-    fc_exam = models.CharField('FC(bpm)', max_length=50, blank=False, null=False)
-    fr_exam = models.CharField('FR(irpm)', max_length=50, blank=False, null=False)
-    tax_exam = models.CharField('TAX(ºC)', max_length=50, blank=False, null=False)
-    peso_exam = models.CharField('Peso(g)', max_length=50, blank=False, null=False)
-    heigth_exam = models.CharField('Altura(cm)', max_length=50, blank=False, null=False)
-
+    '''
     priority = models.BooleanField('Paciente Prioritário', default=False)
     opened = models.BooleanField('Consulta em Aberto', default=True)
-    
+    '''
 
     def __int__(self):
         return self.patient
@@ -47,24 +55,36 @@ class MedicalQuery(AuditModel):
         ordering = ['-created_on']
 
 
-class PhysicalExam(AuditModel):
     
-    pa = models.CharField('PA(mmHg)', max_length=50)
-    p = models.CharField('P(bpm)', max_length=50)
-    fc = models.CharField('FC(bpm)', max_length=50, blank=False, null=False)
-    epidemiological_history = models.CharField('FR(irpm)', max_length=50, blank=False, null=False)
-    previous_pathological_history = models.CharField('TAX(ºC)', max_length=50, blank=False, null=False)
-    family_history = models.CharField('Peso(g)', max_length=50, blank=False, null=False)
-    physiological_personal_antecedents = models.CharField('Altura(cm)', max_length=50, blank=False, null=False)
-    query = models.ForeignKey(MedicalQuery , verbose_name="Consulta", null=True, blank=True , on_delete=models.SET_NULL)
+class CID10(AuditModel):
+    desc_CID10 = models.CharField('Descrição',max_length=100)
 
-    def __int__(self):
-        return self.pa
+class QueryHasCID10(AuditModel):
+    Query_idQuery_CID = models.ForeignKey(Query,verbose_name='Id da consulta',null=True,blank=True,on_delete=models.SET_NULL) 
+    CID10_idCID10 = models.ForeignKey(CID10,verbose_name='CID 10',null=True,blank=True,on_delete=models.SET_NULL)
 
-    def get_absolute_url(self):
-        return reverse('medical_query:medical_querys_list')
+class ExamRequest(AuditModel):
+    desc_exam = models.CharField('Descrição do emaxe',max_length=255)
 
-    class Meta:
-        verbose_name = 'Exame Fisico'
-        verbose_name_plural = 'Exames Fisicos'
-        ordering = ['-created_on']
+class QueryHasExamRequest(AuditModel):
+    Query_idQuery_EXAM = models.ForeignKey(Query,verbose_name='Requisição de exame',null=True,blank=True,on_delete=models.SET_NULL)
+    ExamRequest_idExam = models.ForeignKey(ExamRequest,verbose_name='Exame',null=True,blank=True,on_delete=models.SET_NULL)
+
+class Medicine(AuditModel):
+    unity_option = (
+        ('CX','Caixa'),
+        ('VD', 'Vidro'),
+        ('FR', 'Frasco'),
+        ('AM', 'Ampola'),
+        ('CO', 'Comprimido'),
+    )
+
+    full_name = models.CharField('Nome do remedio',max_length=100)
+    generic_name = models.CharField('Nome generico',max_length=100)
+    dosage = models.CharField('Dosagem',max_length=255)
+    unity = models.CharField('Unidade',choices=unity_option,max_length=3)
+
+class QueryHasMedicine(AuditModel):
+    amount = models.IntegerField('Quantidade')
+    Query_idQuery_MEDICINE = models.ForeignKey(Query,verbose_name='Id da consulta',null=True,blank=True,on_delete=models.SET_NULL)
+    Medicine_idMedicine = models.ForeignKey(Medicine,verbose_name='Id do remédio',null=True,blank=True,on_delete=models.SET_NULL)

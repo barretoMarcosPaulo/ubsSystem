@@ -1,7 +1,7 @@
 from django.shortcuts import render
 # Create your views here.
 from .forms import MedicalQueryForm,MedicalQueryAttendanceForm
-from .models import MedicalQuery
+from .models import Query
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from django.views.generic.detail import DetailView
@@ -15,7 +15,7 @@ from django.db import IntegrityError, transaction
 
 
 class QueryCreate(CreateView):
-    model = MedicalQuery
+    model = Query
     template_name = 'querys/add.html'
     form_class = MedicalQueryForm
 
@@ -62,7 +62,7 @@ class QueryCreate(CreateView):
 
 class ListQuerysHistory(ListView):
 
-    model = MedicalQuery
+    model = Query
     http_method_names = ['get']
     template_name = 'querys/history.html'
     context_object_name = 'object_list'
@@ -97,7 +97,7 @@ class ListQuerysHistory(ListView):
 
 class ListAttendances(ListView):
 
-    model = MedicalQuery
+    model = Query
     http_method_names = ['get']
     template_name = 'querys/attendances.html'
     context_object_name = 'object_list'
@@ -130,7 +130,7 @@ class ListAttendances(ListView):
             })
         return context
 class QueryUpdate(UpdateView):
-    model = MedicalQuery
+    model = Query
     template_name = 'querys/add.html'
     form_class = MedicalQueryForm
 
@@ -140,14 +140,14 @@ class QueryUpdate(UpdateView):
 
 
 class QueryDetail(DetailView):
-	model = MedicalQuery
+	model = Query
 	template_name = 'querys/detail.html'
 	form_class = MedicalQueryForm
 
 
 class Attendances(UpdateView):
 
-	model = MedicalQuery
+	model = Query
 	template_name = 'querys/detail.html'
 	form_class = MedicalQueryAttendanceForm
 	
