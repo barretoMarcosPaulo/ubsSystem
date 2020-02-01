@@ -4,7 +4,7 @@ from .models import *
 
 class MedicalQueryForm(forms.ModelForm):
     class Meta:
-        model = MedicalQuery
+        model = Query
         exclude = ['medical','date']
         fields= "__all__"
 
@@ -35,6 +35,6 @@ class MedicalQueryAttendanceForm(forms.ModelForm):
 
     
     class Meta:
-        model = MedicalQuery
+        model = Query
         exclude = ['medical','date','patient']
         fields= "__all__"
