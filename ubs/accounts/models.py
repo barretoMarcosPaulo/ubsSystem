@@ -32,9 +32,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     cpf = models.CharField('CPF', max_length=11)
     phone = models.CharField('Telefone', max_length=13)
     email = models.EmailField('Email',max_length=100)
-    type_user = models.IntegerField('Tipo de usuário',choices=user_type_option)
+    gi = models.IntegerField('Tipo de usuário',choices=user_type_option)
     status = models.IntegerField('Status do usuário',choices=user_status)
     image = models.CharField('Imagem', max_length=255)
+    is_staff = models.BooleanField('is staff')
 
     def __str__(self):
         return self.full_name
