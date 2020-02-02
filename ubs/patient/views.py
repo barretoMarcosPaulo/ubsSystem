@@ -15,42 +15,48 @@ from django.db import IntegrityError, transaction
 
 
 class PatientCreate(CreateView):
-    model = Patient
-    template_name = 'patient/add.html'
-    form_class = PatientForm
+	model = Patient
+	template_name = 'patient/add.html'
+	form_class = PatientForm
+	second_form_class = PhoneForm
 
-    def get_context_data(self, **kwargs):
-        ctx = super(PatientCreate, self).get_context_data(**kwargs)
-        ctx['second_form'] = PhoneForm
-        return ctx
+	def get_context_data(self, **kwargs):
+		ctx = super(PatientCreate, self).get_context_data(**kwargs)
+		ctx['second_form'] = PhoneForm
+		return ctx
 
-    def post(self, request, *args, **kwargs):
-        form = self.get_form()
-        # arguments = super(PatientCreate, self).post()
-        # print(arguments,arguments['Patient_idPatient'])
-        print(request.POST['phone_number'])
-        forms = PhoneForm(request.POST, prefix='phone')
+	def post(self, request, *args, **kwargs):
         
-        
+		self.object = None
+		form = self.form_class(self.request.POST , self.request.FILES)
+		phone_form = self.second_form_class(self.request.POST)
 
-        if form.is_valid():
-            return self.form_valid(form)
-            
-            if forms.is_valid():
-                self.object = forms.save()
-                self.object.save()
-        else:
-            self.object=None
-            return self.form_invalid(form)
+		if form.is_valid() and phone_form.is_valid():
+			return self.form_valid(form,phone_form)
+		else:
+			return self.form_invalid(form,phone_form)
 
-    def form_valid(self,form):
-        self.object = form.save()
-        self.object.save()
-        
-        return HttpResponseRedirect(reverse('patient:list_patient'))
+	def form_valid(self,form,phone_form):
 
-    def get_success_url(self):
-        return reverse('patient:list_patient')
+		with transaction.atomic():
+			patient = form.save()
+			phone = phone_form.save(commit=False)
+			phone.Patient_idPatient = patient
+			phone.save()
+		
+		return HttpResponseRedirect(reverse('patient:list_patient'))
+
+	def form_invalid(self, form, address_form):
+		return self.render_to_response(
+			self.get_context_data(
+				form=form,
+				address_form=address_form,
+			)		
+		)
+
+
+	def get_success_url(self):
+		return reverse('patient:list_patient')
 
 class ListPatient(ListView):
 

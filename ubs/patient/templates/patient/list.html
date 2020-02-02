@@ -34,8 +34,8 @@
                                         <tr>
                                             <td>{{ object.full_name}}</td>
 
-                                            {% if object.phone %} 
-                                                <td> {{ object.phone }} </td>
+                                            {% if object.get_phone %} 
+                                                <td> {{ object.get_phone }} </td>
                                             {% else %} 
                                                 <td >----------------------</td>
                                             {% endif %}

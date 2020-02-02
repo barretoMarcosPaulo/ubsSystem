@@ -119,7 +119,10 @@ class Patient(AuditModel):
     def get_absolute_url(self):
         return reverse("patient:register_patient")
 
-
+    def get_phone(self):
+        phone = Phone.objects.filter(Patient_idPatient=self).first()
+        return phone.phone_number
+        
     class Meta:
         verbose_name = 'Paciente'
         verbose_name_plural = 'Pacientes'
