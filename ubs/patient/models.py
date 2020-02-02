@@ -4,32 +4,87 @@ from django.urls import reverse
 
 class TypeLogradouro(AuditModel):
     desc_logradouro = models.CharField('Logradouro',max_length=45)
+    
+    def __str__(self):
+        return self.desc_logradouro
+    
+    class Meta:
+        verbose_name = 'Logradouro'
+        verbose_name_plural = 'Logradouros'
+        ordering = ['-created_on']
 
 class State(AuditModel):
     State_codIBGE_UF = models.CharField("Estado", max_length=50)
     UF = models.CharField("UF", max_length=2)
     region = models.CharField("Região", max_length=25)
 
+    def __str__(self):
+        return self.State_codIBGE_UF
+    
+    class Meta:
+        verbose_name = 'Estado'
+        verbose_name_plural = 'Estados'
+        ordering = ['-created_on']
+
 class City(AuditModel):
-    codIBGE7 = models.IntegerField('Código IBGE',primary_key=True,unique=True)
+    codIBGE = models.IntegerField('Código IBGE',primary_key=True,unique=True)
     codIBGE7 = models.IntegerField('Código IBGE7')
     name_city = models.CharField('Nome da cidade', max_length=45)
     port = models.CharField('Porta', max_length=20)
     capital = models.CharField('Capital', max_length=12)
-    state =  models.ForeignKey(State,verbose_name="Estado",null=True,blank=True,on_delete=models.SET_NULL)
+    State_codIBGE_UF =  models.ForeignKey(State,verbose_name="Estado",null=True,blank=True,on_delete=models.SET_NULL)
+
+    def __str__(self):
+        return self.name_city
+    
+    class Meta:
+        verbose_name = 'Cidade'
+        verbose_name_plural = 'Cidades'
+        ordering = ['-created_on']
 
 class Color(AuditModel):
     name_color = models.CharField('Cor',max_length=45)
 
+    def __str__(self):
+        return self.name_color
+    
+    class Meta:
+        verbose_name = 'Cor'
+        verbose_name_plural = 'Cores'
+        ordering = ['-created_on']
+
 class MaritalState(AuditModel):
     desc_marital_state = models.CharField('Estado Conjugal',max_length=45)
+
+    def __str__(self):
+        return self.desc_marital_state
+    
+    class Meta:
+        verbose_name = 'Estado Conjugal'
+        verbose_name_plural = 'Estados Conjugais'
+        ordering = ['-created_on']
 
 class Ocupation(AuditModel):
     desc_ocupation = models.CharField('Ocupação',max_length=60)
 
+    def __str__(self):
+        return self.desc_ocupation
+    
+    class Meta:
+        verbose_name = 'Ocupação'
+        verbose_name_plural = 'Ocupações'
+        ordering = ['-created_on']
+
 class MedicalInsurance(AuditModel):
     desc_medical_insurance = models.CharField('Convênio',max_length=13)
 
+    def __str__(self):
+        return self.desc_medical_insurance
+    
+    class Meta:
+        verbose_name = 'Convênio'
+        verbose_name_plural = 'Convênios'
+        ordering = ['-created_on']
 
 
 class Patient(AuditModel):
@@ -77,3 +132,11 @@ class Phone(AuditModel):
     phone_number = models.CharField('Número de telefone',max_length=13,unique=True)
     phone_type = models.CharField('Tipo de telefone',max_length=11)
     Patient_idPatient = models.ForeignKey(Patient,verbose_name="Telefone",null=True,blank=True,on_delete=models.SET_NULL)
+    
+    def __str__(self):
+        return self.phone_number
+    
+    class Meta:
+        verbose_name = 'Telefone'
+        verbose_name_plural = 'Telefones'
+        ordering = ['-created_on']
