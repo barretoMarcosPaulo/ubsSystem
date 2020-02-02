@@ -1,7 +1,7 @@
 from django.shortcuts import render
 # Create your views here.
 from .forms import PatientForm, PhoneForm
-from .models import Patient
+from .models import Patient, Phone
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from django.views.generic.detail import DetailView
@@ -94,26 +94,46 @@ class ListPatient(ListView):
         return context
 
 class PatientUpdate(UpdateView):
-    model = Patient
-    template_name = 'patient/add.html'
-    form_class = PatientForm
+	model = Patient
+	template_name = 'patient/add.html'
+	form_class = PatientForm
+	second_form_class = PhoneForm
 
-    # def form_valid(self, form):
-    #     form.save()
-    #     messages.success(self.request, 'Editado com sucesso.')
-    #     return HttpResponseRedirect(self.get_success_url())
+	def get_context_data(self, **kwargs):
+		self.object = self.get_object()
+		phone = Phone.objects.get(Patient_idPatient=self.object.id)
+		ctx = super(PatientUpdate, self).get_context_data(**kwargs)
+		ctx['second_form'] = self.second_form_class(instance=phone)
+		return ctx
+	def post(self, request, *args, **kwargs):
+        
+		self.object = self.get_object()
+		form = self.form_class(self.request.POST , self.request.FILES , instance=self.object)
+		phone = Phone.objects.get(Patient_idPatient=self.object.id)
+		phone_form = self.second_form_class(self.request.POST,instance=phone)
 
-    # def form_invalid(self, form):
-    #     messages.error(self.request, 'Ocorreu um erro ao atualizar os dados do paciente')
-    #     return self.render_to_response(
-    #         self.get_context_data(
-    #         form=form
-    #         )
-    #     )
+		if form.is_valid() and phone_form.is_valid():
+			return self.form_valid(form,phone_form)
+		else:
+			return self.form_invalid(form,phone_form)
 
-    def get_success_url(self):
-        return reverse('patient:list_patient')
+	def form_valid(self,form,phone_form):
 
+		with transaction.atomic():
+			patient = form.save()
+			phone = phone_form.save(commit=False)
+			phone.Patient_idPatient = patient
+			phone.save()
+		
+		return HttpResponseRedirect(reverse('patient:list_patient'))
+
+	def form_invalid(self, form, address_form):
+		return self.render_to_response(
+			self.get_context_data(
+				form=form,
+				address_form=address_form,
+			)		
+		)
 
 def delete_patient(request, id):
     patient = Patient.objects.get(id=id)
