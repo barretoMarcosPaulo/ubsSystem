@@ -31,7 +31,7 @@
                                 {%else%}
                                     <div
                                         class="col-md-{% if field.name in 'full_name\date_birth\ocupation' %}6
-                                        {% elif field.name in 'color\sex\marital_state\phone\fax\email' %}4
+                                        {% elif field.name in 'color\sex\marital_state\fax\email' %}4
                                         {% elif field.name in 'address' %}12
                                         {% elif field.name in 'local_birth\health_insurance' %}3
                                         {% elif field.name in 'summary' %}12
@@ -44,6 +44,34 @@
                                     </div>
                             {%endif%}
                             {% endfor %}
+                            {% for field in second_form %}
+                                {% if field.errors %}
+                                    <div
+                                        class="col-md-{% if field.name in 'name' %}8{% elif field.name in 'main_complaint\email' %}6{% elif field.name in 'username\sex\birth_date\marital_status\phone\cpf\rg\matricula' %}4{% elif field.name in 'nome_mae\nome_pai' %}6{% else %}12{% endif %} margin-bottom-15 has-error has-feedback">
+                                        <label class="control-label">{{ field.label }}</label>
+                                        {{ field|add_class:"form-control input-md" }}
+                                        <span class="text-danger"> <strong>{{ field.help_text }}</strong> </span>
+                                        {% for error in field.errors%}
+                                        <span class="help-inline error">{{ error}}</span>
+                                        {% endfor%}
+                                    </div>
+                                {%else%}
+                                    <div
+                                        class="col-md-{% if field.name in 'full_name\date_birth\ocupation' %}6
+                                        {% elif field.name in 'color\sex\marital_state\phone\fax\email' %}4
+                                        {% elif field.name in 'address' %}12
+                                        {% elif field.name in 'local_birth\health_insurance' %}3
+                                        {% elif field.name in 'summary' %}12
+                                        {% else %}6
+                                        {% endif %} margin-bottom-15">
+
+                                        <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
+                                        {{ field|add_class:"form-control input-md" }}
+                                        <span class="text-danger"> <strong>{{ field.help_text }}</strong></span>
+                                    </div>
+                                {%endif%}
+                            {% endfor %}
+
                         </div>
                     </fieldset>
                     

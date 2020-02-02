@@ -1,6 +1,6 @@
 from django.shortcuts import render
 # Create your views here.
-from .forms import PatientForm
+from .forms import PatientForm, PhoneForm
 from .models import Patient
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
@@ -18,6 +18,36 @@ class PatientCreate(CreateView):
     model = Patient
     template_name = 'patient/add.html'
     form_class = PatientForm
+
+    def get_context_data(self, **kwargs):
+        ctx = super(PatientCreate, self).get_context_data(**kwargs)
+        ctx['second_form'] = PhoneForm
+        return ctx
+
+    def post(self, request, *args, **kwargs):
+        form = self.get_form()
+        # arguments = super(PatientCreate, self).post()
+        # print(arguments,arguments['Patient_idPatient'])
+        print(request.POST['phone_number'])
+        forms = PhoneForm(request.POST, prefix='phone')
+        
+        
+
+        if form.is_valid():
+            return self.form_valid(form)
+            
+            if forms.is_valid():
+                self.object = forms.save()
+                self.object.save()
+        else:
+            self.object=None
+            return self.form_invalid(form)
+
+    def form_valid(self,form):
+        self.object = form.save()
+        self.object.save()
+        
+        return HttpResponseRedirect(reverse('patient:list_patient'))
 
     def get_success_url(self):
         return reverse('patient:list_patient')

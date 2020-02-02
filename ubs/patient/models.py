@@ -95,7 +95,7 @@ class Patient(AuditModel):
     )
 
     full_name = models.CharField('Nome Completo',max_length=100)
-    cpf_patient = models.CharField('cpf',max_length=100)
+    cpf_patient = models.CharField('cpf',max_length=100,unique=True)
     sex = models.CharField('Sexo',choices=sex_option,max_length=1)
     date_birth = models.DateField('Data de Nascimento')
     local_birth = models.CharField('Local de Nascimento',max_length=60)
@@ -107,7 +107,7 @@ class Patient(AuditModel):
     address_neighborhood = models.CharField('Vizinhança do Endereço',max_length=45)
     City_codIBGE = models.ForeignKey(City,verbose_name="Cidade",null=True,blank=True,on_delete=models.SET_NULL)
     email = models.EmailField('email',max_length=50,null=True, blank=True)
-    image_patient = models.ImageField(upload_to='patient',blank = True, null = True)
+    image_patient = models.ImageField(upload_to='patient',verbose_name="Imagem do paciente",blank = True, null = True)
     Color_idColor = models.ForeignKey(Color,verbose_name="Cor",null=True,blank=True,on_delete=models.SET_NULL)
     Marital_State_idMarital_State = models.ForeignKey(MaritalState,verbose_name="Estado Conjugal",null=True,blank=True,on_delete=models.SET_NULL)
     Ocupation_idOcupation = models.ForeignKey(Ocupation,verbose_name="Ocupação",null=True,blank=True,on_delete=models.SET_NULL)
@@ -131,7 +131,7 @@ class Patient(AuditModel):
 class Phone(AuditModel):
     phone_number = models.CharField('Número de telefone',max_length=13,unique=True)
     phone_type = models.CharField('Tipo de telefone',max_length=11)
-    Patient_idPatient = models.ForeignKey(Patient,verbose_name="Telefone",null=True,blank=True,on_delete=models.SET_NULL)
+    Patient_idPatient = models.ForeignKey(Patient,verbose_name="Paciente",null=True,blank=True,on_delete=models.SET_NULL)
     
     def __str__(self):
         return self.phone_number
