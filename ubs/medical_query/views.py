@@ -1,7 +1,7 @@
 from django.shortcuts import render
 # Create your views here.
 from .forms import MedicalQueryForm,MedicalQueryAttendanceForm,PhisicalExamForm,PhisicalExamAttendanceForm
-from .models import Query
+from .models import Query,PhisicalExam
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from django.views.generic.detail import DetailView
@@ -181,8 +181,9 @@ class Attendances(UpdateView):
     def get_context_data(self, **kwargs):
         _super = super(Attendances, self)
         context = _super.get_context_data(**kwargs)
+        physical_exam = PhisicalExam.objects.get(id=self.object.PhisicalExam_idPhisicalExam.id)
         context.update({
             'no_edit': True ,
-            'second_form': self.second_form_class
+            'second_form': self.second_form_class(instance=physical_exam)
             })
         return context

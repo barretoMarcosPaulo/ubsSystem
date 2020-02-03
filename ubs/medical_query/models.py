@@ -13,8 +13,8 @@ class PhisicalExam(AuditModel):
     fc = models.CharField('FC(bpm)',max_length=50,blank=True, null=True)
     fr = models.CharField('FR(irpm)', max_length=45,blank=True, null=True)
     tax = models.CharField('TAX(ºC)', max_length=50, blank=True, null=True)
-    weigth = models.DecimalField('Peso',max_digits=5, decimal_places=3,blank=True, null=True)
-    heigth = models.DecimalField('Altura(cm)',max_digits=3,decimal_places=3, blank=True, null=True)
+    weigth = models.CharField('Peso',max_length=45,blank=False, null=False)
+    heigth = models.CharField('Altura(cm)',max_length=45,blank=False, null=False)
 
 class Query(AuditModel):
     query_type = (
@@ -47,6 +47,16 @@ class Query(AuditModel):
 
     def get_absolute_url(self):
         return reverse('medical_query:list_query')
+
+    def get_physical_exam(self):
+        return PhisicalExam.objects.filter(id=self.PhisicalExam_idPhisicalExam.id).first()
+    
+    def get_type_query(self):
+        query_type = {
+            1:'Consulta',
+            2:'Retorno'
+        }
+        return Query.query_type[self.type_query][1]
 
     class Meta:
         verbose_name = 'Consulta Medica'

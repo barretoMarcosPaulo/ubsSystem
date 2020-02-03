@@ -29,13 +29,10 @@ class MedicalQueryAttendanceForm(forms.ModelForm):
        self.fields['summary'].widget.attrs['readonly'] = True
        self.fields['diagnostic_hypotheses'].widget.attrs['readonly'] = True
        self.fields['take_duct'].widget.attrs['readonly'] = True
-       self.fields['type_query'].widget.attrs['readonly'] = True
-       self.fields['Patient_idPatient'].widget.attrs['readonly'] = True
-       self.fields['User_idUser'].widget.attrs['readonly'] = True
 
     class Meta:
         model = Query
-        exclude = ['medical','date','patient','PhisicalExam_idPhisicalExam']
+        exclude = ['medical','date','patient','PhisicalExam_idPhisicalExam','type_query','User_idUser','Patient_idPatient']
         fields= "__all__"
 
 
