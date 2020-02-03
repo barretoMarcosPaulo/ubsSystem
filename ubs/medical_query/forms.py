@@ -5,8 +5,13 @@ from .models import *
 class MedicalQueryForm(forms.ModelForm):
     class Meta:
         model = Query
-        exclude = ['medical','date']
-        fields= "__all__"
+        fields= [
+            'Patient_idPatient','type_query','main_complaint',
+            'current_health_history','review_of_systems',
+            'epidemiological_history','previous_pathological_history',
+            'family_history','physiological_personal_antecedents',
+            'summary','diagnostic_hypotheses','take_duct'
+        ]
 
 # Formulario para details
 class MedicalQueryAttendanceForm(forms.ModelForm):
@@ -24,17 +29,35 @@ class MedicalQueryAttendanceForm(forms.ModelForm):
        self.fields['summary'].widget.attrs['readonly'] = True
        self.fields['diagnostic_hypotheses'].widget.attrs['readonly'] = True
        self.fields['take_duct'].widget.attrs['readonly'] = True
+       self.fields['type_query'].widget.attrs['readonly'] = True
+       self.fields['Patient_idPatient'].widget.attrs['readonly'] = True
+       self.fields['User_idUser'].widget.attrs['readonly'] = True
 
-       self.fields['pa_exam'].widget.attrs['readonly'] = True
-       self.fields['p_exam'].widget.attrs['readonly'] = True
-       self.fields['fc_exam'].widget.attrs['readonly'] = True
-       self.fields['fr_exam'].widget.attrs['readonly'] = True
-       self.fields['tax_exam'].widget.attrs['readonly'] = True
-       self.fields['peso_exam'].widget.attrs['readonly'] = True
-       self.fields['heigth_exam'].widget.attrs['readonly'] = True
-
-    
     class Meta:
         model = Query
-        exclude = ['medical','date','patient']
+        exclude = ['medical','date','patient','PhisicalExam_idPhisicalExam']
         fields= "__all__"
+
+
+# Formulario para details
+class PhisicalExamAttendanceForm(forms.ModelForm):
+    
+    def __init__(self, *args, **kwargs):
+       super(PhisicalExamAttendanceForm, self).__init__(*args, **kwargs)
+
+       self.fields['pa'].widget.attrs['readonly'] = True
+       self.fields['p'].widget.attrs['readonly'] = True
+       self.fields['fc'].widget.attrs['readonly'] = True
+       self.fields['fr'].widget.attrs['readonly'] = True
+       self.fields['tax'].widget.attrs['readonly'] = True
+       self.fields['weigth'].widget.attrs['readonly'] = True
+       self.fields['heigth'].widget.attrs['readonly'] = True
+
+    class Meta:
+        model = PhisicalExam
+        fields= "__all__"
+
+class PhisicalExamForm(forms.ModelForm):
+    class Meta:
+        model = PhisicalExam
+        fields = '__all__'

@@ -18,11 +18,10 @@ class PhisicalExam(AuditModel):
 
 class Query(AuditModel):
     query_type = (
-        ('1','Consulta'),
-        ('2', 'Retorno'),
+        (1,'Consulta'),
+        (2, 'Retorno'),
     )
-    
-    date_query = models.DateField('Data', default=timezone.now())
+
     type_query = models.IntegerField('Tipo de Consulta',choices=query_type)
     main_complaint = models.CharField('Queixa Principal', max_length=400, blank=False, null=False)
     current_health_history = models.CharField('História da Doença Atual', max_length=400, blank=False, null=False)
@@ -36,7 +35,7 @@ class Query(AuditModel):
     take_duct = models.CharField('Conduta Tomada', max_length=400, blank=False, null=False)
     PhisicalExam_idPhisicalExam = models.ForeignKey(PhisicalExam,verbose_name='Exame Físico',blank=True, null=True,on_delete=models.SET_NULL) #OBS
     Patient_idPatient = models.ForeignKey(Patient,verbose_name="Paciente", null=True, blank=True, on_delete=models.SET_NULL)
-    User_idUser = models.ForeignKey(User,verbose_name="Paciente", null=True, blank=True, on_delete=models.SET_NULL)
+    User_idUser = models.ForeignKey(User,verbose_name="Profissional", null=True, blank=True, on_delete=models.SET_NULL)
 
     '''
     priority = models.BooleanField('Paciente Prioritário', default=False)

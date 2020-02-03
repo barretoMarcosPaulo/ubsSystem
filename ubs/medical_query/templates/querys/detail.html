@@ -53,6 +53,36 @@
                                 {% endif %}
                                 {%endif%}
                                 {% endfor %}
+                                
+                                {% for field in second_form %}
+                                    {% if field.errors %}
+
+                                        <div class="col-md-{% if field.name in 'pa\p\fc' %}4
+                                                            {% elif field.name in 'color\sex\marital_state\phone\fax\email' %}4
+                                                            {% else %}6
+                                                            {% endif %} margin-bottom-15">
+                                            >
+                                            <label class="control-label">{{ field.label }}</label>
+                                            {{ field|add_class:"form-control input-md" }}
+                                            <span class="text-danger"> <strong>{{ field.help_text }}</strong> </span>
+                                            {% for error in field.errors%}
+                                            <span class="help-inline error">{{ error }}</span>
+                                            {% endfor%}
+                                        </div>
+                                        {%else%}
+                                        <div class="col-md-{% if field.name in 'pa\p\fc' %}4
+                                                            {% elif field.name in 'color\sex\marital_state\phone\fax\email' %}4
+                                                            {% else %}6
+                                                            {% endif %} margin-bottom-15">
+
+                                            <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
+                                            {{ field|add_class:"form-control input-md" }}
+                                            <span class="text-danger"> <strong>{{ field.help_text }}</strong></span>
+                                        </div>
+                                    {%endif%}
+                                {% endfor %}
+
+
                             </div>
                         </fieldset>
 
