@@ -17,39 +17,63 @@
 
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
+                        CPF: <span class="pull-right"> {{ object.cpf_patient}} </span>
+                    </li>
+                    <li class="list-group-item">
+                        Sexo: <span class="pull-right"> {% if object.sex == "M" %} Masculino {% elif object.sex == "F" %} Feminino {% else %} Outro {% endif %} </span>
+                    </li>
+                    <li class="list-group-item">
                         Data de Nascimento: <span class="pull-right"> {{ object.date_birth}} </span>
-                    </li>
-                    <li class="list-group-item">
-                        Sexo: <span class="pull-right"> {{ object.sex}} </span>
-                    </li>
-                    <li class="list-group-item">
-                        Cor: <span class="pull-right"> {{ object.color}} </span>
-                    </li>
-                    <li class="list-group-item">
-                        Estado Conjugal: <span class="pull-right"> {{ object.marital_state}} </span>
-                    </li>
-                    <li class="list-group-item">
-                        Ocupação: <span class="pull-right"> {{ object.ocupation}} </span>
                     </li>
                     <li class="list-group-item">
                         Local de Nascimento: <span class="pull-right"> {{ object.local_birth}} </span>
                     </li>
                     <li class="list-group-item">
-                        Convênio: <span class="pull-right"> {{ object.health_insurance}} </span>
+                        Logradouro: <span class="pull-right"> {{ object.Type_Logradouro_idLogradouro}} </span>
                     </li>
                     <li class="list-group-item">
-                        Endereço: <span class="pull-right"> {{ object.address}} </span>
+                        Nome do Endereço:<span class="pull-right"> {{ object.address_name}} </span>
+                    </li>
+                    <li class="list-group-item">
+                        Número do Endereço:<span class="pull-right"> {{ object.address_number}} </span>
+                    </li>
+                    <li class="list-group-item">
+                        Complemento do endereço: <span class="pull-right"> {{ object.address_complement}} </span>
+                    </li>
+                    <li class="list-group-item">
+                        Cep do endereço: <span class="pull-right"> {{ object.address_cep}} </span>
+                    </li>
+                    <li class="list-group-item">
+                        Vizinhança do Endereço: <span class="pull-right"> {{ object.address_neighborhood}} </span>
+                    </li>
+                    <li class="list-group-item">
+                        Cidade: <span class="pull-right"> {{ object.City_codIBGE}} </span>
+                    </li>
+                    <li class="list-group-item">
+                        Email: <span class="pull-right"> {{ object.email}} </span>
                     </li>
                     <li class="list-group-item">
                         Telefone: <span class="pull-right"> {{ object.get_phone}} </span>
                     </li>
                     <li class="list-group-item">
-                        Fax: <span class="pull-right"> {{ object.fax}} </span>
+                        Tipo do Telefone: <span class="pull-right"> {{ object.get_phone_type}} </span>
                     </li>
                     <li class="list-group-item">
-                        Email: <span class="pull-right"> {{ object.email}} </span>
+                        Imagem: <span class="pull-right"> <a href="/ubs/media_images/{{ object.image_patient }}" > Imagem do paciente <i class="fa fa-download"></i> </a> </span>
+                        
                     </li>
-                    
+                    <li class="list-group-item">
+                        Cor: <span class="pull-right"> {{ object.Color_idColor}} </span>
+                    </li>
+                    <li class="list-group-item">
+                        Estado Conjugal: <span class="pull-right"> {{ object.Marital_State_idMarital_State}} </span>
+                    </li>
+                    <li class="list-group-item">
+                        Ocupação: <span class="pull-right"> {{ object.Ocupation_idOcupation}} </span>
+                    </li>
+                    <li class="list-group-item">
+                        Convênio: <span class="pull-right"> {{ object.Medical_Insurance_idMedical_insurance}} </span>
+                    </li>
                 </ul>
 
             </section>

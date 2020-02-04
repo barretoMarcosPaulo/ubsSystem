@@ -140,8 +140,15 @@ def delete_patient(request, id):
     patient.delete()
     return HttpResponseRedirect(reverse('patient:list_patient'))  
  
-class PatientDetail(DetailView):
-	model = Patient
-	template_name = 'patient/detail.html'
-	form_class = PatientForm   
+class PatientDetail(UpdateView):
+    template_name = 'patient/detail.html'
+    form_class = PatientForm
+    model = Patient
+    # second_form_class = PhoneForm
 
+    # def get_context_data(self, **kwargs):
+    #     context = super(PatientDetail, self).get_context_data(**kwargs)
+    #     # context["form"] = PatientForm 
+    #     context["second_form"] = PhoneForm 
+    #     context["second_model"] = Phone
+    #     return context
