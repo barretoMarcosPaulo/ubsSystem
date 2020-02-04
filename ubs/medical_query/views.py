@@ -1,7 +1,7 @@
 from django.shortcuts import render
 # Create your views here.
-from .forms import MedicalQueryForm,MedicalQueryAttendanceForm
-from .models import Query
+from .forms import MedicalQueryForm,MedicalQueryAttendanceForm,PhisicalExamForm,PhisicalExamAttendanceForm
+from .models import Query,PhisicalExam
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from django.views.generic.detail import DetailView
@@ -14,41 +14,52 @@ from django.urls import reverse, reverse_lazy
 from django.db import IntegrityError, transaction
 
 
+
+# Views for Querys
 class QueryCreate(CreateView):
     model = Query
     template_name = 'querys/add.html'
     form_class = MedicalQueryForm
+    second_form_class = PhisicalExamForm
 
     def get(self, request, *args, **kwargs):
         self.object = None
         form = self.form_class
+        second_form = self.second_form_class
         return self.render_to_response(
             self.get_context_data(
                 form=form,
-                
+                second_form=second_form
             )
         )
 
     def post(self, request, *args, **kwargs):
         self.object = None
         form = self.form_class(self.request.POST, self.request.FILES)
- 
-        if form.is_valid() :
-            return self.form_valid(form)
-        else:
-            return self.form_invalid(form)
+        exam_form = self.second_form_class(self.request.POST)
 
-    def form_valid(self, form):
+        
+        if form.is_valid() and exam_form.is_valid() :
+            return self.form_valid(form,exam_form)
+        else:
+            return self.form_invalid(form,exam_form)
+
+    def form_valid(self, form,exam_form):
        
         with transaction.atomic():
 
+            exam = exam_form.save()
+            
+            print(exam)
+
             query = form.save(commit=False)
             query.medical = self.request.user
+            query.PhisicalExam_idPhisicalExam = exam
             query.save()
 
             return HttpResponseRedirect(self.get_success_url())
 
-    def form_invalid(self, form):
+    def form_invalid(self, form,exam_form):
         print("Formulario Invalido")
         return self.render_to_response(
             self.get_context_data(
@@ -57,9 +68,37 @@ class QueryCreate(CreateView):
             )
 
     def get_success_url(self):
-        return reverse('medical_query:add_query')
+        return reverse('medical_query:list_query_history')
 
 
+class QueryUpdate(UpdateView):
+    model = Query
+    template_name = 'querys/add.html'
+    form_class = MedicalQueryForm
+
+    def get_success_url(self):
+        return reverse('medical_query:list_query_history')
+
+
+class QueryDetail(DetailView):
+    model = Query
+    template_name = 'querys/detail.html'
+    form_class = MedicalQueryAttendanceForm
+    second_form_class = PhisicalExamAttendanceForm
+
+    def get(self, request, *args, **kwargs):
+        self.object = None
+        form = self.form_class
+        second_form = self.second_form_class
+        print("AAA ",second_form)
+        return self.render_to_response(
+            self.get_context_data(
+                form=form,
+                second_form=second_form
+            )
+        )
+
+# Views for history attendances
 class ListQuerysHistory(ListView):
 
     model = Query
@@ -95,6 +134,7 @@ class ListQuerysHistory(ListView):
             })
         return context
 
+
 class ListAttendances(ListView):
 
     model = Query
@@ -129,58 +169,21 @@ class ListAttendances(ListView):
             'show_last': num_pages not in page_numbers,
             })
         return context
-class QueryUpdate(UpdateView):
-    model = Query
-    template_name = 'querys/add.html'
-    form_class = MedicalQueryForm
-
-    def get_success_url(self):
-        return reverse('medical_query:list_query_history')
-
-
-
-class QueryDetail(DetailView):
-	model = Query
-	template_name = 'querys/detail.html'
-	form_class = MedicalQueryForm
 
 
 class Attendances(UpdateView):
 
-	model = Query
-	template_name = 'querys/detail.html'
-	form_class = MedicalQueryAttendanceForm
-	
-	# def get_object(self):
-	# 	object_ = super().get_object()
+    model = Query
+    template_name = 'querys/detail.html'
+    form_class = MedicalQueryAttendanceForm
+    second_form_class = PhisicalExamAttendanceForm
 
-	# 	if object_.em_atendimento:
-	# 		setor = self.request.user.setor()	
-	# 	else:
-	# 		object_.em_atendimento=True
-	# 		object_.save()
-	# 		return object_
-
-	# def form_valid(self,form_class):
-	# 	object_ = super().get_object()
-	# 	object_.em_atendimento=False
-	# 	object_.save()
-	# 	setor = self.request.user.setor()
-		
-	# 	ficha = FichaAtendimento.objects.filter(id=object_.id).first()
-	# 	setor_user = Setor.objects.filter(id=setor).first()
-
-	# 	AtendimentosRealizados.objects.create(ficha_usuario=ficha,setor_atendimento=setor_user)
-
-	# 	return HttpResponseRedirect(reverse('atendimento:ficha_setor',kwargs={'pk':setor}))
-
-	def get_context_data(self, **kwargs):
-		_super = super(Attendances, self)
-		context = _super.get_context_data(**kwargs)
-		context.update({
-			'no_edit': True ,
-			})
-		return context
-
-	def get_success_url(self):
-		return reverse('medical_query:list_attendances')
+    def get_context_data(self, **kwargs):
+        _super = super(Attendances, self)
+        context = _super.get_context_data(**kwargs)
+        physical_exam = PhisicalExam.objects.get(id=self.object.PhisicalExam_idPhisicalExam.id)
+        context.update({
+            'no_edit': True ,
+            'second_form': self.second_form_class(instance=physical_exam)
+            })
+        return context
