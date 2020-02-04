@@ -9,6 +9,7 @@ settings_local.py
 .DS_Store
 /media
 /media_images
+/ubs/media_images
 
 /migrations/*
 /_pycache_/*
