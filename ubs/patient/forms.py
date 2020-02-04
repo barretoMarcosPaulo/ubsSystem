@@ -12,3 +12,4 @@ class PhoneForm(forms.ModelForm):
     class Meta:
         model = Phone
         fields= "__all__"
+        exclude = ["Patient_idPatient"]

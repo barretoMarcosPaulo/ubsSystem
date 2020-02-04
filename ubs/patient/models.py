@@ -105,7 +105,7 @@ class Patient(AuditModel):
     address_cep = models.CharField('Cep do Endereço',max_length=8,default='64600000')
     address_neighborhood = models.CharField('Bairro do Endereço',max_length=45)
     City_codIBGE = models.ForeignKey(City,verbose_name="Cidade",null=True,blank=True,on_delete=models.SET_NULL)
-    email = models.EmailField('email',max_length=50,null=True, blank=True,default='N/A')
+    email = models.EmailField('email',max_length=50,null=True, blank=True)
     image_patient = models.ImageField(upload_to='patient/image',verbose_name="Imagem do paciente",blank = True, null = True)
     Color_idColor = models.ForeignKey(Color,verbose_name="Cor",null=True,blank=True,on_delete=models.SET_NULL)
     Marital_State_idMarital_State = models.ForeignKey(MaritalState,verbose_name="Estado Conjugal",null=True,blank=True,on_delete=models.SET_NULL)
