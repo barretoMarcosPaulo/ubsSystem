@@ -15,7 +15,7 @@ class UserAdminForm(UserCreationForm):
 class UserClerkForm(UserCreationForm):
     class Meta:
         model = Clerk
-        fields= "__all__"
+        fields= ['full_name','cpf','register_clerk','email','phone']
 
 
 

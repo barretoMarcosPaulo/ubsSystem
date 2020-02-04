@@ -36,6 +36,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     # status = models.IntegerField('Status do usuário',choices=user_status,null=True, blank=True)
     # image = models.CharField('Imagem', max_length=255)
     is_staff = models.BooleanField('is staff',default=False)
+    is_clerk = models.BooleanField('Atendente',default=False)
+    is_doctor = models.BooleanField('Medico',default=False)
 
     def __str__(self):
         return self.full_name
