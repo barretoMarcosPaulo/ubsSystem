@@ -35,7 +35,6 @@ class MedicalQueryAttendanceForm(forms.ModelForm):
         exclude = ['medical','date','patient','PhisicalExam_idPhisicalExam','type_query','User_idUser','Patient_idPatient']
         fields= "__all__"
 
-
 # Formulario para details
 class PhisicalExamAttendanceForm(forms.ModelForm):
     

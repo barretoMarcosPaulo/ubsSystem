@@ -6,16 +6,16 @@ from django.core import validators
 from django.contrib.auth.models import AbstractBaseUser, UserManager, PermissionsMixin
 from ubs.core.models import AuditModel
 
-class User(AbstractBaseUser, PermissionsMixin): 
-    user_type_option = (
-        ('1','Admin'),
-        ('2', 'Médico(a)'),
-        ('3', 'Atendente'),
-    )
-    user_status = (
-        ('1','Ativo'),
-        ('2','Inativo'),
-    )
+class User(AbstractBaseUser, PermissionsMixin):
+    # user_type_option = (
+    #     ('1','Admin'),
+    #     ('2', 'Médico(a)'),
+    #     ('3', 'Atendente'),
+    # )
+    # user_status = (
+    #     ('1','Ativo'),
+    #     ('2','Inativo'),
+    # )
 
     username = models.CharField(
         'Usuário', max_length=200, default=uuid.uuid4, unique=True, validators=[
@@ -32,10 +32,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     cpf = models.CharField('CPF', max_length=11)
     phone = models.CharField('Telefone', max_length=13)
     email = models.EmailField('Email',max_length=100)
-    type_user = models.IntegerField('Tipo de usuário',choices=user_type_option, null=True, blank=True)
-    status = models.IntegerField('Status do usuário',choices=user_status,null=True, blank=True)
-    image = models.CharField('Imagem', max_length=255)
-    is_staff = models.BooleanField('is staff')
+    # type_user = models.IntegerField('Tipo de usuário',choices=user_type_option, null=True, blank=True)
+    # status = models.IntegerField('Status do usuário',choices=user_status,null=True, blank=True)
+    # image = models.CharField('Imagem', max_length=255)
+    is_staff = models.BooleanField('is staff',default=False)
 
     def __str__(self):
         return self.full_name
