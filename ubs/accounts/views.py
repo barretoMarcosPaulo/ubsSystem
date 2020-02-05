@@ -12,9 +12,9 @@ from django.db import IntegrityError, transaction
 from .models import User, Clerk ,Doctor, MedicalSpecialty, DoctorHasMedicalSpecialty
 from .forms import UserAdminForm, UserClerkForm, UserDoctorForm
 
-# Views for admin
 
-# Create
+
+# Views for admin
 class AdminCreate(CreateView):
     model = User
     template_name = 'users/admin/add.html'
@@ -44,7 +44,6 @@ class AdminCreate(CreateView):
         )
 
 
-#List
 class AdminList(ListView):
 
     model = User
@@ -81,6 +80,13 @@ class AdminList(ListView):
         return context
 
 
+class AdminUpdate(UpdateView):
+    model = User
+    template_name = 'users/admin/edit.html'
+    form_class = UserAdminForm
+
+    def get_success_url(self):
+        return reverse('accounts:list_all_admin')
 
 
 # Views for clerk
@@ -149,6 +155,15 @@ class ClerkList(ListView):
         return context
 
 
+class ClerkUpdate(UpdateView):
+    model = Clerk
+    template_name = 'users/clerk/edit.html'
+    form_class = UserClerkForm
+
+    def get_success_url(self):
+        return reverse('accounts:list_all_clerk')
+
+
 
 
 # Views for doctor
@@ -215,3 +230,12 @@ class DoctorList(ListView):
             'show_last': num_pages not in page_numbers,
             })
         return context
+
+        
+class DoctorUpdate(UpdateView):
+    model = Doctor
+    template_name = 'users/doctor/edit.html'
+    form_class = UserDoctorForm
+
+    def get_success_url(self):
+        return reverse('accounts:list_all_doctor')
