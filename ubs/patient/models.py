@@ -145,7 +145,7 @@ class Phone(AuditModel):
 
     phone_number = models.CharField('Número de telefone',max_length=13,unique=True)
     phone_type = models.CharField('Tipo de telefone',choices=type_phone,default='CELL',max_length=11)
-    Patient_idPatient = models.ForeignKey(Patient,verbose_name="Paciente",null=True,blank=True,on_delete=models.SET_NULL)
+    Patient_idPatient = models.ForeignKey(Patient,verbose_name="Paciente",null=True,blank=True,on_delete=models.CASCADE)
     
     def __str__(self):
         return self.phone_number

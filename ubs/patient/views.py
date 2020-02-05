@@ -134,11 +134,7 @@ class PatientUpdate(UpdateView):
 				address_form=address_form,
 			)		
 		)
-
-def delete_patient(request, id):
-    patient = Patient.objects.get(id=id)
-    patient.delete()
-    return HttpResponseRedirect(reverse('patient:list_patient'))  
+ 
  
 class PatientDetail(UpdateView):
     template_name = 'patient/detail.html'

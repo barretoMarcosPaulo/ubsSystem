@@ -53,16 +53,36 @@
             <div id="main-menu" class="main-menu collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li class="active">
-                        <a href="{% url 'core:dashboard' %}"> <i class="menu-icon fa fa-dashboard"></i>Dashboard </a>
+                        <a href="{% url 'core:index' %}"> <i class="menu-icon fa fa-home"></i>Home </a>
                     </li>
                     <h3 class="menu-title">Pacientes</h3><!-- /.menu-title -->
                     <li class="menu-item-has-children dropdown">
-                        <a href=" {% url 'patient:list_patient' %}" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-th-list"></i>Listar todos</a>
+                        <a href=" {% url 'core:list_patient' %}" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-th-list"></i>Listar Pacientes</a>
                     </li>
                     <li class="menu-item-has-children dropdown">
-                        <a href=" {% url 'patient:add_patient' %}" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-plus-square"></i>Adicionar</a>
+                        <a href=" {% url 'patient:add_patient' %}" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-th-list"></i>Listar Cidades</a>
                     </li>
-
+                    <li class="menu-item-has-children dropdown">
+                        <a href=" {% url 'patient:add_patient' %}" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-th-list"></i>Listar Estados</a>
+                    </li>
+                    <li class="menu-item-has-children dropdown">
+                        <a href=" {% url 'patient:add_patient' %}" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-th-list"></i>Listar Convênios</a>
+                    </li>
+                    <li class="menu-item-has-children dropdown">
+                        <a href=" {% url 'patient:add_patient' %}" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-th-list"></i>Listar Cores</a>
+                    </li>
+                    <li class="menu-item-has-children dropdown">
+                        <a href=" {% url 'patient:add_patient' %}" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-th-list"></i>Listar Estado Conjugal</a>
+                    </li>
+                    <li class="menu-item-has-children dropdown">
+                        <a href=" {% url 'patient:add_patient' %}" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-th-list"></i>Listar Logradouro</a>
+                    </li>
+                    <li class="menu-item-has-children dropdown">
+                        <a href=" {% url 'patient:add_patient' %}" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-th-list"></i>Listar Ocupação</a>
+                    </li>
+                    <li class="menu-item-has-children dropdown">
+                        <a href=" {% url 'patient:add_patient' %}" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-th-list"></i>Listar Telefone</a>
+                    </li>
                     <h3 class="menu-title">Consultas</h3><!-- /.menu-title -->
 
                     <li class="menu-item-has-children dropdown">

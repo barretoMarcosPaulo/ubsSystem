@@ -1,4 +1,4 @@
-{% extends 'core/base.html' %}
+{% extends 'core/base_dashboard.html' %}
 {% load widget_tweaks %}
 
 {% block title %}Cadastro de Paciente{% endblock %}
@@ -20,7 +20,7 @@
                             {% for field in form %}
                                 {% if field.errors %}
                                     <div
-                                        class="col-md-{% if field.name in 'name' %}8{% elif field.name in 'main_complaint\email' %}6{% elif field.name in 'username\sex\birth_date\marital_status\phone\cpf\rg\matricula' %}4{% elif field.name in 'nome_mae\nome_pai' %}6{% else %}12{% endif %} margin-bottom-15 has-error has-feedback">
+                                        class="col-md-{% if field.name in 'name' %}8{% elif field.name in 'main_complaint\email' %}6{% elif field.name in 'username\sex\birth_date\marital_status\phone\cpf\rg\matricula' %}4{% elif field.name in 'nome_mae\nome_pai' %}6{% else %}6{% endif %} margin-bottom-15 has-error has-feedback">
                                         <label class="control-label">{{ field.label }}</label>
                                         {{ field|add_class:"form-control input-md" }}
                                         <span class="text-danger"> <strong>{{ field.help_text }}</strong> </span>
@@ -47,7 +47,7 @@
                             {% for field in second_form %}
                                 {% if field.errors %}
                                     <div
-                                        class="col-md-{% if field.name in 'name' %}8{% elif field.name in 'main_complaint\email' %}6{% elif field.name in 'username\sex\birth_date\marital_status\phone\cpf\rg\matricula' %}4{% elif field.name in 'nome_mae\nome_pai' %}6{% else %}12{% endif %} margin-bottom-15 has-error has-feedback">
+                                        class="col-md-{% if field.name in 'name' %}8{% elif field.name in 'main_complaint\email' %}6{% elif field.name in 'username\sex\birth_date\marital_status\phone\cpf\rg\matricula' %}4{% elif field.name in 'nome_mae\nome_pai' %}6{% else %}6{% endif %} margin-bottom-15 has-error has-feedback">
                                         <label class="control-label">{{ field.label }}</label>
                                         {{ field|add_class:"form-control input-md" }}
                                         <span class="text-danger"> <strong>{{ field.help_text }}</strong> </span>
