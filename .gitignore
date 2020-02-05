@@ -8,6 +8,8 @@ settings_local.py
 /assessoria-internacional
 .DS_Store
 /media
+/media_images
+/ubs/media_images
 
 /migrations/*
 /_pycache_/*

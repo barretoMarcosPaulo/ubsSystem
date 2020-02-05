@@ -1,0 +1,73 @@
+{% extends 'core/base.html' %}
+{% load widget_tweaks %}
+
+{% block title %}Adicionar Novo Usuário{% endblock %}
+
+{% block body %}
+<div class="content col-md-12">
+    <div class="animated fadeIn">
+        <form enctype="multipart/form-data" method="post">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-10" style="margin: 20px auto;">
+                    <div class="card">
+                        <div class="card-header"><strong>Usuários</strong><small> Novo Usuário Atendente </small>
+                        </div>
+
+                        <fieldset>
+
+                            <div class="form-group">
+                                {% for field in form %}
+                                {% if field.errors %}
+                                <div
+                                    class="col-md-{% if field.name in 'name' %}8{% elif field.name in 'main_complaint\email' %}6{% elif field.name in 'username\sex\birth_date\marital_status\phone\cpf\rg\matricula' %}4{% elif field.name in 'nome_mae\nome_pai' %}6{% else %}12{% endif %} margin-bottom-15 has-error has-feedback">
+                                    <label class="control-label">{{ field.label }}</label>
+                                    {{ field|add_class:"form-control input-md" }}
+                                    <span class="text-danger"> <strong>{{ field.help_text }}</strong> </span>
+                                    {% for error in field.errors%}
+                                    <span class="help-inline error">{{ error}}</span>
+                                    {% endfor%}
+                                </div>
+                                {%else%}
+                                <div class="col-md-{% if field.name in 'full_name' %}9
+                                                {% elif field.name in 'cpf\crm_doc\phone' %}3
+                                                {% elif field.name in 'local_birth\health_insurance' %}3
+                                                {% elif field.name in 'summary' %}12
+                                                {% else %}6
+                                                {% endif %} margin-bottom-15">
+
+                                    <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
+                                    {{ field|add_class:"form-control input-md" }}
+                                    <span class="text-danger d-none"> <strong>field.help_text</strong></span>
+                                </div>
+                                {%endif%}
+                                {% endfor %}
+                            </div>
+                        </fieldset>
+
+                        <br>
+
+                        <div class="form-actions form-group col-md-3"><button type="submit" class="btn btn-success"
+                                style="border-radius: 3px;">Finalizar</button></div>
+
+                    </div>
+
+                    <div class="alert alert-danger">
+                        <strong>Atenção:</strong>
+                        Você está adicionado ao sistema um usuário com permissões de <strong>MÉDICO.</strong>
+                        Usuários  médicos possuem acesso <strong>LIMITADO.</strong>
+                    </div>
+
+                </div>
+            </div>
+    </div>
+</div>
+</form>
+</div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+
+{% endblock %}

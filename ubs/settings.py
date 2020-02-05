@@ -29,9 +29,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     #My Apps
-    'core',
-    'accounts',
-    'medical_query',
+    'ubs.core',
+    'ubs.accounts',
+    'ubs.patient',
+    'ubs.medical_query',
+
+    #Terceiros
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -75,7 +79,7 @@ DATABASES = {
 }
 
 
-
+AUTH_USER_MODEL = 'accounts.User'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -104,7 +108,10 @@ USE_L10N = True
 
 USE_TZ = True
 
-
+DATE_INPUT_FORMATS = ( "DD-MM-AAAA", )
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+MEDIA_URL = '/ubs/media_images/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'ubs/media_images')
