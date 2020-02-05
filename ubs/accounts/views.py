@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
-
+from django.http import HttpResponse, JsonResponse
 from django.db import IntegrityError, transaction
 
 from .models import User, Clerk ,Doctor, MedicalSpecialty, DoctorHasMedicalSpecialty
@@ -89,6 +89,19 @@ class AdminUpdate(UpdateView):
         return reverse('accounts:list_all_admin')
 
 
+class AdminDelete(DeleteView):
+    model = User
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        try:
+            self.object.delete()
+            return JsonResponse({'msg': "Administrador excluido com sucesso!", 'code': "1"})
+        except:
+            return JsonResponse({'msg': "Esse administrador não pôde ser excluído!", 'code': "0"})
+
+
+
 # Views for clerk
 class ClerkCreate(CreateView):
     model = Clerk
@@ -109,7 +122,7 @@ class ClerkCreate(CreateView):
             clerk = form.save(commit=False)
             clerk.is_clerk = True
             clerk.save()
-        return HttpResponseRedirect(reverse('accounts:aaccounts:list_all_clerk'))
+        return HttpResponseRedirect(reverse('accounts:list_all_clerk'))
 
     def form_invalid(self,form):
         return self.render_to_response(
@@ -163,6 +176,17 @@ class ClerkUpdate(UpdateView):
     def get_success_url(self):
         return reverse('accounts:list_all_clerk')
 
+
+class ClerkDelete(DeleteView):
+    model = Clerk
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        try:
+            self.object.delete()
+            return JsonResponse({'msg': "Atendente excluido com sucesso!", 'code': "1"})
+        except:
+            return JsonResponse({'msg': "Esse atendente não pôde ser excluído!", 'code': "0"})
 
 
 
@@ -239,3 +263,15 @@ class DoctorUpdate(UpdateView):
 
     def get_success_url(self):
         return reverse('accounts:list_all_doctor')
+
+
+class DoctorDelete(DeleteView):
+    model = Doctor
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        try:
+            self.object.delete()
+            return JsonResponse({'msg': "Médico excluido com sucesso!", 'code': "1"})
+        except:
+            return JsonResponse({'msg': "Esse médico não pôde ser excluído!", 'code': "0"})

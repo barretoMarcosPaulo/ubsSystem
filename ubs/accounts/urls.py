@@ -8,17 +8,20 @@ urlpatterns = [
     path('admin/add', views.AdminCreate.as_view(), name='add_admin'),
     path('admin/list/all', views.AdminList.as_view(), name='list_all_admin'),
     path('admin/edit/<int:pk>', views.AdminUpdate.as_view(), name='update_admin'),
+    path('admin/delete/<int:pk>', views.AdminDelete.as_view(), name='delete_admin'),
     
     
     # URLS for clerks views
     path('clerk/add', views.ClerkCreate.as_view(), name='add_clerk'),
     path('clerk/list/all', views.ClerkList.as_view(), name='list_all_clerk'),
     path('clerk/edit/<int:pk>', views.ClerkUpdate.as_view(), name='update_clerk'),
+    path('clerk/delete/<int:pk>', views.ClerkDelete.as_view(), name='delete_clerk'),
 
     #URLS for doctor view
     path('doctor/add', views.DoctorCreate.as_view(), name='add_doctor'),
     path('doctor/list/all', views.DoctorList.as_view(), name='list_all_doctor'),
     path('doctor/edit/<int:pk>', views.DoctorUpdate.as_view(), name='update_doctor'),
+    path('doctor/delete/<int:pk>', views.DoctorDelete.as_view(), name='delete_doctor'),
 
 
 
