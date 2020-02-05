@@ -30,7 +30,7 @@
                                 </div>
                                 {%else%}
                                 <div class="col-md-{% if field.name in 'full_name' %}9
-                                                {% elif field.name in 'cpf\register_clerk\phone' %}3
+                                                {% elif field.name in 'cpf\crm_doc\phone' %}3
                                                 {% elif field.name in 'local_birth\health_insurance' %}3
                                                 {% elif field.name in 'summary' %}12
                                                 {% else %}6
@@ -52,12 +52,11 @@
 
                     </div>
 
-                    <!-- <div class="alert alert-danger">
+                    <div class="alert alert-danger">
                         <strong>Atenção:</strong>
-                        Você está adicionado ao sistema um usuário com permissões de administrador. Usuários
-                        administradores
-                        possuem acesso <strong>Total</strong> a todos os recursos do sistema.
-                    </div> -->
+                        Você está adicionado ao sistema um usuário com permissões de <strong>MÉDICO.</strong>
+                        Usuários  médicos possuem acesso <strong>LIMITADO.</strong>
+                    </div>
 
                 </div>
             </div>

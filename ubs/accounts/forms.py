@@ -22,6 +22,6 @@ class UserClerkForm(UserCreationForm):
 class UserDoctorForm(UserCreationForm):
     class Meta:
         model = Doctor
-        fields= "__all__"
+        fields= ['full_name','cpf','crm_doc','email','phone']
 
 

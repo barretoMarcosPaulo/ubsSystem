@@ -1,0 +1,94 @@
+{% extends 'core/base.html' %}
+{% load staticfiles %}
+
+{% block title %} Listagem de Administradores {% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href={% static "vendors/datatables.net-bs4/css/dataTables.bootstrap4.min.css" %}>
+<link rel="stylesheet" href={% static "vendors/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" %}>
+{% endblock%}
+
+{% block body %}
+
+<div class="content mt-3">
+    <div class="animated fadeIn">
+        <div class="row">
+
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <strong class="card-title">Usuários com permissões de administradores</strong>
+                    </div>
+                    <div class="card-body">
+                        <table id="bootstrap-data-table-export" class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Nome Completo</th>
+                                    <th>E-mail</th>
+                                    <th>Telefone</th>
+                                    <th class="text-center">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for object in object_list%}
+                                <tr>
+                                    <td> {{ object.full_name}} </td>
+                                    <td> {{ object.email }} </td>
+                                    <td> {{ object.phone }} </td>
+                                    
+                                    <td class="text-center">
+                                        <div>
+                                            <a href="{% url 'patient:detail_patient' object.id %}"> 
+                                                <button
+                                                    type="button" class="btn btn-primary btn-sm"
+                                                    style="border-radius: 3px;"
+                                                >
+                                                    <i class="fa fa-eye"></i>
+                                                </button> 
+                                            </a>
+
+                                            <a href="{% url 'patient:update_patient' object.id %}"> 
+                                                <button
+                                                    type="button" class="btn btn-warning btn-sm"
+                                                    style="border-radius: 3px;"
+                                                >
+                                                    <i class="fa fa-edit"></i>
+                                                </button> 
+                                            </a>
+
+
+                                            <a href="{% url 'patient:update_patient' object.id %}">
+                                                <button 
+                                                    type="button" 
+                                                    class="btn btn-danger btn-sm" 
+                                                    style="border-radius: 3px;"
+                                                >
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </a>
+
+
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div><!-- .animated -->
+</div><!-- .content -->
+
+
+
+<!-- Right Panel -->
+
+{% endblock%}
+
+{% block js %}
+
+{% endblock%}

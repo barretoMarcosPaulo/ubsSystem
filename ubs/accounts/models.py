@@ -47,18 +47,35 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['email']
 
+    def get_absolute_url(self):
+        return reverse('accounts:list_all_admin')
+
     class Meta:
         verbose_name = 'Usuário'
         verbose_name_plural = 'Usuários'
     
+
+
+
 class Clerk(User):
     register_clerk = models.CharField('registro do atendente', max_length=12)
 
+    def get_absolute_url(self):
+        return reverse('accounts:list_all_clerk')  
+
+
 class Doctor(User):
-    CRM_doc = models.CharField('CRM do médico', max_length=20)
+    crm_doc = models.CharField('CRM do médico', max_length=20)
     
+    def get_absolute_url(self):
+        return reverse('accounts:list_all_doctor')  
+
+
+
 class MedicalSpecialty(AuditModel):
     desc_specialty = models.CharField('Descrição especialidade(s)',max_length=100)
+
+
 
 class DoctorHasMedicalSpecialty(Doctor):
     MedicalSpecialty_idSpecialty = models.ForeignKey(MedicalSpecialty,verbose_name='Especialidade',null=True,blank=True,on_delete=models.SET_NULL)
