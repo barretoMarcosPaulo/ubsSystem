@@ -1,4 +1,4 @@
-{% extends 'core/base_dashboard.html' %}
+{% extends 'core/base.html' %}
 {% load widget_tweaks %}
 
 {% block title %}Cadastro de Paciente{% endblock %}
@@ -20,7 +20,7 @@
                             {% for field in form %}
                                 {% if field.errors %}
                                     <div
-                                        class="col-md-{% if field.name in 'name' %}8{% elif field.name in 'main_complaint\email' %}6{% elif field.name in 'username\sex\birth_date\marital_status\phone\cpf\rg\matricula' %}4{% elif field.name in 'nome_mae\nome_pai' %}6{% else %}6{% endif %} margin-bottom-15 has-error has-feedback">
+                                        class="col-md-6 margin-bottom-15 has-error has-feedback">
                                         <label class="control-label">{{ field.label }}</label>
                                         {{ field|add_class:"form-control input-md" }}
                                         <span class="text-danger"> <strong>{{ field.help_text }}</strong> </span>
@@ -30,13 +30,7 @@
                                     </div>
                                 {%else%}
                                     <div
-                                        class="col-md-{% if field.name in 'full_name\ocupation\email' %}6
-                                        {% elif field.name in 'color\sex\marital_state\date_birth\local_birth' %}6
-                                        {% elif field.name in 'address' %}12
-                                        {% elif field.name in 'health_insurance' %}3
-                                        {% elif field.name in 'summary' %}12
-                                        {% else %}6
-                                        {% endif %} margin-bottom-15">
+                                        class="col-md-6 margin-bottom-15">
 
                                         <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
                                         {{ field|add_class:"form-control input-md" }}
@@ -47,7 +41,7 @@
                             {% for field in second_form %}
                                 {% if field.errors %}
                                     <div
-                                        class="col-md-{% if field.name in 'name' %}8{% elif field.name in 'main_complaint\email' %}6{% elif field.name in 'username\sex\birth_date\marital_status\phone\cpf\rg\matricula' %}4{% elif field.name in 'nome_mae\nome_pai' %}6{% else %}6{% endif %} margin-bottom-15 has-error has-feedback">
+                                        class="col-md-6 margin-bottom-15 has-error has-feedback">
                                         <label class="control-label">{{ field.label }}</label>
                                         {{ field|add_class:"form-control input-md" }}
                                         <span class="text-danger"> <strong>{{ field.help_text }}</strong> </span>
@@ -57,13 +51,7 @@
                                     </div>
                                 {%else%}
                                     <div
-                                        class="col-md-{% if field.name in 'full_name\date_birth\ocupation' %}6
-                                        {% elif field.name in 'color\sex\marital_state\phone\fax\email' %}4
-                                        {% elif field.name in 'address' %}12
-                                        {% elif field.name in 'local_birth\health_insurance' %}3
-                                        {% elif field.name in 'summary' %}12
-                                        {% else %}6
-                                        {% endif %} margin-bottom-15">
+                                        class="col-md-6 margin-bottom-15">
 
                                         <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
                                         {{ field|add_class:"form-control input-md" }}

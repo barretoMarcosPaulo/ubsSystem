@@ -13,3 +13,8 @@ class PhoneForm(forms.ModelForm):
         model = Phone
         fields= "__all__"
         exclude = ["Patient_idPatient"]
+
+class CityForm(forms.ModelForm):
+    class Meta:
+        model = City
+        fields= "__all__"
