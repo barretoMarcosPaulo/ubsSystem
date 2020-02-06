@@ -9,7 +9,7 @@ from django.urls import reverse, reverse_lazy
 from django.http import HttpResponse, JsonResponse
 from django.db import IntegrityError, transaction
 
-from .models import User, Clerk ,Doctor, MedicalSpecialty, DoctorHasMedicalSpecialty
+from .models import User, Clerk ,Doctor
 from .forms import UserAdminForm, UserClerkForm, UserDoctorForm
 
 

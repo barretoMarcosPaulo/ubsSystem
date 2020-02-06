@@ -7,15 +7,6 @@ from django.contrib.auth.models import AbstractBaseUser, UserManager, Permission
 from ubs.core.models import AuditModel
 
 class User(AbstractBaseUser, PermissionsMixin):
-    # user_type_option = (
-    #     ('1','Admin'),
-    #     ('2', 'Médico(a)'),
-    #     ('3', 'Atendente'),
-    # )
-    # user_status = (
-    #     ('1','Ativo'),
-    #     ('2','Inativo'),
-    # )
 
     username = models.CharField(
         'Usuário', max_length=200, default=uuid.uuid4, unique=True, validators=[
@@ -32,9 +23,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     cpf = models.CharField('CPF', max_length=11)
     phone = models.CharField('Telefone', max_length=13)
     email = models.EmailField('Email',max_length=100)
-    # type_user = models.IntegerField('Tipo de usuário',choices=user_type_option, null=True, blank=True)
-    # status = models.IntegerField('Status do usuário',choices=user_status,null=True, blank=True)
-    # image = models.CharField('Imagem', max_length=255)
     is_staff = models.BooleanField('is staff',default=False)
     is_clerk = models.BooleanField('Atendente',default=False)
     is_doctor = models.BooleanField('Medico',default=False)
@@ -70,16 +58,3 @@ class Doctor(User):
     def get_absolute_url(self):
         return reverse('accounts:list_all_doctor')  
 
-
-
-class MedicalSpecialty(AuditModel):
-    desc_specialty = models.CharField('Descrição especialidade(s)',max_length=100)
-
-
-
-class DoctorHasMedicalSpecialty(Doctor):
-    MedicalSpecialty_idSpecialty = models.ForeignKey(MedicalSpecialty,verbose_name='Especialidade',null=True,blank=True,on_delete=models.SET_NULL)
-
-    class Meta:
-        verbose_name = 'Especialidade'
-        verbose_name_plural = 'Especialidades'
