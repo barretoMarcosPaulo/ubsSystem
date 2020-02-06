@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'ubs.accounts',
     'ubs.patient',
     'ubs.medical_query',
+    'ubs.specialty',
 
     #Terceiros
     'widget_tweaks',
