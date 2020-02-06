@@ -30,7 +30,7 @@ class City(AuditModel):
     codIBGE = models.IntegerField('Código IBGE',primary_key=True,unique=True)
     codIBGE7 = models.IntegerField('Código IBGE7')
     name_city = models.CharField('Nome da cidade', max_length=45)
-    port = models.CharField('Porta', max_length=20)
+    port = models.CharField('Porte', max_length=20)
     capital = models.CharField('Capital', max_length=12)
     State_codIBGE_UF =  models.ForeignKey(State,verbose_name="Estado",null=True,blank=True,on_delete=models.SET_NULL)
 
@@ -120,11 +120,15 @@ class Patient(AuditModel):
 
     def get_phone(self):
         phone = Phone.objects.filter(Patient_idPatient=self).first()
-        return phone.phone_number
+        if phone :
+            return phone.phone_number
+        return None
 
     def get_phone_type(self):
         phone = Phone.objects.filter(Patient_idPatient=self).first()
-        return phone.phone_type
+        if phone :
+            return phone.phone_type
+        return None
         
     class Meta:
         verbose_name = 'Paciente'
