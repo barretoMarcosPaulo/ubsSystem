@@ -12,42 +12,42 @@
 
 <div class="content mt-3">
 
-    <div class="modal fade" id="staticModal" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel"
-        aria-hidden="true" data-backdrop="static">
-        <div class="modal-dialog modal-sm" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-    
-                    <i id="icon_remove" class="fa fa-exclamation-triangle" style="font-size: 30px; color:#dc3545"></i>
-    
-                    <h5 class="modal-title" id="staticModalLabel">
-                        <p id="content_remove">
-                            Têm certeza de que deseja remover este usuário?
+        <div class="modal fade" id="staticModal" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel"
+            aria-hidden="true" data-backdrop="static">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+        
+                        <i id="icon_remove" class="fa fa-exclamation-triangle" style="font-size: 30px; color:#dc3545"></i>
+        
+                        <h5 class="modal-title" id="staticModalLabel">
+                            <p id="content_remove">
+                                Têm certeza de que deseja remover este usuário?
+                            </p>
+                        </h5>
+        
+                        <button type="button" onclick="reset_html()" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="msg_remove">
+                            Ao clicar em confirmar o usuário <strong id="user_remove_alert"></strong> será removido
+                            permanentemente. Essa ação não poderá ser desfeita!
                         </p>
-                    </h5>
-    
-                    <button type="button" onclick="reset_html()" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p id="msg_remove">
-                        Ao clicar em confirmar o usuário <strong id="user_remove_alert"></strong> será removido
-                        permanentemente. Essa ação não poderá ser desfeita!
-                    </p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" id="btn_cancel" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-    
-    
-                    <button id="btn_confirm" type="button" class="btn btn-primary" onclick="remove_user()">
-                        Confirmar
-                    </button>
-    
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btn_cancel" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        
+        
+                        <button id="btn_confirm" type="button" class="btn btn-primary" onclick="remove_user()">
+                            Confirmar
+                        </button>
+        
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     
     <div class="animated fadeIn">
         <div class="row">

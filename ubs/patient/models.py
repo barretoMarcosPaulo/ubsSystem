@@ -36,6 +36,9 @@ class City(AuditModel):
 
     def __str__(self):
         return self.name_city
+
+    def get_absolute_url(self):
+        return reverse("patient:list_city")
     
     class Meta:
         verbose_name = 'Cidade'
@@ -116,7 +119,7 @@ class Patient(AuditModel):
         return self.full_name
     
     def get_absolute_url(self):
-        return reverse("patient:register_patient")
+        return reverse("patient:add_patient")
 
     def get_phone(self):
         phone = Phone.objects.filter(Patient_idPatient=self).first()

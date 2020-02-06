@@ -18,3 +18,14 @@ class CityForm(forms.ModelForm):
     class Meta:
         model = City
         fields= "__all__"
+
+class CityDetailForm(forms.ModelForm):
+    State_codIBGE_UF = forms.CharField(label='Estado')
+    def __init__(self, *args, **kwargs):
+        super(CityDetailForm, self).__init__(*args, **kwargs)
+        for field in self.fields: 
+            self.fields[field].widget.attrs['readonly'] = True
+
+    class Meta:
+        model = City
+        fields= "__all__"

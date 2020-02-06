@@ -185,11 +185,10 @@ class CityCreate(CreateView):
 		
 		return HttpResponseRedirect(reverse('patient:list_city'))
 
-	def form_invalid(self, form, address_form):
+	def form_invalid(self, form):
 		return self.render_to_response(
 			self.get_context_data(
 				form=form,
-				address_form=address_form,
 			)		
 		)
 
@@ -233,61 +232,64 @@ class ListCity(ListView):
             })
         return context
 
-# class PatientUpdate(UpdateView):
-# 	model = Patient
-# 	template_name = 'patient_dashboard/add.html'
-# 	form_class = PatientForm
-# 	second_form_class = PhoneForm
+class CityUpdate(UpdateView):
+	model = City
+	template_name = 'city/add.html'
+	form_class = CityForm
 
-# 	def get_context_data(self, **kwargs):
-# 		self.object = self.get_object()
-# 		phone = Phone.objects.get(Patient_idPatient=self.object.id)
-# 		ctx = super(PatientUpdate, self).get_context_data(**kwargs)
-# 		ctx['second_form'] = self.second_form_class(instance=phone)
-# 		return ctx
-# 	def post(self, request, *args, **kwargs):
+	def get_context_data(self, **kwargs):
+		self.object = self.get_object()
+		ctx = super(CityUpdate, self).get_context_data(**kwargs)
+		return ctx
+	def post(self, request, *args, **kwargs):
         
-# 		self.object = self.get_object()
-# 		form = self.form_class(self.request.POST , self.request.FILES , instance=self.object)
-# 		phone = Phone.objects.get(Patient_idPatient=self.object.id)
-# 		phone_form = self.second_form_class(self.request.POST,instance=phone)
+		self.object = self.get_object()
+		form = self.form_class(self.request.POST , self.request.FILES , instance=self.object)
 
-# 		if form.is_valid() and phone_form.is_valid():
-# 			return self.form_valid(form,phone_form)
-# 		else:
-# 			return self.form_invalid(form,phone_form)
+		if form.is_valid():
+			return self.form_valid(form)
+		else:
+			return self.form_invalid(form)
 
-# 	def form_valid(self,form,phone_form):
+	def form_valid(self,form):
 
-# 		with transaction.atomic():
-# 			patient = form.save()
-# 			phone = phone_form.save(commit=False)
-# 			phone.Patient_idPatient = patient
-# 			phone.save()
+		with transaction.atomic():
+			city = form.save()
 		
-# 		return HttpResponseRedirect(reverse('core:list_patient'))
+		return HttpResponseRedirect(reverse('patient:list_city'))
 
-# 	def form_invalid(self, form, address_form):
-# 		return self.render_to_response(
-# 			self.get_context_data(
-# 				form=form,
-# 				address_form=address_form,
-# 			)		
-# 		)
+	def form_invalid(self, form):
+		return self.render_to_response(
+			self.get_context_data(
+				form=form,
+			)		
+		)
  
 
-# class DeleteProposal(DeleteView):
-#     model = Patient
-#     template_name="patient_dashboard/list.html"
+class DeleteCity(DeleteView):
+    model = City
+    template_name="city/list.html"
 
 
-#     def get(self, request, *args, **kwargs):
-#         self.object = self.get_object()
-#         try:
-#             self.object.delete()
-#             return JsonResponse({'msg': "Proposta excluida com sucesso!", 'code': "1"})
-#         except:
-#             return JsonResponse({'msg': "Essa proposta não pôde ser excluída!", 'code': "0"})
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        try:
+            self.object.delete()
+            return JsonResponse({'msg': "Proposta excluida com sucesso!", 'code': "1"})
+        except:
+            return JsonResponse({'msg': "Essa proposta não pôde ser excluída!", 'code': "0"})
 
 # class PatientDetail(DetailView):
+class CityDetail(UpdateView):
 
+    model = City
+    template_name = 'city/detail.html'
+    form_class = CityDetailForm
+
+    def get_context_data(self, **kwargs):
+        _super = super(CityDetail, self)
+        context = _super.get_context_data(**kwargs)
+        context.update({
+            'no_edit': True,
+            })
+        return context
