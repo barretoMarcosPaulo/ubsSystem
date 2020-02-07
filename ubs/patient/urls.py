@@ -16,4 +16,9 @@ urlpatterns = [
     path('listagem-cidade', views.ListCity.as_view(),name="list_city"),
     path('delete-cidade/<int:pk>', views.DeleteCity.as_view(), name='delete_city'),
 
+    path('adicionar-estado', views.StateCreate.as_view(),name="add_state"),
+    path('listagem-estado', views.ListState.as_view(),name="list_state"),
+    # path('detalhes-cidades/<int:pk> ', views.CityDetail.as_view(), name='detail_city'),
+    # path('editar-cidade/<int:pk> ', views.CityUpdate.as_view(), name='update_city'),
+    path('delete-estado/<int:pk>', views.DeleteCity.as_view(), name='delete_city'),
 ]

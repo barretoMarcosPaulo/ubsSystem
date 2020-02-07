@@ -29,3 +29,8 @@ class CityDetailForm(forms.ModelForm):
     class Meta:
         model = City
         fields= "__all__"
+
+class StateForm(forms.ModelForm):
+    class Meta:
+        model = State
+        fields= "__all__"
