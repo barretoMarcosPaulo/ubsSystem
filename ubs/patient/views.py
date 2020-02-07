@@ -13,6 +13,11 @@ from django.urls import reverse, reverse_lazy
 
 from django.db import IntegrityError, transaction
 from django.http import HttpResponse, JsonResponse
+import django_excel as excel
+
+from django.http import HttpResponseBadRequest, HttpResponse
+from django import forms
+import django_excel as excel
 
 
 class PatientCreate(CreateView):
@@ -165,13 +170,16 @@ class PatientDetail(UpdateView):
 
 #Initial City
 
+class UploadFileForm(forms.Form):
+    file = forms.FileField()
+
+
 class CityCreate(CreateView):
 	model = City
 	template_name = 'city/add.html'
 	form_class = CityForm
-
+		
 	def post(self, request, *args, **kwargs):
-        
 		self.object = None
 		form = self.form_class(self.request.POST , self.request.FILES)
 		if form.is_valid():

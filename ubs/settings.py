@@ -116,3 +116,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = '/ubs/media_images/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'ubs/media_images')
+
+FILE_UPLOAD_HANDLERS = ("django_excel.ExcelMemoryFileUploadHandler",
+                        "django_excel.TemporaryExcelFileUploadHandler")

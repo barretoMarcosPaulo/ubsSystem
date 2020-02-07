@@ -14,6 +14,7 @@ class TypeLogradouro(AuditModel):
         ordering = ['-created_on']
 
 class State(AuditModel):
+    codIBGE_UF = models.CharField("ID Estado", max_length=2, primary_key=True,unique=True)
     State_codIBGE_UF = models.CharField("Estado", max_length=50)
     UF = models.CharField("UF", max_length=2)
     region = models.CharField("Região", max_length=25)
