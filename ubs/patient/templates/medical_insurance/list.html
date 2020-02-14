@@ -2,7 +2,7 @@
 {% extends 'core/base.html' %}
 {% load staticfiles %}
 
-{% block title %} Listagem de cidade {% endblock %}
+{% block title %} Listagem de paciente {% endblock %}
 
 {% block head %}
     <link rel="stylesheet" href={% static "vendors/datatables.net-bs4/css/dataTables.bootstrap4.min.css" %}>
@@ -22,7 +22,7 @@
     
                     <h5 class="modal-title" id="staticModalLabel">
                         <p id="content_remove">
-                            Têm certeza de que deseja remover este estado?
+                            Têm certeza de que deseja remover este convênio?
                         </p>
                     </h5>
     
@@ -32,7 +32,7 @@
                 </div>
                 <div class="modal-body">
                     <p id="msg_remove">
-                        Ao clicar em confirmar o estado <strong id="user_remove_alert"></strong> será removido
+                        Ao clicar em confirmar o convênio <strong id="user_remove_alert"></strong> será removido
                         permanentemente. Essa ação não poderá ser desfeita!
                     </p>
                 </div>
@@ -55,38 +55,34 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <strong class="card-title">Estados</strong>
+                        <strong class="card-title">Convênio</strong>
                     </div>
                     <div class="card-body">
-                        <a href="{% url 'patient:add_state' %}"> <button type="button" class="btn btn-success btn-sm" style="border-radius: 3px;"><i class="fa fa-plus-square-o" > Cadastrar</i></button></a>
+                        <a href="{% url 'patient:add_medical_insurance' %}"> <button type="button" class="btn btn-success btn-sm" style="border-radius: 3px;"><i class="fa fa-plus-square-o" > Cadastrar</i></button></a>
                     </div>
                     <div class="card-body">
                         <table id="bootstrap-data-table-export listItems" class="table table-striped table-bordered" >
                             <thead>
                                 <tr>
-                                    <th>Código</th>
-                                    <th>Estado</th>
-                                    <th>Região</th>
+                                    <th width="60%" >Convênio</th>
                                     <th class="text-center">Ações</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for object in object_list%}
-                                <tr id="line-{{object.codIBGE_UF}}">
-                                    <td> {{ object.codIBGE_UF}} </td>
-                                    <td> {{ object.State_codIBGE_UF}} </td>
-                                    <td> {{ object.region}} </td>
+                                <tr id="line-{{object.id}}">
+                                    <td> {{ object.desc_medical_insurance}} </td>
                                     
                                     <td class="text-center">
                                         <div>
-                                            <a href=" {% url 'patient:detail_state' object.codIBGE_UF %} ">
+                                            <a href="{% url 'patient:detail_medical_insurance' object.id %}">
                                                 <button type="button" class="btn btn-primary btn-sm"
                                                     style="border-radius: 3px;">
                                                     <i class="fa fa-eye"></i>
                                                 </button>
                                             </a>
 
-                                            <a href=" {% url 'patient:update_state' object.codIBGE_UF %} ">
+                                            <a href="{% url 'patient:update_medical_insurance' object.id %}">
                                                 <button type="button" class="btn btn-warning btn-sm"
                                                     style="border-radius: 3px;">
                                                     <i class="fa fa-edit"></i>
@@ -96,8 +92,8 @@
 
                                             <a >
                                                 <button type="button" class="btn btn-danger btn-sm" 
-                                                    id = "{{ object.codIBGE_UF }}" 
-                                                    name = "{{object.State_codIBGE_UF}}"
+                                                    id = "{{ object.id }}" 
+                                                    name = "{{object.desc_medical_insurance}}"
                                                     data-toggle="modal" 
                                                     data-target="#staticModal"
                                                     onclick="get_datas(this.name,this.id)"
@@ -118,7 +114,6 @@
         </div>
     </div><!-- .animated -->
 </div><!-- .content -->
-
 {% endblock%}
 
 {% block js %}
@@ -134,7 +129,7 @@
         }
         function remove_user() {
 
-            urlDel = "http://localhost:8000/paciente/delete-estado/" + id_user
+            urlDel = "http://localhost:8000/paciente/delete-convenio/" + id_user
 
             let xhr = new XMLHttpRequest()
 
@@ -145,17 +140,17 @@
                 status = response['code']
                 if (status == 1) {
                     document.getElementById('line-' + id_user).className = 'd-none'
-                    document.getElementById('msg_remove').innerHTML = "A exlusão do estado foi realizada com sucesso."
+                    document.getElementById('msg_remove').innerHTML = "A exlusão do convênio foi realizada com sucesso."
                     document.getElementById('icon_remove').className = "fa fa-check-circle-o"
                     document.getElementById('icon_remove').style = "color: green; font-size:30px;"
-                    document.getElementById('content_remove').innerHTML = "Estado removido com sucesso!"
+                    document.getElementById('content_remove').innerHTML = "Convênio removido com sucesso!"
                     document.getElementById('btn_cancel').className = "d-none"
                     document.getElementById('btn_confirm').className = "d-none"
 
                 } else {
 
-                    document.getElementById('msg_remove').innerHTML = "Não foi possivel excluir este estado, por favor consulte um dos administradores do sistema ou um técnico."
-                    document.getElementById('content_remove').innerHTML = "Erro! Houve um erro ao excluir o estado selecionado!"
+                    document.getElementById('msg_remove').innerHTML = "Não foi possivel excluir este convênio, por favor consulte um dos administradores do sistema ou um técnico."
+                    document.getElementById('content_remove').innerHTML = "Erro! Houve um erro ao excluir o convênio selecionado!"
                     document.getElementById('btn_cancel').className = "d-none"
                     document.getElementById('btn_confirm').className = "d-none"
 
@@ -167,10 +162,10 @@
 
         function reset_html() {
 
-            document.getElementById('msg_remove').innerHTML = "Ao clicar em confirmar o estado <strong id='user_remove_alert'>" + user_name + "</strong> será removido permanentemente. Essa ação não poderá ser desfeita!"
+            document.getElementById('msg_remove').innerHTML = "Ao clicar em confirmar o convênio <strong id='user_remove_alert'>" + user_name + "</strong> será removido permanentemente. Essa ação não poderá ser desfeita!"
             document.getElementById('icon_remove').className = "fa fa-exclamation-triangle"
             document.getElementById('icon_remove').style = "font-size: 30px; color:#dc3545;"
-            document.getElementById('content_remove').innerHTML = "Têm certeza de que deseja remover este estado?"
+            document.getElementById('content_remove').innerHTML = "Têm certeza de que deseja remover este convênio?"
             document.getElementById('btn_cancel').className = "btn btn-secondary"
             document.getElementById('btn_confirm').innerHTML = "Confirmar"
             document.getElementById('btn_confirm').className = "btn btn-primary"
@@ -189,5 +184,4 @@
     <script src={% static "vendors/datatables.net-buttons/js/buttons.print.min.js" %}></script>
     <script src={% static "vendors/datatables.net-buttons/js/buttons.colVis.min.js" %}></script>
     {% comment %} <script src={% static "assets/js/init-scripts/data-table/datatables-init.js" %}></script> {% endcomment %}
-
-{% endblock%} 
+{% endblock%}
