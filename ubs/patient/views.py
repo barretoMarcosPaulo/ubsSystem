@@ -121,7 +121,8 @@ class PatientUpdate(UpdateView):
 
     def get_context_data(self, **kwargs):
         ctx = super(PatientUpdate, self).get_context_data(**kwargs)
-        ctx['second_form'] = self.second_form
+        if not 'second_form' in kwargs:
+            ctx['second_form'] = self.second_form
         return ctx
 
     def post(self, request, *args, **kwargs):
@@ -154,7 +155,7 @@ class PatientUpdate(UpdateView):
         return self.render_to_response(
             self.get_context_data(
                 form=form,
-                address_form=address_form,
+                second_form=address_form,
             )		
         )
 

@@ -64,7 +64,7 @@
                                                             {{ phone.id }}
                                                             <td>
                                                                 {{ phone.phone_number|add_class:"form-control input-md" }}
-                                                                <span class="help-inline error">{{ phone_number.errors}}</span>
+                                                                <span class="help-inline error">{{ phone.phone_number.errors}}</span>
                                                             </td>
                                                             <td>
                                                                 {{ phone.phone_type|add_class:"form-control input-md" }}
@@ -72,7 +72,6 @@
                                                             <td>{{phone.DELETE}}</td>
                                                         </tr>
                                                     {%else%}
-
                                                         <tr {% if not phone.pk %} class="dynamic-form"{% endif %}  id="{{ usercommittee.prefix }}-row">
                                                             {{ phone.id }}
                                                             <td>
