@@ -59,16 +59,31 @@
                                                 </thead>
                                                 <tbody>
                                                     {% for phone in second_form %}
-                                                    <tr {% if not phone.pk %} class="dynamic-form"{% endif %}  id="{{ usercommittee.prefix }}-row">
-                                                        {{ phone.id }}
-                                                        <td>
-                                                            {{ phone.phone_number|add_class:"form-control input-md" }}
-                                                        </td>
-                                                        <td>
-                                                            {{ phone.phone_type|add_class:"form-control input-md" }}
-                                                        </td>
-                                                        <td>{{phone.DELETE}}</td>
-                                                    </tr>
+                                                    {% if phone.errors %}
+                                                        <tr {% if not phone.pk %} class="dynamic-form"{% endif %}  id="{{ usercommittee.prefix }}-row">
+                                                            {{ phone.id }}
+                                                            <td>
+                                                                {{ phone.phone_number|add_class:"form-control input-md" }}
+                                                                <span class="help-inline error">{{ phone_number.errors}}</span>
+                                                            </td>
+                                                            <td>
+                                                                {{ phone.phone_type|add_class:"form-control input-md" }}
+                                                            </td>
+                                                            <td>{{phone.DELETE}}</td>
+                                                        </tr>
+                                                    {%else%}
+
+                                                        <tr {% if not phone.pk %} class="dynamic-form"{% endif %}  id="{{ usercommittee.prefix }}-row">
+                                                            {{ phone.id }}
+                                                            <td>
+                                                                {{ phone.phone_number|add_class:"form-control input-md" }}
+                                                            </td>
+                                                            <td>
+                                                                {{ phone.phone_type|add_class:"form-control input-md" }}
+                                                            </td>
+                                                            <td>{{phone.DELETE}}</td>
+                                                        </tr>
+                                                    {%endif%}
                                                     {% endfor %}
                                                 </tbody>
                                             </table>
@@ -81,8 +96,7 @@
                         
                                 <br>
                                 <div class="form-actions form-group col-md-3">
-
-                                    <a href=" {% url 'patient:list_patient' %}"><input type="button" class="btn btn-success" style="border-radius: 3px;" value="Finalizar"></a>
+                                    <button type="submit" class="btn btn-success" style="border-radius: 3px;" >Finalizar</button>
                                 </div>
 
                             </div>

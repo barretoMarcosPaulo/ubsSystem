@@ -32,12 +32,12 @@ class PatientCreate(CreateView):
         return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        ctx = super(PatientCreate, self).get_context_data(**kwargs)
-        ctx['second_form'] = self.phone_formset
+        ctx = super().get_context_data(**kwargs)
+        if not 'second_form' in kwargs:
+            ctx['second_form'] = self.phone_formset
         return ctx
 
     def post(self, request, *args, **kwargs):
-        
         self.object = None
         form = self.form_class(self.request.POST , self.request.FILES)
         phone_form = self.phone_formset_class(self.request.POST)
@@ -62,7 +62,7 @@ class PatientCreate(CreateView):
         return self.render_to_response(
             self.get_context_data(
                 form=form,
-                address_form=address_form,
+                second_form=address_form,
             )		
         )
 
@@ -115,7 +115,7 @@ class PatientUpdate(UpdateView):
         self.object = self.get_object()
         phone_objects = Phone.objects.filter(Patient_idPatient=self.object.id)
         self.second_form = self.phoneFormSet(instance=self.object, queryset=phone_objects)
-        self.second_form.extra=1
+        self.second_form.extra=0
         return super().get(request, *args, **kwargs)
 
 
