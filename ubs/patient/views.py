@@ -15,50 +15,60 @@ from django.db import IntegrityError, transaction
 from django.http import HttpResponse, JsonResponse
 import django_excel as excel
 
+from django.forms import formset_factory
+from django.forms import modelformset_factory,inlineformset_factory
+
 
 class PatientCreate(CreateView):
-	model = Patient
-	template_name = 'patient/add.html'
-	form_class = PatientForm
-	second_form_class = PhoneForm
+    model = Patient
+    template_name = 'patient/add.html'
+    form_class = PatientForm
+    phone_formset_class = PhoneFormset
 
-	def get_context_data(self, **kwargs):
-		ctx = super(PatientCreate, self).get_context_data(**kwargs)
-		ctx['second_form'] = PhoneForm
-		return ctx
 
-	def post(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
+        self.phone_formset = self.phone_formset_class()
+        self.phone_formset.extra=1    
+        return super().get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        ctx = super(PatientCreate, self).get_context_data(**kwargs)
+        ctx['second_form'] = self.phone_formset
+        return ctx
+
+    def post(self, request, *args, **kwargs):
         
-		self.object = None
-		form = self.form_class(self.request.POST , self.request.FILES)
-		phone_form = self.second_form_class(self.request.POST)
+        self.object = None
+        form = self.form_class(self.request.POST , self.request.FILES)
+        phone_form = self.phone_formset_class(self.request.POST)
 
-		if form.is_valid() and phone_form.is_valid():
-			return self.form_valid(form,phone_form)
-		else:
-			return self.form_invalid(form,phone_form)
+        if form.is_valid() and phone_form.is_valid():
+            return self.form_valid(form,phone_form)
+        else:
+            return self.form_invalid(form,phone_form)
 
-	def form_valid(self,form,phone_form):
+    def form_valid(self,form,phone_form):
 
-		with transaction.atomic():
-			patient = form.save()
-			phone = phone_form.save(commit=False)
-			phone.Patient_idPatient = patient
-			phone.save()
-		
-		return HttpResponseRedirect(reverse('patient:list_patient'))
+        with transaction.atomic():
+            patient = form.save()
+            for phone_one_form in phone_form:
+                phone = phone_one_form.save(commit=False)
+                phone.Patient_idPatient = patient
+                phone.save()
+        
+        return HttpResponseRedirect(reverse('patient:list_patient'))
 
-	def form_invalid(self, form, address_form):
-		return self.render_to_response(
-			self.get_context_data(
-				form=form,
-				address_form=address_form,
-			)		
-		)
+    def form_invalid(self, form, address_form):
+        return self.render_to_response(
+            self.get_context_data(
+                form=form,
+                address_form=address_form,
+            )		
+        )
 
 
-	def get_success_url(self):
-		return reverse('patient:list_patient')
+    def get_success_url(self):
+        return reverse('patient:list_patient')
 
 class ListPatient(ListView):
 
@@ -96,46 +106,57 @@ class ListPatient(ListView):
         return context
 
 class PatientUpdate(UpdateView):
-	model = Patient
-	template_name = 'patient/add.html'
-	form_class = PatientForm
-	second_form_class = PhoneForm
+    model = Patient
+    template_name = 'patient/add.html'
+    form_class = PatientForm
+    phoneFormSet = PhoneFormset
 
-	def get_context_data(self, **kwargs):
-		self.object = self.get_object()
-		phone = Phone.objects.get(Patient_idPatient=self.object.id)
-		ctx = super(PatientUpdate, self).get_context_data(**kwargs)
-		ctx['second_form'] = self.second_form_class(instance=phone)
-		return ctx
-	def post(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        phone_objects = Phone.objects.filter(Patient_idPatient=self.object.id)
+        self.second_form = self.phoneFormSet(instance=self.object, queryset=phone_objects)
+        self.second_form.extra=1
+        return super().get(request, *args, **kwargs)
+
+
+    def get_context_data(self, **kwargs):
+        ctx = super(PatientUpdate, self).get_context_data(**kwargs)
+        ctx['second_form'] = self.second_form
+        return ctx
+
+    def post(self, request, *args, **kwargs):
+        # form = self.get_form()
         
-		self.object = self.get_object()
-		form = self.form_class(self.request.POST , self.request.FILES , instance=self.object)
-		phone = Phone.objects.get(Patient_idPatient=self.object.id)
-		phone_form = self.second_form_class(self.request.POST,instance=phone)
+        self.object = self.get_object()
+        form = self.form_class(self.request.POST , self.request.FILES , instance=self.object)
+        phone_form = self.phoneFormSet(self.request.POST,instance=self.object)
 
-		if form.is_valid() and phone_form.is_valid():
-			return self.form_valid(form,phone_form)
-		else:
-			return self.form_invalid(form,phone_form)
+        if form.is_valid() and phone_form.is_valid():
+            return self.form_valid(form,phone_form)
+        else:
+            return self.form_invalid(form,phone_form)
 
-	def form_valid(self,form,phone_form):
+    def form_valid(self,form,phone_form):
 
-		with transaction.atomic():
-			patient = form.save()
-			phone = phone_form.save(commit=False)
-			phone.Patient_idPatient = patient
-			phone.save()
-		
-		return HttpResponseRedirect(reverse('patient:list_patient'))
+        with transaction.atomic():
+            patient = form.save()
+            # phone = phone_form.save(commit=False)
+            for phone_one_form in phone_form:
+                phone = phone_one_form.save(commit=False)
+                phone.Patient_idPatient = patient
+                phone.save()
+            # phone.Patient_idPatient = patient
+            phone.save()
+        
+        return HttpResponseRedirect(reverse('patient:list_patient'))
 
-	def form_invalid(self, form, address_form):
-		return self.render_to_response(
-			self.get_context_data(
-				form=form,
-				address_form=address_form,
-			)		
-		)
+    def form_invalid(self, form, address_form):
+        return self.render_to_response(
+            self.get_context_data(
+                form=form,
+                address_form=address_form,
+            )		
+        )
 
 class DeletePatient(DeleteView):
     model = Patient

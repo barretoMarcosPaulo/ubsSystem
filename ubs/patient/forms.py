@@ -1,6 +1,7 @@
 from django import forms
 from dal import autocomplete
 from .models import *
+from django.forms import inlineformset_factory
 
 
 class PatientForm(forms.ModelForm):
@@ -29,6 +30,7 @@ class PhoneForm(forms.ModelForm):
         model = Phone
         fields= "__all__"
         exclude = ["Patient_idPatient"]
+PhoneFormset = inlineformset_factory(Patient,Phone,form=PhoneForm)    
 
 class CityForm(forms.ModelForm):
     class Meta:
