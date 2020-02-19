@@ -10,12 +10,6 @@ class PatientForm(forms.ModelForm):
         fields= "__all__"
 
 class PatientDetailForm(forms.ModelForm):
-    # Type_Logradouro_idLogradouro = forms.CharField(label='Logradouro')
-    City_codIBGE = forms.CharField(label='Cidade')
-    # Color_idColor = forms.CharField(label='Cor')
-    # Marital_State_idMarital_State = forms.CharField(label='Estado Conjugal')
-    # Ocupation_idOcupation = forms.CharField(label='Ocupação')
-    # Medical_Insurance_idMedical_insurance = forms.CharField(label='Convênio')
     def __init__(self, *args, **kwargs):
         super(PatientDetailForm, self).__init__(*args, **kwargs)
         for field in self.fields: 
@@ -30,7 +24,8 @@ class PhoneForm(forms.ModelForm):
         model = Phone
         fields= "__all__"
         exclude = ["Patient_idPatient"]
-PhoneFormset = inlineformset_factory(Patient,Phone,form=PhoneForm)    
+
+PhoneFormset = inlineformset_factory(Patient,Phone,form=PhoneForm,can_delete=True)    
 
 class CityForm(forms.ModelForm):
     class Meta:
@@ -47,7 +42,6 @@ class CityEditForm(forms.ModelForm):
         fields= "__all__"
 
 class CityDetailForm(forms.ModelForm):
-    State_codIBGE_UF = forms.CharField(label='Estado')
     def __init__(self, *args, **kwargs):
         super(CityDetailForm, self).__init__(*args, **kwargs)
         for field in self.fields: 
@@ -161,7 +155,6 @@ class PhoneFormAdmin(forms.ModelForm):
         fields= "__all__"
 
 class PhoneDetailForm(forms.ModelForm):
-    Patient_idPatient = forms.CharField(label='Paciente')
     def __init__(self, *args, **kwargs):
         super(PhoneDetailForm, self).__init__(*args, **kwargs)
         for field in self.fields: 
@@ -170,3 +163,5 @@ class PhoneDetailForm(forms.ModelForm):
     class Meta:
         model = Phone
         fields= "__all__"
+        
+PhoneDetailFormset = inlineformset_factory(Patient,Phone,form=PhoneDetailForm,can_delete=True)    

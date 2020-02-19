@@ -124,8 +124,14 @@
             deleteCssClass: 'delete-row',
 			formCssClass: 'dynamic-form', 
 
-
         });
+    </script>
+    <script>
+        {% comment %} $( document ).ready(function() {
+            if ({{alert}}==0){
+                swal("Oops!", "Pelo menos um telefone é necessário para cadastrar o paciente", "error")
+            }
+        }); {% endcomment %}
     </script>
     <script type="text/javascript" src="{% static 'js/bootstrap-filestyle.js' %}"></script>
     <script type="text/javascript">

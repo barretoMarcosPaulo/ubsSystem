@@ -37,6 +37,7 @@ INSTALLED_APPS = [
 
     #Terceiros
     'widget_tweaks',
+    'import_export',
 ]
 
 MIDDLEWARE = [

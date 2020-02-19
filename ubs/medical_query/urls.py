@@ -8,5 +8,5 @@ urlpatterns = [
     path('consulta-historico/list', views.ListQuerysHistory.as_view(), name='list_query_history'),
     path('consulta/edit/<int:pk> ', views.QueryUpdate.as_view(), name='update_query'),
     path('consulta/detalhes/<int:pk> ', views.Attendances.as_view(), name='detail_query'),
-    path('atendimentos/list', views.ListAttendances.as_view(), name='list_attendances'),
+    path('atendimentos/list', views.ListAttendances.as_view(), name='list_attendances'),    
 ]

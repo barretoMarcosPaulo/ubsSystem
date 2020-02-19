@@ -28,7 +28,8 @@ class PatientCreate(CreateView):
 
     def get(self, request, *args, **kwargs):
         self.phone_formset = self.phone_formset_class()
-        self.phone_formset.extra=1    
+        self.phone_formset.extra=0    
+        self.phone_formset.min_num=1    
         return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -38,13 +39,13 @@ class PatientCreate(CreateView):
         return ctx
 
     def post(self, request, *args, **kwargs):
-        self.object = None
         form = self.form_class(self.request.POST , self.request.FILES)
         phone_form = self.phone_formset_class(self.request.POST)
 
         if form.is_valid() and phone_form.is_valid():
             return self.form_valid(form,phone_form)
         else:
+            self.object = None
             return self.form_invalid(form,phone_form)
 
     def form_valid(self,form,phone_form):
@@ -52,7 +53,7 @@ class PatientCreate(CreateView):
         with transaction.atomic():
             patient = form.save()
             for phone_one_form in phone_form:
-                phone = phone_one_form.save(commit=False)
+                phone = phone_one_form.save(commit=True)
                 phone.Patient_idPatient = patient
                 phone.save()
         
@@ -116,6 +117,7 @@ class PatientUpdate(UpdateView):
         phone_objects = Phone.objects.filter(Patient_idPatient=self.object.id)
         self.second_form = self.phoneFormSet(instance=self.object, queryset=phone_objects)
         self.second_form.extra=0
+        self.second_form.min_num=1
         return super().get(request, *args, **kwargs)
 
 
@@ -131,7 +133,6 @@ class PatientUpdate(UpdateView):
         self.object = self.get_object()
         form = self.form_class(self.request.POST , self.request.FILES , instance=self.object)
         phone_form = self.phoneFormSet(self.request.POST,instance=self.object)
-
         if form.is_valid() and phone_form.is_valid():
             return self.form_valid(form,phone_form)
         else:
@@ -141,21 +142,29 @@ class PatientUpdate(UpdateView):
 
         with transaction.atomic():
             patient = form.save()
-            # phone = phone_form.save(commit=False)
+
             for phone_one_form in phone_form:
                 phone = phone_one_form.save(commit=False)
+                # try:
+                # except ValueError:
+                #     return self.form_invalid(form,phone_form, 0)
                 phone.Patient_idPatient = patient
                 phone.save()
             # phone.Patient_idPatient = patient
             phone.save()
+            list_delete = [phone_form.cleaned_data for phone_form in phone_form.deleted_forms]
+            for form in list_delete:
+                phone = form['id']
+                phone.delete()
         
         return HttpResponseRedirect(reverse('patient:list_patient'))
 
-    def form_invalid(self, form, address_form):
+    def form_invalid(self, form, address_form, alert=1):
         return self.render_to_response(
             self.get_context_data(
                 form=form,
                 second_form=address_form,
+                alert=alert,
             )		
         )
 
@@ -176,18 +185,21 @@ class PatientDetail(UpdateView):
     template_name = 'patient/detail.html'
     form_class = PatientDetailForm
     model = Patient
-    # second_form_class = PhoneForm
+    phoneFormSet = PhoneDetailFormset
 
-    # def get_context_data(self, **kwargs):
-    #     context = super(PatientDetail, self).get_context_data(**kwargs)
-    #     # context["form"] = PatientForm 
-    #     context["second_form"] = PhoneForm 
-    #     context["second_model"] = Phone
-    #     return context
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        phone_objects = Phone.objects.filter(Patient_idPatient=self.object.id)
+        self.second_form = self.phoneFormSet(instance=self.object, queryset=phone_objects)
+        self.second_form.extra=0
+        return super().get(request, *args, **kwargs)
     
     def get_context_data(self, **kwargs):
         _super = super(PatientDetail, self)
         context = _super.get_context_data(**kwargs)
+        if not 'second_form' in kwargs:
+            context['second_form'] = self.second_form
+        context['model_phone'] = Phone
         context.update({
             'no_edit': True,
             })
