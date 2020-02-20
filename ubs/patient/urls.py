@@ -52,9 +52,4 @@ urlpatterns = [
     path('editar-ocupacao/<int:pk> ', views.OcupationUpdate.as_view(), name='update_ocupation'),
     path('delete-ocupacao/<int:pk>', views.DeleteOcupation.as_view(), name='delete_ocupation'),
    
-    path('adicionar-telefone', views.PhoneCreate.as_view(),name="add_phone"),
-    path('listagem-telefone', views.ListPhone.as_view(),name="list_phone"),
-    path('detalhes-telefone/<int:pk> ', views.PhoneDetail.as_view(), name='detail_phone'),
-    path('editar-telefone/<int:pk> ', views.PhoneUpdate.as_view(), name='update_phone'),
-    path('delete-telefone/<int:pk>', views.DeletePhone.as_view(), name='delete_phone'),
 ]

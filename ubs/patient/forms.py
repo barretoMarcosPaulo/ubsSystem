@@ -19,14 +19,6 @@ class PatientDetailForm(forms.ModelForm):
         model = Patient
         fields= "__all__"
 
-class PhoneForm(forms.ModelForm):
-    class Meta:
-        model = Phone
-        fields= "__all__"
-        exclude = ["Patient_idPatient"]
-
-PhoneFormset = inlineformset_factory(Patient,Phone,form=PhoneForm,can_delete=True)    
-
 class CityForm(forms.ModelForm):
     class Meta:
         model = City
@@ -148,20 +140,3 @@ class OcupationDetailForm(forms.ModelForm):
     class Meta:
         model = Ocupation
         fields= "__all__"
-
-class PhoneFormAdmin(forms.ModelForm):
-    class Meta:
-        model = Phone
-        fields= "__all__"
-
-class PhoneDetailForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super(PhoneDetailForm, self).__init__(*args, **kwargs)
-        for field in self.fields: 
-            self.fields[field].widget.attrs['readonly'] = True
-
-    class Meta:
-        model = Phone
-        fields= "__all__"
-        
-PhoneDetailFormset = inlineformset_factory(Patient,Phone,form=PhoneDetailForm,can_delete=True)    
