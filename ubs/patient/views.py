@@ -13,10 +13,6 @@ from django.urls import reverse, reverse_lazy
 
 from django.db import IntegrityError, transaction
 from django.http import HttpResponse, JsonResponse
-import django_excel as excel
-
-from django.forms import formset_factory
-from django.forms import modelformset_factory,inlineformset_factory
 
 
 class PatientCreate(CreateView):

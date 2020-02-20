@@ -5,6 +5,17 @@ from django.forms import inlineformset_factory
 
 
 class PatientForm(forms.ModelForm):
+
+    def clean(self):
+        cleaned_data = super(PatientForm, self).clean()
+        if self.cleaned_data.get('phone_number_optional') == self.cleaned_data.get('phone_number_main'):
+            self.add_error('phone_number_optional', "O números opcional não deve ser igual ao principal")
+        elif Patient.objects.filter(phone_number_main=self.cleaned_data.get('phone_number_optional')):
+            self.add_error('phone_number_optional', "Este número já foi cadastrado")
+        elif Patient.objects.filter(phone_number_optional=self.cleaned_data.get('phone_number_main')):
+            self.add_error('phone_number_main', "Este número já foi cadastrado")
+        return cleaned_data
+
     class Meta:
         model = Patient
         fields= "__all__"

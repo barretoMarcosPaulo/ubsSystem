@@ -30,14 +30,15 @@
                                                 {% elif field.name in 'summary' %}12
                                                 {% else %}6
                                                 {% endif %} margin-bottom-15">
-                                                <label class="control-label">{{ field.label }}</label>
+                                                <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
                                                 {{ field|add_class:"form-control input-md" }}
                                                 <span class="text-danger"> <strong>{{ field.help_text }}</strong> </span>
+                                                
                                                 {% for error in field.errors%}
-                                                <span class="help-inline error">{{ error}}</span>
+                                                    <span class="help-inline error">{{ error}}</span>
                                                 {% endfor%}
                                             </div>
-                                        {%else%}
+                                        {% else %}
                                             <div
                                                 class="col-md-{% if field.name in 'full_name\ocupation\email' %}6
                                                 {% elif field.name in 'color\sex\marital_state\date_birth\local_birth\Type_Logradouro_idLogradouro\address_number\address_cep\Medical_Insurance_idMedical_insurance\Color_idColor\Marital_State_idMarital_State' %}4
@@ -51,7 +52,7 @@
                                                 {{ field|add_class:"form-control input-md" }}
                                                 <span class="text-danger"> <strong>{{ field.help_text }}</strong></span>
                                             </div>
-                                    {%endif%}
+                                        {% endif %}
                                     {% endfor %}
 
                                 </div>

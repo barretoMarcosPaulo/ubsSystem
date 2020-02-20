@@ -103,7 +103,7 @@ class Patient(AuditModel):
         ('COMERCIAL', 'COMERCIAL'),
         ('FAX', 'FAX'),
     )
-    
+
     full_name = models.CharField('Nome Completo',max_length=100)
     cpf_patient = models.CharField('CPF',max_length=11,unique=True)
     sex = models.CharField('Sexo',choices=sex_option,max_length=1)
@@ -121,7 +121,7 @@ class Patient(AuditModel):
     Marital_State_idMarital_State = models.ForeignKey(MaritalState,verbose_name="Estado Conjugal",null=True,on_delete=models.SET_NULL)
     Ocupation_idOcupation = models.ForeignKey(Ocupation,verbose_name="Ocupação",null=True,on_delete=models.SET_NULL)
     email = models.EmailField('email',max_length=50,null=True, blank=True)
-    phone_number_main = models.CharField('Número de telefone (principal)',max_length=13)
+    phone_number_main = models.CharField('Número de telefone (principal)',max_length=13,unique=True)
     phone_type_main = models.CharField('Tipo de telefone',choices=type_phone,default='CELL',max_length=11)
     phone_number_optional = models.CharField('Número de telefone (opcional)',max_length=13,unique=True, null=True, blank=True)
     phone_type_optional = models.CharField('Tipo de telefone',choices=type_phone,max_length=11, null=True, blank=True)
