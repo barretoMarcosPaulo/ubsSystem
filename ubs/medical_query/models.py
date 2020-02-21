@@ -97,3 +97,16 @@ class QueryHasMedicine(AuditModel):
     amount = models.IntegerField('Quantidade')
     Query_idQuery_MEDICINE = models.ForeignKey(Query,verbose_name='Id da consulta',null=True,blank=True,on_delete=models.SET_NULL)
     Medicine_idMedicine = models.ForeignKey(Medicine,verbose_name='Id do remédio',null=True,blank=True,on_delete=models.SET_NULL)
+
+
+
+# Encaminhamento do paciente, fila de espera
+
+class Forwarding(AuditModel):
+    patient= models.ForeignKey(Patient,verbose_name="Paciente", null=True, blank=True, on_delete=models.SET_NULL)
+    medical = models.ForeignKey(User,verbose_name="Profissional", null=True, blank=True, on_delete=models.SET_NULL)
+
+    class Meta:
+        verbose_name = 'Encaminhamento'
+        verbose_name_plural = 'Encaminhamentos'
+        ordering = ['created_on']

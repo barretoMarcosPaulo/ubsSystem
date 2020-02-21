@@ -57,3 +57,8 @@ class PhisicalExamForm(forms.ModelForm):
     class Meta:
         model = PhisicalExam
         fields = '__all__'
+
+class ForwardingForm(forms.ModelForm):
+    class Meta:
+        model = Forwarding
+        fields = '__all__'
