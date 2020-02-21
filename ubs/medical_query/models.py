@@ -66,6 +66,7 @@ class Query(AuditModel):
 
     
 class CID10(AuditModel):
+    idCID10 = models.CharField('id',max_length=10, primary_key=True,unique=True)
     desc_CID10 = models.CharField('Descrição',max_length=100)
 
 class QueryHasCID10(AuditModel):

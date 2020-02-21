@@ -18,9 +18,9 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='CID10',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('created_on', models.DateTimeField(auto_now_add=True, verbose_name='Criado em')),
                 ('updated_on', models.DateTimeField(auto_now=True, verbose_name='Autalizado em')),
+                ('idCID10', models.CharField(max_length=10, primary_key=True, serialize=False, unique=True, verbose_name='id')),
                 ('desc_CID10', models.CharField(max_length=100, verbose_name='Descrição')),
             ],
             options={

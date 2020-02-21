@@ -1,7 +1,7 @@
 from django.shortcuts import render
 # Create your views here.
-from .forms import MedicalQueryForm,MedicalQueryAttendanceForm,PhisicalExamForm,PhisicalExamAttendanceForm
-from .models import Query,PhisicalExam
+from .forms import *
+from .models import *
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from django.views.generic.detail import DetailView
@@ -187,3 +187,9 @@ class Attendances(UpdateView):
             'second_form': self.second_form_class(instance=physical_exam)
             })
         return context
+
+
+class ForwardingCreate(CreateView):
+    model = Forwarding
+    template_name = 'forwarding/add.html'
+    form_class = ForwardingForm
