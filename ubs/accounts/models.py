@@ -54,7 +54,7 @@ class Clerk(User):
 
 class Doctor(User):
     crm_doc = models.CharField('CRM do médico', max_length=20)
-    
+
     def get_absolute_url(self):
         return reverse('accounts:list_all_doctor')  
 

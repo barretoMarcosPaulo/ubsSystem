@@ -11,4 +11,5 @@ urlpatterns = [
     path('atendimentos/list', views.ListAttendances.as_view(), name='list_attendances'),    
 
     path('encaminhamento/', views.ForwardingCreate.as_view(), name='forwarding_create'),    
+    path('encaminhamentos-realizados/', views.ForwardingList.as_view(), name='currents_forwarding'),    
 ]

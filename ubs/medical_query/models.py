@@ -107,6 +107,9 @@ class Forwarding(AuditModel):
     patient= models.ForeignKey(Patient,verbose_name="Paciente", null=True, blank=True, on_delete=models.SET_NULL)
     medical = models.ForeignKey(User,verbose_name="Profissional", null=True, blank=True, on_delete=models.SET_NULL)
 
+    def __str__(self):
+        return self.patient.full_name
+
     class Meta:
         verbose_name = 'Encaminhamento'
         verbose_name_plural = 'Encaminhamentos'

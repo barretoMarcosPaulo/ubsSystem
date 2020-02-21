@@ -13,7 +13,7 @@ from django.urls import reverse, reverse_lazy
 
 from django.db import IntegrityError, transaction
 
-
+from datetime import datetime
 
 # Views for Querys
 class QueryCreate(CreateView):
@@ -193,3 +193,33 @@ class ForwardingCreate(CreateView):
     model = Forwarding
     template_name = 'forwarding/add.html'
     form_class = ForwardingForm
+
+    def get_success_url(self):
+        return reverse('medical_query:currents_forwarding')
+
+class ForwardingList(ListView):
+    model = Forwarding
+    template_name = 'forwarding/list.html'
+ 
+    
+
+    def get_queryset(self):
+        self.queryset = super(ForwardingList, self).get_queryset()
+        if self.request.GET.get('search_box', False):
+            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']) | Q(first_name__icontains=self.q))
+        return self.queryset
+
+    def get_context_data(self, **kwargs):
+        _super = super(ForwardingList, self)
+        context = _super.get_context_data(**kwargs)
+
+       
+        context.update({
+            'currents_forwardings': Forwarding.objects.filter(created_on=datetime.now().date())
+            })
+        return context
+
+
+class AwaitQuerys(ListView):
+    model = Forwarding
+    template_name = 'forwarding/await_querys.html'
