@@ -42,16 +42,21 @@
         <p style="text-align: center; font-weight: bold;">
             Entre com suas credenciais para ter acesso ao sistema - Informa email e senha
         </p>
-        <form class="col-md-12">
+        <form class="col-md-12" method="POST">{% csrf_token %}
             <div class="form-group">
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                    placeholder="Seu E-mail">
+                <input type="text" class="form-control" id="exampleInputEmail1" name="username" aria-describedby="emailHelp"
+                    placeholder="Seu e-mail">
             </div>
             <div class="form-group">
-                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Sua Senha">
+                <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Sua Senha">
             </div>
             <button type="submit" class="btn btn-primary col-md-12" style="margin-bottom: 10%;">Entrar</button>
         </form>
+      
+        {% if form.errors %}
+        <hr>
+        <div class="alert alert-danger text-center">usuário e ou senha incorretos - <strong>Verifique suas credênciais</strong></div>
+        {% endif %}
     </div>
 </body>
 
