@@ -215,7 +215,7 @@ class ForwardingList(ListView):
 
        
         context.update({
-            'currents_forwardings': Forwarding.objects.filter(created_on=datetime.now().date())
+            'currents_forwardings': Forwarding.objects.filter(created_on=datetime.now().date(), medical=self.request.user)
             })
         return context
 
