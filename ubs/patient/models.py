@@ -30,10 +30,10 @@ class State(AuditModel):
 class City(AuditModel):
     codIBGE = models.IntegerField('Código IBGE',primary_key=True,unique=True)
     codIBGE7 = models.IntegerField('Código IBGE7')
+    State_codIBGE_UF =  models.ForeignKey(State,verbose_name="Estado",null=True,on_delete=models.SET_NULL)
     name_city = models.CharField('Nome da cidade', max_length=45)
     port = models.CharField('Porte', max_length=20)
-    capital = models.CharField('Capital', max_length=12)
-    State_codIBGE_UF =  models.ForeignKey(State,verbose_name="Estado",null=True,on_delete=models.SET_NULL)
+    capital = models.CharField('Capital', max_length=12, default='N')
 
     def __str__(self):
         return self.name_city

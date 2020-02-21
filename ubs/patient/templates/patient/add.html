@@ -35,7 +35,7 @@
                                                 <span class="text-danger"> <strong>{{ field.help_text }}</strong> </span>
                                                 
                                                 {% for error in field.errors%}
-                                                    <span class="help-inline error">{{ error}}</span>
+                                                    <span class="help-inline error">{{ field.errors}}</span>
                                                 {% endfor%}
                                             </div>
                                         {% else %}
