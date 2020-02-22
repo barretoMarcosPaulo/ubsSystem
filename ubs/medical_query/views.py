@@ -210,12 +210,13 @@ class ForwardingList(ListView):
         return self.queryset
 
     def get_context_data(self, **kwargs):
+        print("AAAAAAAAAAa",self.request.user.username)
         _super = super(ForwardingList, self)
         context = _super.get_context_data(**kwargs)
 
        
         context.update({
-            'currents_forwardings': Forwarding.objects.filter(created_on=datetime.now().date(), medical=self.request.user)
+            'currents_forwardings': Forwarding.objects.filter(created_on=datetime.now().date(), medical=self.request.user.id)
             })
         return context
 

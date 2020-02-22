@@ -1,5 +1,5 @@
 from django.db import models
-from ubs.accounts.models import User
+from ubs.accounts.models import User,Doctor
 from ubs.core.models import AuditModel
 from ubs.patient.models import Patient
 from datetime import date
@@ -105,7 +105,7 @@ class QueryHasMedicine(AuditModel):
 
 class Forwarding(AuditModel):
     patient= models.ForeignKey(Patient,verbose_name="Paciente", null=True, blank=True, on_delete=models.SET_NULL)
-    medical = models.ForeignKey(User,verbose_name="Profissional", null=True, blank=True, on_delete=models.SET_NULL)
+    medical = models.ForeignKey(Doctor,verbose_name="Profissional", null=True, blank=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.patient.full_name
