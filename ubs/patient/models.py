@@ -14,6 +14,7 @@ class TypeLogradouro(AuditModel):
         ordering = ['-created_on']
 
 class State(AuditModel):
+    codIBGE_UF = models.CharField("ID Estado", max_length=2, primary_key=True,unique=True)
     State_codIBGE_UF = models.CharField("Estado", max_length=50)
     UF = models.CharField("UF", max_length=2)
     region = models.CharField("Região", max_length=25)
@@ -29,13 +30,16 @@ class State(AuditModel):
 class City(AuditModel):
     codIBGE = models.IntegerField('Código IBGE',primary_key=True,unique=True)
     codIBGE7 = models.IntegerField('Código IBGE7')
+    State_codIBGE_UF =  models.ForeignKey(State,verbose_name="Estado",null=True,on_delete=models.SET_NULL)
     name_city = models.CharField('Nome da cidade', max_length=45)
     port = models.CharField('Porte', max_length=20)
-    capital = models.CharField('Capital', max_length=12)
-    State_codIBGE_UF =  models.ForeignKey(State,verbose_name="Estado",null=True,blank=True,on_delete=models.SET_NULL)
+    capital = models.CharField('Capital', max_length=12, default='N')
 
     def __str__(self):
         return self.name_city
+
+    def get_absolute_url(self):
+        return reverse("patient:list_city")
     
     class Meta:
         verbose_name = 'Cidade'
@@ -92,54 +96,7 @@ class Patient(AuditModel):
         ('M','Masculino'),
         ('F', 'Feminino'),
     )
-    
-    full_name = models.CharField('Nome Completo',max_length=100)
-    cpf_patient = models.CharField('CPF',max_length=100,unique=True)
-    sex = models.CharField('Sexo',choices=sex_option,max_length=1)
-    date_birth = models.DateField('Data de Nascimento')
-    local_birth = models.CharField('Local de Nascimento',max_length=60)
-    Type_Logradouro_idLogradouro = models.ForeignKey(TypeLogradouro,verbose_name="Logradouro",null=True,blank=True,on_delete=models.SET_NULL)                                                                                                                   
-    address_name = models.CharField('Nome do Endereço',max_length=60)
-    address_number = models.CharField('Número do Endereço',max_length=6,default='S/N')
-    address_complement = models.CharField('Complemento do Endereço',max_length=50, null=True, blank=True)
-    address_cep = models.CharField('Cep do Endereço',max_length=8,default='64600000')
-    address_neighborhood = models.CharField('Bairro do Endereço',max_length=45)
-    City_codIBGE = models.ForeignKey(City,verbose_name="Cidade",null=True,blank=True,on_delete=models.SET_NULL)
-    email = models.EmailField('email',max_length=50,null=True, blank=True)
-    image_patient = models.ImageField(upload_to='patient/image',verbose_name="Imagem do paciente",blank = True, null = True)
-    Color_idColor = models.ForeignKey(Color,verbose_name="Cor",null=True,blank=True,on_delete=models.SET_NULL)
-    Marital_State_idMarital_State = models.ForeignKey(MaritalState,verbose_name="Estado Conjugal",null=True,blank=True,on_delete=models.SET_NULL)
-    Ocupation_idOcupation = models.ForeignKey(Ocupation,verbose_name="Ocupação",null=True,blank=True,on_delete=models.SET_NULL)
-    Medical_Insurance_idMedical_insurance = models.ForeignKey(MedicalInsurance,verbose_name="Convênio",null=True,blank=True,on_delete=models.SET_NULL)
-    
-    def __str__(self):
-        return self.full_name
-    
-    def get_absolute_url(self):
-        return reverse("patient:register_patient")
 
-    def get_phone(self):
-        phone = Phone.objects.filter(Patient_idPatient=self).first()
-        if phone :
-            return phone.phone_number
-        return None
-
-    def get_phone_type(self):
-        phone = Phone.objects.filter(Patient_idPatient=self).first()
-        if phone :
-            return phone.phone_type
-        return None
-        
-    class Meta:
-        verbose_name = 'Paciente'
-        verbose_name_plural = 'Pacientes'
-        ordering = ['-created_on']
-
-    
-
-    
-class Phone(AuditModel):
-    
     type_phone = (
         ('CELL','CELL'),
         ('RESIDENCIAL', 'RESIDENCIAL'),
@@ -147,14 +104,38 @@ class Phone(AuditModel):
         ('FAX', 'FAX'),
     )
 
-    phone_number = models.CharField('Número de telefone',max_length=13,unique=True)
-    phone_type = models.CharField('Tipo de telefone',choices=type_phone,default='CELL',max_length=11)
-    Patient_idPatient = models.ForeignKey(Patient,verbose_name="Paciente",null=True,blank=True,on_delete=models.CASCADE)
+    full_name = models.CharField('Nome Completo',max_length=100)
+    cpf_patient = models.CharField('CPF',max_length=11,unique=True)
+    sex = models.CharField('Sexo',choices=sex_option,max_length=1)
+    date_birth = models.DateField('Data de Nascimento')
+    local_birth = models.CharField('Local de Nascimento',max_length=60)
+    Type_Logradouro_idLogradouro = models.ForeignKey(TypeLogradouro,verbose_name="Logradouro",null=True,on_delete=models.SET_NULL)                                                                                                                   
+    address_number = models.CharField('Número do Endereço',max_length=6,default='S/N')
+    address_cep = models.CharField('Cep do Endereço',max_length=8,default='64600000')
+    address_name = models.CharField('Endereço',max_length=60)
+    address_complement = models.CharField('Complemento do Endereço',max_length=50, null=True, blank=True)
+    address_neighborhood = models.CharField('Bairro do Endereço',max_length=45)
+    City_codIBGE = models.ForeignKey(City,verbose_name="Cidade",null=True,on_delete=models.SET_NULL)
+    Medical_Insurance_idMedical_insurance = models.ForeignKey(MedicalInsurance,verbose_name="Convênio",null=True,on_delete=models.SET_NULL)
+    Color_idColor = models.ForeignKey(Color,verbose_name="Cor",null=True,on_delete=models.SET_NULL)
+    Marital_State_idMarital_State = models.ForeignKey(MaritalState,verbose_name="Estado Conjugal",null=True,on_delete=models.SET_NULL)
+    Ocupation_idOcupation = models.ForeignKey(Ocupation,verbose_name="Ocupação",null=True,on_delete=models.SET_NULL)
+    email = models.EmailField('email',max_length=50,null=True, blank=True)
+    phone_number_main = models.CharField('Número de telefone (principal)',max_length=13,unique=True)
+    phone_type_main = models.CharField('Tipo de telefone',choices=type_phone,default='CELL',max_length=11)
+    phone_number_optional = models.CharField('Número de telefone (opcional)',max_length=13,unique=True, null=True, blank=True)
+    phone_type_optional = models.CharField('Tipo de telefone',choices=type_phone,max_length=11, null=True, blank=True)
+    image_patient = models.ImageField(upload_to='patient/image',verbose_name="Imagem do Paciente",blank = True, null = True)
     
     def __str__(self):
-        return self.phone_number
+        return self.full_name
     
+    def get_absolute_url(self):
+        return reverse("patient:add_patient")
+
     class Meta:
-        verbose_name = 'Telefone'
-        verbose_name_plural = 'Telefones'
+        verbose_name = 'Paciente'
+        verbose_name_plural = 'Pacientes'
         ordering = ['-created_on']
+
+    

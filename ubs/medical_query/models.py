@@ -1,5 +1,5 @@
 from django.db import models
-from ubs.accounts.models import User
+from ubs.accounts.models import User,Doctor
 from ubs.core.models import AuditModel
 from ubs.patient.models import Patient
 from datetime import date
@@ -66,6 +66,7 @@ class Query(AuditModel):
 
     
 class CID10(AuditModel):
+    idCID10 = models.CharField('id',max_length=10, primary_key=True,unique=True)
     desc_CID10 = models.CharField('Descrição',max_length=100)
 
 class QueryHasCID10(AuditModel):
@@ -97,3 +98,19 @@ class QueryHasMedicine(AuditModel):
     amount = models.IntegerField('Quantidade')
     Query_idQuery_MEDICINE = models.ForeignKey(Query,verbose_name='Id da consulta',null=True,blank=True,on_delete=models.SET_NULL)
     Medicine_idMedicine = models.ForeignKey(Medicine,verbose_name='Id do remédio',null=True,blank=True,on_delete=models.SET_NULL)
+
+
+
+# Encaminhamento do paciente, fila de espera
+
+class Forwarding(AuditModel):
+    patient= models.ForeignKey(Patient,verbose_name="Paciente", null=True, blank=True, on_delete=models.SET_NULL)
+    medical = models.ForeignKey(Doctor,verbose_name="Profissional", null=True, blank=True, on_delete=models.SET_NULL)
+
+    def __str__(self):
+        return self.patient.full_name
+
+    class Meta:
+        verbose_name = 'Encaminhamento'
+        verbose_name_plural = 'Encaminhamentos'
+        ordering = ['created_on']

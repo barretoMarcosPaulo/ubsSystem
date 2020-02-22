@@ -1,6 +1,8 @@
 from django.urls import path 
 from . import views
 
+from django.contrib.auth import views as auth_views
+
 app_name = 'accounts'
 
 urlpatterns = [
@@ -23,7 +25,21 @@ urlpatterns = [
     path('doctor/edit/<int:pk>', views.DoctorUpdate.as_view(), name='update_doctor'),
     path('doctor/delete/<int:pk>', views.DoctorDelete.as_view(), name='delete_doctor'),
 
-
+    path(
+        'login/', auth_views.LoginView.as_view(
+        template_name='login.html',
+        redirect_authenticated_user=True, 
+        redirect_field_name='/core/'
+        ),
+        name='login'
+    ),
+    path(
+        'logout/',
+        auth_views.LogoutView.as_view(
+            next_page='/'
+        ),
+        name='logout'
+    ),
 
 
     # path('list', views.ListPatient.as_view(), name='list_patient'),

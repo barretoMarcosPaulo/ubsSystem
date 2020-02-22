@@ -37,6 +37,7 @@ INSTALLED_APPS = [
 
     #Terceiros
     'widget_tweaks',
+    'import_export',
 ]
 
 MIDDLEWARE = [
@@ -80,7 +81,7 @@ DATABASES = {
 }
 
 
-AUTH_USER_MODEL = 'accounts.User'
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -97,6 +98,21 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# auth
+LOGIN_URL = 'ubs.accounts:login'
+LOGIN_REDIRECT_URL = 'core:index'
+
+LOGOUT_REDIRECT_URL = 'accounts:login'
+LOGOUT_URL = 'accounts:logout'
+
+AUTH_USER_MODEL = 'accounts.User'
+
+
+# Autenticação por email/username
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'ubs.accounts.backends.ModelBackend',
+)
 
 
 LANGUAGE_CODE = 'pt-BR'

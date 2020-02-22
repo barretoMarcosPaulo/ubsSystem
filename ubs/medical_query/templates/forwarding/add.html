@@ -1,0 +1,59 @@
+{% extends 'core/base.html' %}
+{% load widget_tweaks %}
+
+{% block title %}Encaminhamento{% endblock %}
+
+{% block body %}
+<div class="content col-md-12">
+    <div class="animated fadeIn">
+        <form enctype="multipart/form-data" method="post">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-10" style="margin: 20px auto;">
+                    <div class="card">
+                        <div class="card-header"><strong>Encaminhamento</strong><small> Encaminhar Paciente</small>
+                        </div>
+
+                    
+
+                            <div class="form-group">
+                                {% for field in form %}
+                                {% if field.errors %}
+                                <div
+                                    class="col-md-12 margin-bottom-15 has-error has-feedback">
+                                    <label class="control-label">{{ field.label }}</label>
+                                    {{ field|add_class:"form-control input-md" }}
+                                    <span class="text-danger"> <strong>{{ field.help_text }}</strong> </span>
+                                    {% for error in field.errors%}
+                                    <span class="help-inline error">{{ error}}</span>
+                                    {% endfor%}
+                                </div>
+                                {%else%}
+                                <div class="col-md-12 margin-bottom-15">
+
+                                    <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
+                                    {{ field|add_class:"form-control input-md" }}
+                                    <span class="text-danger"> <strong>{{ field.help_text }}</strong></span>
+                                </div>
+                                {%endif%}
+                                {% endfor %}
+                            </div>
+              
+
+                        <br>
+                    
+
+                        <div class="form-actions form-group col-md-3 margin-top-65">
+                            <button type="submit" class="btn btn-success" style="border-radius: 3px;">Encaminhar</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+</form>
+</div>
+</div>
+
+{% endblock %}

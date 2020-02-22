@@ -1,0 +1,63 @@
+{% load staticfiles %}
+
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{% block title %}UBS-Admin{% endblock %}</title>
+    <meta name="description" content="Sufee Admin - HTML5 Admin Template">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" href="{% static 'apple-icon.png' %}">
+    <link rel="shortcut icon" href="{% static 'favicon.ico' %}">
+
+
+
+    <link rel="stylesheet" href="{% static 'vendors/bootstrap/dist/css/bootstrap.min.css' %}">
+
+
+
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/sweetalert.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
+    {% block head %}
+    {% endblock %}
+
+</head>
+
+<body>
+
+    <h2 class="text-center" style="padding-top: 5%; font-family: 'Roboto';">Em Saúde</h2>
+    <div style="max-width: 400px; width: 100%;  padding: 15px; background-color: #fff; margin: 2% auto;">
+        <p style="text-align: center; font-weight: bold;">
+            Entre com suas credenciais para ter acesso ao sistema - Informa email e senha
+        </p>
+        <form class="col-md-12" method="POST">{% csrf_token %}
+            <div class="form-group">
+                <input type="text" class="form-control" id="exampleInputEmail1" name="username" aria-describedby="emailHelp"
+                    placeholder="Seu e-mail">
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Sua Senha">
+            </div>
+            <button type="submit" class="btn btn-primary col-md-12" style="margin-bottom: 10%;">Entrar</button>
+        </form>
+      
+        {% if form.errors %}
+        <hr>
+        <div class="alert alert-danger text-center">usuário e ou senha incorretos - <strong>Verifique suas credênciais</strong></div>
+        {% endif %}
+    </div>
+</body>
+
+</html>

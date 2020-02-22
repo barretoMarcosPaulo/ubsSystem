@@ -1,7 +1,7 @@
 from django.shortcuts import render
 # Create your views here.
-from .forms import MedicalQueryForm,MedicalQueryAttendanceForm,PhisicalExamForm,PhisicalExamAttendanceForm
-from .models import Query,PhisicalExam
+from .forms import *
+from .models import *
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from django.views.generic.detail import DetailView
@@ -13,6 +13,8 @@ from django.urls import reverse, reverse_lazy
 
 from django.db import IntegrityError, transaction
 
+from datetime import datetime
+from ubs.patient.models import Patient
 
 
 # Views for Querys
@@ -22,14 +24,18 @@ class QueryCreate(CreateView):
     form_class = MedicalQueryForm
     second_form_class = PhisicalExamForm
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request,pk,*args, **kwargs):
         self.object = None
+        patient = Patient.objects.get(id=1)
+        print("AAAAAAAA ", patient)
         form = self.form_class
         second_form = self.second_form_class
         return self.render_to_response(
             self.get_context_data(
                 form=form,
-                second_form=second_form
+                second_form=second_form,
+                patient=patient
+                
             )
         )
 
@@ -185,5 +191,60 @@ class Attendances(UpdateView):
         context.update({
             'no_edit': True ,
             'second_form': self.second_form_class(instance=physical_exam)
+            })
+        return context
+
+
+class ForwardingCreate(CreateView):
+    model = Forwarding
+    template_name = 'forwarding/add.html'
+    form_class = ForwardingForm
+
+    def get_success_url(self):
+        return reverse('medical_query:currents_forwarding')
+
+class ForwardingList(ListView):
+    model = Forwarding
+    template_name = 'forwarding/list.html'
+ 
+    
+
+    def get_queryset(self):
+        self.queryset = super(ForwardingList, self).get_queryset()
+        if self.request.GET.get('search_box', False):
+            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']) | Q(first_name__icontains=self.q))
+        return self.queryset
+
+    def get_context_data(self, **kwargs):
+
+        _super = super(ForwardingList, self)
+        context = _super.get_context_data(**kwargs)
+
+       
+        context.update({
+            'currents_forwardings': Forwarding.objects.all()
+            })
+        return context
+
+
+class AwaitQuerys(ListView):
+    model = Forwarding
+    template_name = 'forwarding/await_querys.html'
+
+
+    def get_queryset(self):
+        self.queryset = super(AwaitQuerys, self).get_queryset()
+        if self.request.GET.get('search_box', False):
+            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']) | Q(first_name__icontains=self.q))
+        return self.queryset
+
+    def get_context_data(self, **kwargs):
+
+        _super = super(AwaitQuerys, self)
+        context = _super.get_context_data(**kwargs)
+
+       
+        context.update({
+            'currents_forwardings': Forwarding.objects.filter(created_on=datetime.now().date(), medical=self.request.user.id)
             })
         return context

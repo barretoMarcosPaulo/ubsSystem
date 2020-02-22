@@ -1,87 +1,103 @@
 {% extends 'core/base.html' %}
 {% load widget_tweaks %}
 
-{% block title %}Detalhes do Paciente{% endblock %}
+{% block title %}Realizar Nova{% endblock %}
 
 {% block body %}
-    <div class="col-md-9 offset-md-1">
-        <aside class="profile-nav alt">
-            <section class="card">
-                <div class="card-header user-header alt bg-dark">
-                    <div class="media">
-                        <div class="media-body">
-                            <h2 class="text-light display-6"> {{ object.full_name}}</h2>
+<div class="content col-md-12">
+    <div class="animated fadeIn">
+        <form method="post">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-10" style="margin: 20px auto;">
+                    <div class="card">
+                        <div class="card-header"><strong>Paciente</strong>
                         </div>
+
+                        <fieldset>
+                            <div class="form-group">
+                                {% for field in form %}
+                                        {% if field.name in 'Type_Logradouro_idLogradouro'   %}
+                                            <div class="col-md-4 margin-bottom-15">
+                                                <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
+                                                <input type="text" class="form-control input-md" readonly value={{ object.Type_Logradouro_idLogradouro}}> 
+                                                <span class="text-danger"> <strong>{{ field.help_text }}</strong></span>
+                                            </div>
+                                        {% elif field.name == 'City_codIBGE'%}
+                                            <div class="col-md-6 margin-bottom-15">
+                                                <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
+                                                <input type="text" class="form-control input-md" readonly value={{ object.City_codIBGE}}> 
+                                                <span class="text-danger"> <strong>{{ field.help_text }}</strong></span>
+                                            </div>
+                                        {% elif field.name in 'Color_idColor' %}
+                                            <div class="col-md-4 margin-bottom-15">
+                                                <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
+                                                <input type="text" class="form-control input-md" readonly value={{ object.Color_idColor}}> 
+                                                <span class="text-danger"> <strong>{{ field.help_text }}</strong></span>
+                                            </div>
+                                        {% elif field.name in 'Marital_State_idMarital_State'%}
+                                            <div class="col-md-4 margin-bottom-15">
+                                                <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
+                                                <input type="text" class="form-control input-md" readonly value={{ object.Marital_State_idMarital_State}}> 
+                                                <span class="text-danger"> <strong>{{ field.help_text }}</strong></span>
+                                            </div>
+                                        {% elif field.name in 'Ocupation_idOcupation'%}
+                                            <div class="col-md-6 margin-bottom-15">
+                                                <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
+                                                <input type="text" class="form-control input-md" readonly value={{ object.Ocupation_idOcupation}}> 
+                                                <span class="text-danger"> <strong>{{ field.help_text }}</strong></span>
+                                            </div>
+                                        {% elif field.name in 'Medical_Insurance_idMedical_insurance'%}
+                                            <div class="col-md-4 margin-bottom-15">
+                                                <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
+                                                <input type="text" class="form-control input-md" readonly value={{ object.Medical_Insurance_idMedical_insurance}}> 
+                                                <span class="text-danger"> <strong>{{ field.help_text }}</strong></span>
+                                            </div>
+                                        {% elif field.name in 'sex' %}
+                                            <div class="col-md-4 margin-bottom-15">
+                                                <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
+                                                <input type="text" class="form-control input-md" readonly value={% if object.sex == "M" %} "Masculino" {% elif object.sex == "F" %} "Feminino" {% else %} "Outro" {% endif %}> 
+                                                <span class="text-danger"> <strong>{{ field.help_text }}</strong></span>
+                                            </div>
+                                        {% elif field.name in 'image_patient' %}
+                                            <div class="col-md-6 margin-bottom-15">
+                                                <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
+                                                {% if object.image_patient %}
+                                                    <br>
+                                                    <button type="button" class="btn btn-outline-link"><a href="/ubs/media_images/{{ object.image_patient }}" target="blank"> Imagem do paciente <i class="fa fa-download"></i> </a></button>
+                                                {% else %}
+                                                    <input type="text" class="form-control input-md" readonly> 
+                                                {% endif %} 
+                                                <span class="text-danger"> <strong>{{ field.help_text }}</strong></span>
+                                            </div>
+                                        {% else %}
+                                            <div class="col-md-{% if field.name in 'date_birth\local_birth\address_number\address_cep' %}4
+                                                {% else %}6
+                                                {% endif %} margin-bottom-15">
+                                                <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
+                                                {{ field|add_class:"form-control input-md" }}
+                                                <span class="text-danger"> <strong>{{ field.help_text }}</strong></span>
+                                            </div>
+                                        {% endif %}
+                                {% endfor %}       
+                        </fieldset>
+
+                        <br>
+
+                        <div class="form-actions form-group col-md-3">
+                            <a href="{% url 'patient:list_patient' %}">
+                                <input class="btn btn-success" style="border-radius: 3px;" type="button" value="Finalizar" />
+                            </a>
+                        </div>
+
                     </div>
+
                 </div>
-
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
-                        CPF: <span class="pull-right"> {{ object.cpf_patient}} </span>
-                    </li>
-                    <li class="list-group-item">
-                        Sexo: <span class="pull-right"> {% if object.sex == "M" %} Masculino {% elif object.sex == "F" %} Feminino {% else %} Outro {% endif %} </span>
-                    </li>
-                    <li class="list-group-item">
-                        Data de Nascimento: <span class="pull-right"> {{ object.date_birth}} </span>
-                    </li>
-                    <li class="list-group-item">
-                        Local de Nascimento: <span class="pull-right"> {{ object.local_birth}} </span>
-                    </li>
-                    <li class="list-group-item">
-                        Logradouro: <span class="pull-right"> {{ object.Type_Logradouro_idLogradouro}} </span>
-                    </li>
-                    <li class="list-group-item">
-                        Nome do Endereço:<span class="pull-right"> {{ object.address_name}} </span>
-                    </li>
-                    <li class="list-group-item">
-                        Número do Endereço:<span class="pull-right"> {{ object.address_number}} </span>
-                    </li>
-                    {% if object.address_complement %}
-                        <li class="list-group-item">
-                            Complemento do endereço: <span class="pull-right"> {{ object.address_complement}} </span>
-                        </li>
-                    {% endif %}
-                    <li class="list-group-item">
-                        Cep do endereço: <span class="pull-right"> {{ object.address_cep}} </span>
-                    </li>
-                    <li class="list-group-item">
-                        Vizinhança do Endereço: <span class="pull-right"> {{ object.address_neighborhood}} </span>
-                    </li>
-                    <li class="list-group-item">
-                        Cidade: <span class="pull-right"> {{ object.City_codIBGE}} </span>
-                    </li>
-                    {% if object.email %}
-                        <li class="list-group-item">
-                            Email: <span class="pull-right"> {{ object.email}} </span>
-                        </li>
-                    {% endif %}
-                    <li class="list-group-item">
-                        Telefone: <span class="pull-right"> {{ object.get_phone}} </span>
-                    </li>
-                    <li class="list-group-item">
-                        Tipo do Telefone: <span class="pull-right"> {{ object.get_phone_type}} </span>
-                    </li>
-                    {% if object.image_patient %}
-                        <li class="list-group-item">
-                            Imagem: <span class="pull-right"> <a href="/ubs/media_images/{{ object.image_patient }}" > Imagem do paciente <i class="fa fa-download"></i> </a> </span>
-                        </li>
-                    {% endif %}
-                    <li class="list-group-item">
-                        Cor: <span class="pull-right"> {{ object.Color_idColor}} </span>
-                    </li>
-                    <li class="list-group-item">
-                        Estado Conjugal: <span class="pull-right"> {{ object.Marital_State_idMarital_State}} </span>
-                    </li>
-                    <li class="list-group-item">
-                        Ocupação: <span class="pull-right"> {{ object.Ocupation_idOcupation}} </span>
-                    </li>
-                    <li class="list-group-item">
-                        Convênio: <span class="pull-right"> {{ object.Medical_Insurance_idMedical_insurance}} </span>
-                    </li>
-                </ul>
-
-            </section>
-        </aside>
+            </div>
     </div>
+</div>
+</form>
+</div>
+</div>
+
 {% endblock %}
