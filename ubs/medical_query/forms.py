@@ -6,7 +6,7 @@ class MedicalQueryForm(forms.ModelForm):
     class Meta:
         model = Query
         fields= [
-            'Patient_idPatient','type_query','main_complaint',
+            'type_query','main_complaint',
             'current_health_history','review_of_systems',
             'epidemiological_history','previous_pathological_history',
             'family_history','physiological_personal_antecedents',
