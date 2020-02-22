@@ -74,7 +74,7 @@
 
                                     <td class="text-center">
                                         <div>
-                                            <a href="{% url 'medical_query:add_query' object.patient.id %}">
+                                            <a href="{% url 'medical_query:add_query' object.patient.id object.id %}">
                                                 <button type="button" class="btn btn-success btn-md"
                                                     style="border-radius: 3px;">
                                                     <i class="fa fa-address-card" aria-hidden="true"></i>
