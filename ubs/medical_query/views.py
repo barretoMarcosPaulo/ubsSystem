@@ -14,6 +14,8 @@ from django.urls import reverse, reverse_lazy
 from django.db import IntegrityError, transaction
 
 from datetime import datetime
+from ubs.patient.models import Patient
+
 
 # Views for Querys
 class QueryCreate(CreateView):
@@ -22,14 +24,18 @@ class QueryCreate(CreateView):
     form_class = MedicalQueryForm
     second_form_class = PhisicalExamForm
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request,pk,*args, **kwargs):
         self.object = None
+        patient = Patient.objects.get(id=1)
+        print("AAAAAAAA ", patient)
         form = self.form_class
         second_form = self.second_form_class
         return self.render_to_response(
             self.get_context_data(
                 form=form,
-                second_form=second_form
+                second_form=second_form,
+                patient=patient
+                
             )
         )
 
@@ -210,13 +216,13 @@ class ForwardingList(ListView):
         return self.queryset
 
     def get_context_data(self, **kwargs):
-        print("AAAAAAAAAAa",self.request.user.username)
+
         _super = super(ForwardingList, self)
         context = _super.get_context_data(**kwargs)
 
        
         context.update({
-            'currents_forwardings': Forwarding.objects.filter(created_on=datetime.now().date(), medical=self.request.user.id)
+            'currents_forwardings': Forwarding.objects.all()
             })
         return context
 
@@ -224,3 +230,21 @@ class ForwardingList(ListView):
 class AwaitQuerys(ListView):
     model = Forwarding
     template_name = 'forwarding/await_querys.html'
+
+
+    def get_queryset(self):
+        self.queryset = super(AwaitQuerys, self).get_queryset()
+        if self.request.GET.get('search_box', False):
+            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']) | Q(first_name__icontains=self.q))
+        return self.queryset
+
+    def get_context_data(self, **kwargs):
+
+        _super = super(AwaitQuerys, self)
+        context = _super.get_context_data(**kwargs)
+
+       
+        context.update({
+            'currents_forwardings': Forwarding.objects.filter(created_on=datetime.now().date(), medical=self.request.user.id)
+            })
+        return context
