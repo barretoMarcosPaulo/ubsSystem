@@ -24,10 +24,15 @@ class QueryCreate(CreateView):
     form_class = MedicalQueryForm
     second_form_class = PhisicalExamForm
 
-    def get(self, request,pk,*args, **kwargs):
+    def get(self, request,patient_pk,forwarding_pk,*args, **kwargs):
         self.object = None
-        patient = Patient.objects.get(id=1)
-        print("AAAAAAAA ", patient)
+        patient = Patient.objects.get(id=patient_pk)
+        
+        # Set patient in atendance
+        patient_forwarding = Forwarding.objects.get(patient=patient,id=forwarding_pk)
+        patient_forwarding.in_attendance=True
+        patient_forwarding.save()
+        
         form = self.form_class
         second_form = self.second_form_class
         return self.render_to_response(
@@ -245,6 +250,6 @@ class AwaitQuerys(ListView):
 
        
         context.update({
-            'currents_forwardings': Forwarding.objects.filter(created_on=datetime.now().date(), medical=self.request.user.id)
+            'currents_forwardings': Forwarding.objects.filter(created_on=datetime.now().date(), medical=self.request.user.id).exclude(in_attendance=True)
             })
         return context
