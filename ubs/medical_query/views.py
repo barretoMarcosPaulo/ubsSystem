@@ -105,12 +105,14 @@ class QueryDetail(DetailView):
     template_name = 'querys/detail.html'
     form_class = MedicalQueryAttendanceForm
     second_form_class = PhisicalExamAttendanceForm
+    third_form_class = QueryHasCID10Form
 
     def get(self, request, *args, **kwargs):
         self.object = None
         form = self.form_class
         second_form = self.second_form_class
-        print("AAA ",second_form)
+       
+
         return self.render_to_response(
             self.get_context_data(
                 form=form,
@@ -197,14 +199,17 @@ class Attendances(UpdateView):
     template_name = 'querys/detail.html'
     form_class = MedicalQueryAttendanceForm
     second_form_class = PhisicalExamAttendanceForm
+    third_form_class = QueryHasCID10Form
 
     def get_context_data(self, **kwargs):
         _super = super(Attendances, self)
         context = _super.get_context_data(**kwargs)
         physical_exam = PhisicalExam.objects.get(id=self.object.PhisicalExam_idPhisicalExam.id)
+        cid = QueryHasCID10.objects.get(Query_idQuery_CID=self.object.id)
         context.update({
             'no_edit': True ,
-            'second_form': self.second_form_class(instance=physical_exam)
+            'second_form': self.second_form_class(instance=physical_exam),
+            'cid10': cid
             })
         return context
 
