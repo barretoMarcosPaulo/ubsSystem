@@ -13,8 +13,8 @@ class PhisicalExam(AuditModel):
     fc = models.CharField('FC(bpm)',max_length=50,blank=True, null=True)
     fr = models.CharField('FR(irpm)', max_length=45,blank=True, null=True)
     tax = models.CharField('TAX(ºC)', max_length=50, blank=True, null=True)
-    weigth = models.CharField('Peso',max_length=45,blank=False, null=False)
-    heigth = models.CharField('Altura(cm)',max_length=45,blank=False, null=False)
+    weigth = models.CharField('Peso',max_length=45,blank=True, null=True)
+    heigth = models.CharField('Altura(cm)',max_length=45,blank=True, null=True)
 
 class Query(AuditModel):
     query_type = (
@@ -68,13 +68,16 @@ class Query(AuditModel):
 class CID10(AuditModel):
     idCID10 = models.CharField('id',max_length=10, primary_key=True,unique=True)
     desc_CID10 = models.CharField('Descrição',max_length=100)
+    
+    def __str__(self):
+        return self.desc_CID10
 
 class QueryHasCID10(AuditModel):
     Query_idQuery_CID = models.ForeignKey(Query,verbose_name='Id da consulta',null=True,blank=True,on_delete=models.SET_NULL) 
     CID10_idCID10 = models.ForeignKey(CID10,verbose_name='CID 10',null=True,blank=True,on_delete=models.SET_NULL)
 
 class ExamRequest(AuditModel):
-    desc_exam = models.CharField('Descrição do emaxe',max_length=255)
+    desc_exam = models.CharField('Descrição do exame',max_length=255)
 
 class QueryHasExamRequest(AuditModel):
     Query_idQuery_EXAM = models.ForeignKey(Query,verbose_name='Requisição de exame',null=True,blank=True,on_delete=models.SET_NULL)

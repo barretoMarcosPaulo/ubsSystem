@@ -11,7 +11,7 @@
                 <div class="row">
                     <div class="col-md-10" style="margin: 20px auto;">
                         <div class="card">
-                            <div class="card-header"><strong>{{patient}}</strong>
+                            <div class="card-header"><strong>{{patient.full_name}}</strong>
                             </div>
                             
                     <fieldset>
@@ -85,6 +85,28 @@
                                 {%endif%}
                             {% endfor %}
 
+
+                            {% for field in third_form_class %}
+                            {% if field.errors %}
+                            
+                            <div class="col-md-12 margin-bottom-15">
+                                
+                                <label class="control-label">{{ field.label }}</label>
+                                {{ field|add_class:"form-control input-md" }}
+                                <span class="text-danger"> <strong>{{ field.help_text }}</strong> </span>
+                                {% for error in field.errors%}
+                                <span class="help-inline error">{{ error }}</span>
+                                {% endfor%}
+                            </div>
+                            {%else%}
+                            <div class="col-md-12 margin-bottom-15">
+                            
+                                <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
+                                {{ field|add_class:"form-control input-md" }}
+                                <span class="text-danger"> <strong>{{ field.help_text }}</strong></span>
+                            </div>
+                            {%endif%}
+                            {% endfor %}
 
                         </div>
                     </fieldset>

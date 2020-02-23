@@ -56,7 +56,7 @@
 
             {% if request.user.is_superuser %}
                 {% include "core/menu_admin.html" %}
-            {% elif request.user.crm_doc %}
+            {% elif request.user.is_medical %}
                 {% include "core/menu_medical.html" %}
             {% else %}
                 {% include "core/menu_tecnical.html" %}
