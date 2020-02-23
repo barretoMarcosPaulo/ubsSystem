@@ -54,55 +54,14 @@
                 <a class="navbar-brand hidden" href="./"><img src="{% static 'images/logo2.png' %}" alt="Logo"></a>
             </div>
 
-            <div id="main-menu" class="main-menu collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <li class="active">
-                        <a href=""> <i class="menu-icon fa fa-dashboard"></i>Dashboard </a>
-                    </li>
-                    <h3 class="menu-title">Pacientes</h3><!-- /.menu-title -->
-                    <li class="menu-item-has-children dropdown">
-                        <a href=" {% url 'patient:list_patient' %}" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-th-list"></i>Listar Pacientes</a>
-                    </li>
-                    <li class="menu-item-has-children dropdown">
-                        <a href=" {% url 'patient:list_city' %}" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-th-list"></i>Listar Cidades</a>
-                    </li>
-                    <li class="menu-item-has-children dropdown">
-                        <a href=" {% url 'patient:list_state' %}" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-th-list"></i>Listar Estados</a>
-                    </li>
-                    <li class="menu-item-has-children dropdown">
-                        <a href=" {% url 'patient:list_medical_insurance' %}" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-th-list"></i>Listar Convênios</a>
-                    </li>
-                    <li class="menu-item-has-children dropdown">
-                        <a href=" {% url 'patient:list_color' %}" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-th-list"></i>Listar Cores</a>
-                    </li>
-                    <li class="menu-item-has-children dropdown">
-                        <a href=" {% url 'patient:list_marital_state' %}" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-th-list"></i>Listar Estado Conjugal</a>
-                    </li>
-                    <li class="menu-item-has-children dropdown">
-                        <a href=" {% url 'patient:list_logradouro' %}" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-th-list"></i>Listar Logradouro</a>
-                    </li>
-                    <li class="menu-item-has-children dropdown">
-                        <a href=" {% url 'patient:list_ocupation' %}" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-th-list"></i>Listar Ocupação</a>
-                    </li>
-                    <h3 class="menu-title">Consultas</h3><!-- /.menu-title -->
+            {% if request.user.is_superuser %}
+                {% include "core/menu_admin.html" %}
+            {% elif request.user.crm_doc %}
+                {% include "core/menu_medical.html" %}
+            {% else %}
+                {% include "core/menu_tecnical.html" %}
+            {% endif %}
 
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-tasks"></i>Icons</a>
-                    </li>
-                    <h3 class="menu-title">Exames Físico</h3><!-- /.menu-title -->
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-glass"></i>Pages</a>
-                    </li>
-                    <h3 class="menu-title">Usuários</h3><!-- /.menu-title -->
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-glass"></i>Pages</a>
-                    </li>
-                    <h3 class="menu-title">Relatórios</h3><!-- /.menu-title -->
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-glass"></i>Pages</a>
-                    </li>
-                </ul>
-            </div><!-- /.navbar-collapse -->
         </nav>
     </aside><!-- /#left-panel -->
  
