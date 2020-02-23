@@ -23,6 +23,8 @@ class QueryCreate(CreateView):
     template_name = 'querys/add.html'
     form_class = MedicalQueryForm
     second_form_class = PhisicalExamForm
+    third_form_class = QueryHasCID10Form
+
 
     def get(self, request,patient_pk,forwarding_pk,*args, **kwargs):
         self.object = None
@@ -35,42 +37,49 @@ class QueryCreate(CreateView):
         
         form = self.form_class
         second_form = self.second_form_class
+        third_form_class = self.third_form_class
+
         return self.render_to_response(
             self.get_context_data(
                 form=form,
                 second_form=second_form,
+                third_form_class=third_form_class,
                 patient=patient
                 
             )
         )
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request, patient_pk, forwarding_pk, *args, **kwargs):
         self.object = None
         form = self.form_class(self.request.POST, self.request.FILES)
         exam_form = self.second_form_class(self.request.POST)
+        cdi_form = self.third_form_class(self.request.POST)
 
         
         if form.is_valid() and exam_form.is_valid() :
-            return self.form_valid(form,exam_form)
+            return self.form_valid(form,exam_form,cdi_form, patient_pk)
         else:
-            return self.form_invalid(form,exam_form)
+            return self.form_invalid(form,exam_form,cdi_form)
 
-    def form_valid(self, form,exam_form):
+    def form_valid(self, form, exam_form, cdi_form, patient_pk):
        
         with transaction.atomic():
 
             exam = exam_form.save()
-            
-            print(exam)
-
+            cdi = cdi_form.save(commit=False)
+ 
             query = form.save(commit=False)
             query.medical = self.request.user
             query.PhisicalExam_idPhisicalExam = exam
+            query.Patient_idPatient = Patient.objects.get(id=patient_pk)
             query.save()
+            cdi.Query_idQuery_CID = query;
+
+            cdi.save()
 
             return HttpResponseRedirect(self.get_success_url())
 
-    def form_invalid(self, form,exam_form):
+    def form_invalid(self, form, exam_form, cdi_form):
         print("Formulario Invalido")
         return self.render_to_response(
             self.get_context_data(

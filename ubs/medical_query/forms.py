@@ -53,12 +53,21 @@ class PhisicalExamAttendanceForm(forms.ModelForm):
         model = PhisicalExam
         fields= "__all__"
 
+
 class PhisicalExamForm(forms.ModelForm):
     class Meta:
         model = PhisicalExam
         fields = '__all__'
 
+
 class ForwardingForm(forms.ModelForm):
     class Meta:
         model = Forwarding
-        fields = '__all__'
+        fields = ['patient','medical']
+
+
+class QueryHasCID10Form(forms.ModelForm):
+    class Meta:
+        model = QueryHasCID10
+        fields = ['CID10_idCID10']
+
