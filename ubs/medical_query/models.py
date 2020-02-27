@@ -44,6 +44,9 @@ class Query(AuditModel):
 
     def __int__(self):
         return self.patient
+    
+    def __str__(self):
+        return self.Patient_idPatient
 
     def get_absolute_url(self):
         return reverse('medical_query:list_query')
