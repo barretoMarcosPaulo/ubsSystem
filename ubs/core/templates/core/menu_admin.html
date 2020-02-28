@@ -39,8 +39,12 @@
         <h3 class="menu-title">Consultas</h3><!-- /.menu-title -->
 
         <li class="menu-item-has-children dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i
-                    class="menu-icon fa fa-tasks"></i>Icons</a>
+            <a href=" {% url 'medical_query:list_CID' %}" class="dropdown-toggle" aria-haspopup="true"> <i
+                    class="menu-icon fa fa-tasks"></i>Listar CID10</a>
+        </li>
+        <li class="menu-item-has-children dropdown">
+            <a href=" {% url 'medical_query:list_CID_query' %}" class="dropdown-toggle" aria-haspopup="true"> <i
+                    class="menu-icon fa fa-tasks"></i>listar doença da consulta</a>
         </li>
         <h3 class="menu-title">Exames Físico</h3><!-- /.menu-title -->
         <li class="menu-item-has-children dropdown">

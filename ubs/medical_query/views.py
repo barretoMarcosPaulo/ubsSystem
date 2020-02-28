@@ -8,7 +8,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.urls import reverse_lazy
 
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect,JsonResponse
 from django.urls import reverse, reverse_lazy
 
 from django.db import IntegrityError, transaction
@@ -267,3 +267,83 @@ class AwaitQuerys(ListView):
             'currents_forwardings': Forwarding.objects.filter(created_on=datetime.now().date(), medical=self.request.user.id).exclude(in_attendance=True)
             })
         return context
+
+class CID10Create(CreateView):
+    model = CID10
+    template_name = 'CID10/add.html'
+    form_class = CID10Form
+
+    def get_success_url(self):
+        return reverse('medical_query:list_CID')
+
+class ListCID10(ListView):
+
+    model = CID10
+    template_name = 'CID10/list.html'
+    context_object_name = 'object_list'
+
+class CID10Update(UpdateView):
+    model = CID10
+    template_name = 'CID10/add.html'
+    form_class = CID10EditForm
+
+    def get_success_url(self):
+        return reverse('medical_query:list_CID')
+
+class DeleteCID10(DeleteView):
+    model = CID10
+    template_name="CID10/list.html"
+
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        try:
+            self.object.delete()
+            return JsonResponse({'msg': "Proposta excluida com sucesso!", 'code': "1"})
+        except:
+            return JsonResponse({'msg': "Essa proposta não pôde ser excluída!", 'code': "0"})
+
+class CID10Detail(UpdateView):
+    template_name = 'CID10/detail.html'
+    form_class = CID10DetailForm
+    model = CID10
+
+class QueryHasCID10Create(CreateView):
+    model = QueryHasCID10
+    template_name = 'query_has_CID10/add.html'
+    form_class = QueryHasCID10Form
+
+    def get_success_url(self):
+        return reverse('medical_query:list_CID')
+
+class ListQueryHasCID10(ListView):
+
+    model = QueryHasCID10
+    template_name = 'query_has_CID10/list.html'
+    context_object_name = 'object_list'
+
+class QueryHasCID10Update(UpdateView):
+    model = QueryHasCID10
+    template_name = 'query_has_CID10/add.html'
+    form_class = QueryHasCID10Form
+
+    def get_success_url(self):
+        return reverse('medical_query:list_CID')
+
+class DeleteQueryHasCID10(DeleteView):
+    model = QueryHasCID10
+    template_name="query_has_CID10/list.html"
+
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        try:
+            self.object.delete()
+            return JsonResponse({'msg': "Proposta excluida com sucesso!", 'code': "1"})
+        except:
+            return JsonResponse({'msg': "Essa proposta não pôde ser excluída!", 'code': "0"})
+
+class QueryHasCID10Detail(UpdateView):
+    template_name = 'query_has_CID10/detail.html'
+    form_class = QueryHasCID10DetailForm
+    model = QueryHasCID10

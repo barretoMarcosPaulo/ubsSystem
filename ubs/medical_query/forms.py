@@ -71,3 +71,65 @@ class QueryHasCID10Form(forms.ModelForm):
         model = QueryHasCID10
         fields = ['CID10_idCID10']
 
+class CID10Form(forms.ModelForm):
+    class Meta:
+        model = CID10
+        fields= "__all__"
+
+class CID10EditForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(CID10EditForm, self).__init__(*args, **kwargs)
+        self.fields['idCID10'].widget.attrs['readonly'] = True
+
+    class Meta:
+        model = CID10
+        fields= "__all__"
+
+class CID10DetailForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(CID10DetailForm, self).__init__(*args, **kwargs)
+        for field in self.fields: 
+            self.fields[field].widget.attrs['readonly'] = True
+
+    class Meta:
+        model = CID10
+        fields= "__all__"
+
+class CID10Form(forms.ModelForm):
+    class Meta:
+        model = CID10
+        fields= "__all__"
+
+class CID10EditForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(CID10EditForm, self).__init__(*args, **kwargs)
+        self.fields['idCID10'].widget.attrs['readonly'] = True
+
+    class Meta:
+        model = CID10
+        fields= "__all__"
+
+class CID10DetailForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(CID10DetailForm, self).__init__(*args, **kwargs)
+        for field in self.fields: 
+            self.fields[field].widget.attrs['readonly'] = True
+
+    class Meta:
+        model = CID10
+        fields= "__all__"
+        
+class QueryHasCID10Form(forms.ModelForm):
+    class Meta:
+        model = QueryHasCID10
+        fields= "__all__"
+
+class QueryHasCID10DetailForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(QueryHasCID10DetailForm, self).__init__(*args, **kwargs)
+        for field in self.fields: 
+            self.fields[field].widget.attrs['readonly'] = True
+
+    class Meta:
+        model = QueryHasCID10
+        fields= "__all__"

@@ -7,14 +7,53 @@ from import_export import resources,fields
 from import_export.widgets import ForeignKeyWidget
 
 admin.site.register(Patient)
-admin.site.register(TypeLogradouro)
-admin.site.register(Color)
-admin.site.register(MaritalState)
-admin.site.register(MedicalInsurance)
+# admin.site.register(Color)
+# admin.site.register(MaritalState)
+# admin.site.register(MedicalInsurance)
+# admin.site.register(TypeLogradouro)
 # admin.site.register(State)
 # admin.site.register(City)
 # admin.site.register(Ocupation)
 
+class TypeLogradouroResource(resources.ModelResource):
+    class Meta:
+        model = TypeLogradouro
+        import_id_fields = ('desc_logradouro',)
+        exclude = ('id','created_on', 'updated_on')
+
+@admin.register(TypeLogradouro)
+class TypeLogradouroResource(ImportExportModelAdmin):
+    resource_class = TypeLogradouroResource
+
+class ColorResource(resources.ModelResource):
+    class Meta:
+        model = Color
+        import_id_fields = ('name_color',)
+        exclude = ('id','created_on', 'updated_on')
+
+@admin.register(Color)
+class ColorResource(ImportExportModelAdmin):
+    resource_class = ColorResource
+
+class MaritalStateResource(resources.ModelResource):
+    class Meta:
+        model = MaritalState
+        import_id_fields = ('desc_marital_state',)
+        exclude = ('id','created_on', 'updated_on')
+
+@admin.register(MaritalState)
+class MaritalStateResource(ImportExportModelAdmin):
+    resource_class = MaritalStateResource
+
+class MedicalInsuranceResource(resources.ModelResource):
+    class Meta:
+        model = MedicalInsurance
+        import_id_fields = ('desc_medical_insurance',)
+        exclude = ('id','created_on', 'updated_on')
+
+@admin.register(MedicalInsurance)
+class MedicalInsuranceResource(ImportExportModelAdmin):
+    resource_class = MedicalInsuranceResource
 
 class OcupationResource(resources.ModelResource):
     class Meta:
