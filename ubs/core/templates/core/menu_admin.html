@@ -6,45 +6,45 @@
         <h3 class="menu-title">Pacientes</h3><!-- /.menu-title -->
         <li class="menu-item-has-children dropdown">
             <a href=" {% url 'patient:list_patient' %}" class="dropdown-toggle" aria-haspopup="true"
-                aria-expanded="false"> <i class="menu-icon fa fa-th-list"></i>Listar Pacientes</a>
+                aria-expanded="false"> <i class="menu-icon fa fa-th-list"></i>Pacientes</a>
         </li>
-        <li class="menu-item-has-children dropdown">
-            <a href=" {% url 'patient:list_city' %}" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
-                <i class="menu-icon fa fa-th-list"></i>Listar Cidades</a>
-        </li>
-        <li class="menu-item-has-children dropdown">
-            <a href=" {% url 'patient:list_state' %}" class="dropdown-toggle" aria-haspopup="true"
-                aria-expanded="false"> <i class="menu-icon fa fa-th-list"></i>Listar Estados</a>
-        </li>
-        <li class="menu-item-has-children dropdown">
-            <a href=" {% url 'patient:list_medical_insurance' %}" class="dropdown-toggle" aria-haspopup="true"
-                aria-expanded="false"> <i class="menu-icon fa fa-th-list"></i>Listar Convênios</a>
-        </li>
-        <li class="menu-item-has-children dropdown">
-            <a href=" {% url 'patient:list_color' %}" class="dropdown-toggle" aria-haspopup="true"
-                aria-expanded="false"> <i class="menu-icon fa fa-th-list"></i>Listar Cores</a>
-        </li>
-        <li class="menu-item-has-children dropdown">
-            <a href=" {% url 'patient:list_marital_state' %}" class="dropdown-toggle" aria-haspopup="true"
-                aria-expanded="false"> <i class="menu-icon fa fa-th-list"></i>Listar Estado Conjugal</a>
-        </li>
-        <li class="menu-item-has-children dropdown">
-            <a href=" {% url 'patient:list_logradouro' %}" class="dropdown-toggle" aria-haspopup="true"
-                aria-expanded="false"> <i class="menu-icon fa fa-th-list"></i>Listar Logradouro</a>
-        </li>
-        <li class="menu-item-has-children dropdown">
-            <a href=" {% url 'patient:list_ocupation' %}" class="dropdown-toggle" aria-haspopup="true"
-                aria-expanded="false"> <i class="menu-icon fa fa-th-list"></i>Listar Ocupação</a>
+        <li class="menu-item-has-children active dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-tasks"></i>Outros</a>
+            <ul class="sub-menu children dropdown-menu">
+                <li class="menu-item-has-children dropdown">
+                    <i class="menu-icon fa fa-th-list"></i><a href=" {% url 'patient:list_city' %}" class="dropdown-toggle" aria-haspopup="true"> Cidades</a>
+                </li>
+                <li class="menu-item-has-children dropdown">
+                    <i class="menu-icon fa fa-th-list"></i><a href=" {% url 'patient:list_state' %}" class="dropdown-toggle" aria-haspopup="true"
+                        aria-expanded="false"> Estados</a>
+                </li>
+                <li class="menu-item-has-children dropdown">
+                    <i class="menu-icon fa fa-th-list"></i><a href=" {% url 'patient:list_medical_insurance' %}" class="dropdown-toggle" aria-haspopup="true"
+                        aria-expanded="false"> Convênios</a>
+                </li>
+                <li class="menu-item-has-children dropdown">
+                    <i class="menu-icon fa fa-th-list"></i><a href=" {% url 'patient:list_color' %}" class="dropdown-toggle" aria-haspopup="true"
+                        aria-expanded="false"> Cores</a>
+                </li>
+                <li class="menu-item-has-children dropdown">
+                    <i class="menu-icon fa fa-th-list"></i><a href=" {% url 'patient:list_marital_state' %}" class="dropdown-toggle" aria-haspopup="true"
+                        aria-expanded="false"> Estado Conjugal</a>
+                </li>
+                <li class="menu-item-has-children dropdown">
+                    <i class="menu-icon fa fa-th-list"></i><a href=" {% url 'patient:list_logradouro' %}" class="dropdown-toggle" aria-haspopup="true"
+                        aria-expanded="false"> Logradouro</a>
+                </li>
+                <li class="menu-item-has-children dropdown">
+                    <i class="menu-icon fa fa-th-list"></i><a href=" {% url 'patient:list_ocupation' %}" class="dropdown-toggle" aria-haspopup="true"
+                        aria-expanded="false"> Ocupação</a>
+                </li>
+            </ul>
         </li>
         <h3 class="menu-title">Consultas</h3><!-- /.menu-title -->
 
         <li class="menu-item-has-children dropdown">
             <a href=" {% url 'medical_query:list_CID' %}" class="dropdown-toggle" aria-haspopup="true"> <i
-                    class="menu-icon fa fa-tasks"></i>Listar CID10</a>
-        </li>
-        <li class="menu-item-has-children dropdown">
-            <a href=" {% url 'medical_query:list_CID_query' %}" class="dropdown-toggle" aria-haspopup="true"> <i
-                    class="menu-icon fa fa-tasks"></i>listar doença da consulta</a>
+                    class="menu-icon fa fa-tasks"></i>CID10</a>
         </li>
         <h3 class="menu-title">Exames Físico</h3><!-- /.menu-title -->
         <li class="menu-item-has-children dropdown">
