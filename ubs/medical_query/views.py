@@ -23,7 +23,6 @@ class QueryCreate(CreateView):
     template_name = 'querys/add.html'
     form_class = MedicalQueryForm
     second_form_class = PhisicalExamForm
-    third_form_class = QueryHasCID10Form
 
 
     def get(self, request,patient_pk,forwarding_pk,*args, **kwargs):
@@ -37,13 +36,12 @@ class QueryCreate(CreateView):
         
         form = self.form_class
         second_form = self.second_form_class
-        third_form_class = self.third_form_class
+
 
         return self.render_to_response(
             self.get_context_data(
                 form=form,
                 second_form=second_form,
-                third_form_class=third_form_class,
                 patient=patient
                 
             )
@@ -53,33 +51,31 @@ class QueryCreate(CreateView):
         self.object = None
         form = self.form_class(self.request.POST, self.request.FILES)
         exam_form = self.second_form_class(self.request.POST)
-        cdi_form = self.third_form_class(self.request.POST)
 
         
         if form.is_valid() and exam_form.is_valid() :
-            return self.form_valid(form,exam_form,cdi_form, patient_pk)
+            return self.form_valid(form,exam_form,patient_pk)
         else:
-            return self.form_invalid(form,exam_form,cdi_form)
+            return self.form_invalid(form,exam_form)
 
-    def form_valid(self, form, exam_form, cdi_form, patient_pk):
+    def form_valid(self, form, exam_form,patient_pk):
        
         with transaction.atomic():
 
             exam = exam_form.save()
-            cdi = cdi_form.save(commit=False)
- 
+    
+
             query = form.save(commit=False)
             query.medical = self.request.user
             query.PhisicalExam_idPhisicalExam = exam
             query.Patient_idPatient = Patient.objects.get(id=patient_pk)
             query.save()
-            cdi.Query_idQuery_CID = query;
 
-            cdi.save()
+
 
             return HttpResponseRedirect(self.get_success_url())
 
-    def form_invalid(self, form, exam_form, cdi_form):
+    def form_invalid(self, form, exam_form):
         print("Formulario Invalido")
         return self.render_to_response(
             self.get_context_data(
@@ -105,7 +101,7 @@ class QueryDetail(DetailView):
     template_name = 'querys/detail.html'
     form_class = MedicalQueryAttendanceForm
     second_form_class = PhisicalExamAttendanceForm
-    third_form_class = QueryHasCID10Form
+
 
     def get(self, request, *args, **kwargs):
         self.object = None
@@ -199,17 +195,14 @@ class Attendances(UpdateView):
     template_name = 'querys/detail.html'
     form_class = MedicalQueryAttendanceForm
     second_form_class = PhisicalExamAttendanceForm
-    third_form_class = QueryHasCID10Form
 
     def get_context_data(self, **kwargs):
         _super = super(Attendances, self)
         context = _super.get_context_data(**kwargs)
         physical_exam = PhisicalExam.objects.get(id=self.object.PhisicalExam_idPhisicalExam.id)
-        cid = QueryHasCID10.objects.get(Query_idQuery_CID=self.object.id)
         context.update({
             'no_edit': True ,
             'second_form': self.second_form_class(instance=physical_exam),
-            'cid10': cid
             })
         return context
 
@@ -303,47 +296,4 @@ class DeleteCID10(DeleteView):
         except:
             return JsonResponse({'msg': "Essa proposta não pôde ser excluída!", 'code': "0"})
 
-class CID10Detail(UpdateView):
-    template_name = 'CID10/detail.html'
-    form_class = CID10DetailForm
-    model = CID10
 
-class QueryHasCID10Create(CreateView):
-    model = QueryHasCID10
-    template_name = 'query_has_CID10/add.html'
-    form_class = QueryHasCID10Form
-
-    def get_success_url(self):
-        return reverse('medical_query:list_CID')
-
-class ListQueryHasCID10(ListView):
-
-    model = QueryHasCID10
-    template_name = 'query_has_CID10/list.html'
-    context_object_name = 'object_list'
-
-class QueryHasCID10Update(UpdateView):
-    model = QueryHasCID10
-    template_name = 'query_has_CID10/add.html'
-    form_class = QueryHasCID10Form
-
-    def get_success_url(self):
-        return reverse('medical_query:list_CID')
-
-class DeleteQueryHasCID10(DeleteView):
-    model = QueryHasCID10
-    template_name="query_has_CID10/list.html"
-
-
-    def get(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        try:
-            self.object.delete()
-            return JsonResponse({'msg': "Proposta excluida com sucesso!", 'code': "1"})
-        except:
-            return JsonResponse({'msg': "Essa proposta não pôde ser excluída!", 'code': "0"})
-
-class QueryHasCID10Detail(UpdateView):
-    template_name = 'query_has_CID10/detail.html'
-    form_class = QueryHasCID10DetailForm
-    model = QueryHasCID10

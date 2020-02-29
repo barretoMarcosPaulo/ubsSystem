@@ -16,6 +16,45 @@ class PhisicalExam(AuditModel):
     weigth = models.CharField('Peso',max_length=45,blank=True, null=True)
     heigth = models.CharField('Altura(cm)',max_length=45,blank=True, null=True)
 
+
+
+
+
+class CID10(AuditModel):
+    idCID10 = models.CharField('id',max_length=10, primary_key=True,unique=True)
+    desc_CID10 = models.CharField('Descrição',max_length=100)
+    
+    def __str__(self):
+        return self.desc_CID10
+
+
+class ExamRequest(AuditModel):
+    desc_exam = models.CharField('Descrição do exame',max_length=255)
+
+    def __str__(self):
+        return self.desc_exam
+
+
+
+class Medicine(AuditModel):
+    unity_option = (
+        ('CX','Caixa'),
+        ('VD', 'Vidro'),
+        ('FR', 'Frasco'),
+        ('AM', 'Ampola'),
+        ('CO', 'Comprimido'),
+    )
+
+    full_name = models.CharField('Nome do remedio',max_length=100)
+    generic_name = models.CharField('Nome generico',max_length=100)
+    dosage = models.CharField('Dosagem',max_length=255)
+    unity = models.CharField('Unidade',choices=unity_option,max_length=3)
+
+
+    def __str__(self):
+        return self.full_name
+
+
 class Query(AuditModel):
     query_type = (
         (1,'Consulta'),
@@ -37,16 +76,16 @@ class Query(AuditModel):
     Patient_idPatient = models.ForeignKey(Patient,verbose_name="Paciente", null=True, blank=True, on_delete=models.SET_NULL)
     User_idUser = models.ForeignKey(User,verbose_name="Profissional", null=True, blank=True, on_delete=models.SET_NULL)
 
+    cid10 = models.ManyToManyField(CID10, verbose_name="CID10")
+    examRequest =models.ManyToManyField(ExamRequest, verbose_name="Exame(s)")
+    medicine = models.ManyToManyField(Medicine, verbose_name="Medicamento(s)") 
+
     '''
     priority = models.BooleanField('Paciente Prioritário', default=False)
     opened = models.BooleanField('Consulta em Aberto', default=True)
     '''
 
-    def __int__(self):
-        return self.patient
     
-    def __str__(self):
-        return self.Patient_idPatient
 
     def get_absolute_url(self):
         return reverse('medical_query:list_query')
@@ -66,44 +105,6 @@ class Query(AuditModel):
         verbose_name_plural = 'Consultas Medicas'
         ordering = ['created_on']
 
-
-    
-class CID10(AuditModel):
-    idCID10 = models.CharField('id',max_length=10, primary_key=True,unique=True)
-    desc_CID10 = models.CharField('Descrição',max_length=100)
-    
-    def __str__(self):
-        return self.desc_CID10
-
-class QueryHasCID10(AuditModel):
-    Query_idQuery_CID = models.ForeignKey(Query,verbose_name='Id da consulta',null=True,blank=True,on_delete=models.SET_NULL) 
-    CID10_idCID10 = models.ForeignKey(CID10,verbose_name='CID 10',null=True,blank=True,on_delete=models.SET_NULL)
-
-class ExamRequest(AuditModel):
-    desc_exam = models.CharField('Descrição do exame',max_length=255)
-
-class QueryHasExamRequest(AuditModel):
-    Query_idQuery_EXAM = models.ForeignKey(Query,verbose_name='Requisição de exame',null=True,blank=True,on_delete=models.SET_NULL)
-    ExamRequest_idExam = models.ForeignKey(ExamRequest,verbose_name='Exame',null=True,blank=True,on_delete=models.SET_NULL)
-
-class Medicine(AuditModel):
-    unity_option = (
-        ('CX','Caixa'),
-        ('VD', 'Vidro'),
-        ('FR', 'Frasco'),
-        ('AM', 'Ampola'),
-        ('CO', 'Comprimido'),
-    )
-
-    full_name = models.CharField('Nome do remedio',max_length=100)
-    generic_name = models.CharField('Nome generico',max_length=100)
-    dosage = models.CharField('Dosagem',max_length=255)
-    unity = models.CharField('Unidade',choices=unity_option,max_length=3)
-
-class QueryHasMedicine(AuditModel):
-    amount = models.IntegerField('Quantidade')
-    Query_idQuery_MEDICINE = models.ForeignKey(Query,verbose_name='Id da consulta',null=True,blank=True,on_delete=models.SET_NULL)
-    Medicine_idMedicine = models.ForeignKey(Medicine,verbose_name='Id do remédio',null=True,blank=True,on_delete=models.SET_NULL)
 
 
 

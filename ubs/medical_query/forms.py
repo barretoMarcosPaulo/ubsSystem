@@ -10,7 +10,7 @@ class MedicalQueryForm(forms.ModelForm):
             'current_health_history','review_of_systems',
             'epidemiological_history','previous_pathological_history',
             'family_history','physiological_personal_antecedents',
-            'summary','diagnostic_hypotheses','take_duct'
+            'summary','diagnostic_hypotheses','take_duct','cid10','examRequest','medicine'
         ]
 
 # Formulario para details
@@ -66,11 +66,6 @@ class ForwardingForm(forms.ModelForm):
         fields = ['patient','medical']
 
 
-class QueryHasCID10Form(forms.ModelForm):
-    class Meta:
-        model = QueryHasCID10
-        fields = ['CID10_idCID10']
-
 class CID10Form(forms.ModelForm):
     class Meta:
         model = CID10
@@ -119,17 +114,5 @@ class CID10DetailForm(forms.ModelForm):
         model = CID10
         fields= "__all__"
         
-class QueryHasCID10Form(forms.ModelForm):
-    class Meta:
-        model = QueryHasCID10
-        fields= "__all__"
 
-class QueryHasCID10DetailForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super(QueryHasCID10DetailForm, self).__init__(*args, **kwargs)
-        for field in self.fields: 
-            self.fields[field].widget.attrs['readonly'] = True
 
-    class Meta:
-        model = QueryHasCID10
-        fields= "__all__"
