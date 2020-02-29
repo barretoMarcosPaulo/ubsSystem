@@ -88,13 +88,9 @@
                         </a>
 
                         <div class="user-menu dropdown-menu">
-                            <a class="nav-link" href="#"><i class="fa fa-user"></i> My Profile</a>
+                            <a class="nav-link" href="{% if  request.user.is_superuser %} {% url 'accounts:update_admin' request.user.id %} {% elif  request.user.is_medical %} {% url 'accounts:update_doctor' request.user.id %} {% else %} {% url 'accounts:update_clerk' request.user.id %}{% endif %} "><i class="fa fa-user"></i> Meu Perfil</a>
 
-                            <a class="nav-link" href="#"><i class="fa fa-user"></i> Notifications <span class="count">13</span></a>
-
-                            <a class="nav-link" href="#"><i class="fa fa-cog"></i> Settings</a>
-
-                            <a class="nav-link" href="#"><i class="fa fa-power-off"></i> Logout</a>
+                            <a class="nav-link" href="{% url 'accounts:logout'%}"><i class="fa fa-power-off"></i> Sair</a>
                         </div>
                     </div>
 
