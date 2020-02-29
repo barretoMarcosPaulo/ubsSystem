@@ -64,12 +64,14 @@ class QueryCreate(CreateView):
 
             exam = exam_form.save()
     
+            print(form)
 
             query = form.save(commit=False)
             query.medical = self.request.user
             query.PhisicalExam_idPhisicalExam = exam
             query.Patient_idPatient = Patient.objects.get(id=patient_pk)
             query.save()
+            form.save_m2m()
 
 
 
