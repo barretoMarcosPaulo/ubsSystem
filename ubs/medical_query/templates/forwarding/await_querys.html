@@ -63,6 +63,7 @@
                             <thead>
                                 <tr>
                                     <th>Paciente</th>
+                                    <th>Prioritário</th>
                                     <th class="text-center" width="20%">Ações</th>
                                 </tr>
                             </thead>
@@ -70,6 +71,9 @@
                                 {% for object in currents_forwardings%}
                                 <tr id="line-{{object.id}}">
                                     <td> {{ object.patient}} </td>
+                                    <td> 
+                                        {{ object.priority}} 
+                                    </td>
                              
 
                                     <td class="text-center">
