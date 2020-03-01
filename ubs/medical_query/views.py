@@ -283,6 +283,11 @@ class CID10Update(UpdateView):
     def get_success_url(self):
         return reverse('medical_query:list_CID')
 
+class CID10Detail(UpdateView):
+    model = CID10
+    template_name = 'CID10/detail.html'
+    form_class = CID10DetailForm
+    
 class DeleteCID10(DeleteView):
     model = CID10
     template_name="CID10/list.html"

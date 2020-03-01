@@ -17,5 +17,8 @@ urlpatterns = [
 
     path('adicionar-CID', views.CID10Create.as_view(),name="add_CID"),
     path('listagem-CID', views.ListCID10.as_view(),name="list_CID"),
+    path('detalhes-CID/<str:pk> ', views.CID10Detail.as_view(), name='detail_CID'),
+    path('editar-CID/<str:pk> ', views.CID10Update.as_view(), name='update_CID'),
+    path('delete-CID/<str:pk>', views.DeleteCID10.as_view(), name='delete_CID'),
     
 ]

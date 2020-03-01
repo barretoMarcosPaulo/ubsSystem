@@ -1,0 +1,65 @@
+<nav aria-label="Navegação de página exemplo">
+
+    <div class="col-md-12">
+        <!-- Paginação -->
+        {% if page_obj.has_other_pages %}
+        
+        <nav>
+            <ul class="pagination pagination-md no-margin pull-right">
+                {# Previous page link #}
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}{{ getvars }}">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                {% else %}
+                <li class="page-item">
+                    <a class="page-link" href="#">&laquo;</a>
+                </li>
+                {% endif %}
+
+                {# First page #}
+                {% if show_first %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1">Primeiro</a>
+                </li>
+                {% endif %}
+
+                {# List of pages (with current "active") #}
+                {% for page in page_numbers %}
+                {% ifequal page page_obj.number %}
+                <li class="page-item">
+                    <a class="page-link" href="#">{{ page }}</a>
+                </li>
+                {% else %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page }}{{ getvars }}">{{ page }}</a class="page-link">
+                </li class="page-item">
+                {% endifequal %}
+                {% endfor %}
+
+                {# Last page #}
+                {% if show_last %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=last">{{ page_obj.pages }}Último</a>
+                </li>
+                {% endif %}
+
+                {# Next page link #}
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}{{ getvars }}">&raquo;</a>
+                </li>
+                {% else %}
+                <li class="disabled">
+                    <a class="page-link" href="#">&raquo;</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+    </div>
+
+</nav>
