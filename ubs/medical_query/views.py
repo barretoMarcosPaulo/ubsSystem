@@ -220,7 +220,9 @@ class ForwardingCreate(CreateView):
 class ForwardingList(ListView):
     model = Forwarding
     template_name = 'forwarding/list.html'
- 
+    http_method_names = ['get']
+    paginate_by = 20
+
     
 
     def get_queryset(self):
@@ -234,9 +236,23 @@ class ForwardingList(ListView):
         _super = super(ForwardingList, self)
         context = _super.get_context_data(**kwargs)
 
-       
+        adjacent_pages = 3
+        page_number = context['page_obj'].number
+        num_pages = context['paginator'].num_pages
+        startPage = max(page_number - adjacent_pages, 1)
+        if startPage <= 5:
+            startPage = 1
+        endPage = page_number + adjacent_pages + 1
+        if endPage >= num_pages - 1:
+            endPage = num_pages + 1
+        page_numbers = [n for n in range(startPage, endPage) \
+            if n > 0 and n <= num_pages]
+
         context.update({
-            'currents_forwardings': Forwarding.objects.all()
+            'currents_forwardings': Forwarding.objects.all(),
+            'page_numbers': page_numbers,
+            'show_first': 1 not in page_numbers,
+            'show_last': num_pages not in page_numbers,
             })
         return context
 
@@ -244,6 +260,9 @@ class ForwardingList(ListView):
 class AwaitQuerys(ListView):
     model = Forwarding
     template_name = 'forwarding/await_querys.html'
+    http_method_names = ['get']
+    paginate_by = 20
+
 
 
     def get_queryset(self):
@@ -298,11 +317,23 @@ class AwaitQuerys(ListView):
             for restante in n:
                 p.append(restante)
             list_values= p
-
-
+        adjacent_pages = 3
+        page_number = context['page_obj'].number
+        num_pages = context['paginator'].num_pages
+        startPage = max(page_number - adjacent_pages, 1)
+        if startPage <= 5:
+            startPage = 1
+        endPage = page_number + adjacent_pages + 1
+        if endPage >= num_pages - 1:
+            endPage = num_pages + 1
+        page_numbers = [n for n in range(startPage, endPage) \
+            if n > 0 and n <= num_pages]
        
         context.update({
-            'currents_forwardings': list_values
+            'currents_forwardings': list_values,
+            'page_numbers': page_numbers,
+            'show_first': 1 not in page_numbers,
+            'show_last': num_pages not in page_numbers,
             })
         return context
 
@@ -319,6 +350,36 @@ class ListCID10(ListView):
     model = CID10
     template_name = 'CID10/list.html'
     context_object_name = 'object_list'
+    http_method_names = ['get']
+    paginate_by = 20
+
+    
+    def get_queryset(self):
+        self.queryset = super(ListCID10, self).get_queryset()
+        if self.request.GET.get('search_box', False):
+            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']) | Q(first_name__icontains=self.q))
+        return self.queryset
+
+    def get_context_data(self, **kwargs):
+        _super = super(ListCID10, self)
+        context = _super.get_context_data(**kwargs)
+        adjacent_pages = 3
+        page_number = context['page_obj'].number
+        num_pages = context['paginator'].num_pages
+        startPage = max(page_number - adjacent_pages, 1)
+        if startPage <= 5:
+            startPage = 1
+        endPage = page_number + adjacent_pages + 1
+        if endPage >= num_pages - 1:
+            endPage = num_pages + 1
+        page_numbers = [n for n in range(startPage, endPage) \
+            if n > 0 and n <= num_pages]
+        context.update({
+            'page_numbers': page_numbers,
+            'show_first': 1 not in page_numbers,
+            'show_last': num_pages not in page_numbers,
+            })
+        return context
 
 class CID10Update(UpdateView):
     model = CID10
