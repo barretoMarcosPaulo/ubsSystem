@@ -64,12 +64,14 @@ class QueryCreate(CreateView):
 
             exam = exam_form.save()
     
+            print(form)
 
             query = form.save(commit=False)
             query.medical = self.request.user
             query.PhisicalExam_idPhisicalExam = exam
             query.Patient_idPatient = Patient.objects.get(id=patient_pk)
             query.save()
+            form.save_m2m()
 
 
 
@@ -255,9 +257,52 @@ class AwaitQuerys(ListView):
         _super = super(AwaitQuerys, self)
         context = _super.get_context_data(**kwargs)
 
+        not_priority =  Forwarding.objects.filter(created_on=datetime.now().date(), medical=self.request.user.id, priority=False).exclude(in_attendance=True)
+        priority =  Forwarding.objects.filter(created_on=datetime.now().date(), medical=self.request.user.id, priority=True).exclude(in_attendance=True)
+        list_values = []
+
+        p = list(priority)
+        n = list(not_priority)
+
+        count = 0
+        index_aux = 0 
+        count_p = 1 
+
+        if len(p) < len(n):
+            for nao_prioritario in n:
+                if count_p <= 2 and index_aux < len(p):
+                    n.insert(count,p[index_aux])
+                    index_aux+=1
+                    count_p+=1
+                else:
+                    count_p=1
+                count+=1
+            list_values = n
+
+        else:
+
+            for prioritario in p:
+                if count_p == 3:
+                    
+                    if index_aux == len(n):
+                        break
+
+                    p.insert(count, n[index_aux])
+                    n.pop(index_aux)
+                    index_aux+=1
+                    count_p = 1
+                else:
+                    count_p+=1
+                count+=1
+
+            for restante in n:
+                p.append(restante)
+            list_values= p
+
+
        
         context.update({
-            'currents_forwardings': Forwarding.objects.filter(created_on=datetime.now().date(), medical=self.request.user.id).exclude(in_attendance=True)
+            'currents_forwardings': list_values
             })
         return context
 

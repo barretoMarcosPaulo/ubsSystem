@@ -63,7 +63,7 @@ class PhisicalExamForm(forms.ModelForm):
 class ForwardingForm(forms.ModelForm):
     class Meta:
         model = Forwarding
-        fields = ['patient','medical']
+        fields = ['patient','priority','medical']
 
 
 class CID10Form(forms.ModelForm):
