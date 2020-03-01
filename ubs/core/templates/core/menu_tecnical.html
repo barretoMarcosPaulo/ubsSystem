@@ -5,17 +5,26 @@
         </li>
 
 
-        <h3 class="menu-title">Pacientes</h3><!-- /.menu-title -->
+        <h3 class="menu-title">Usuário do Sistema</h3><!-- /.menu-title -->
         <li class="menu-item-has-children dropdown">
-            <a href=" {% url 'patient:list_patient' %}" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false"> <i
-                    class="menu-icon fa fa-th-list"></i> Pacientes Cadastrados</a>
+            <a href=" {% url 'accounts:list_cards_users' %}" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-user-circle" aria-hidden="true"></i> Usuários
+            </a>
+        </li>
+
+
+        <h3 class="menu-title">Pacientes Cadastrados</h3><!-- /.menu-title -->
+        <li class="menu-item-has-children dropdown">
+            <a href=" {% url 'patient:list_patient' %}" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false"> 
+                <i class="fa fa-address-card" aria-hidden="true"></i> Pacientes Cadastrados
+            </a>
         </li>
 
         <h3 class="menu-title">Encaminhamentos</h3><!-- /.menu-title -->
         <li class="menu-item-has-children dropdown">
             <a href="{% url 'medical_query:forwarding_create' %}" class="dropdown-toggle" data-toggle="" aria-haspopup="true"
                 aria-expanded="false">
-                Novo 
+                <i class="fa fa-plus" aria-hidden="true"></i>  Novo 
             </a>
         </li>
 
@@ -23,7 +32,7 @@
         <li class="menu-item-has-children dropdown">
             <a href="{% url 'medical_query:currents_forwarding' %}" class="dropdown-toggle" data-toggle="" aria-haspopup="true"
                 aria-expanded="false">
-               Realizados
+                <i class="fa fa-list-alt" aria-hidden="true"></i>  Realizados
             </a>
         </li>
 

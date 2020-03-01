@@ -57,7 +57,11 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <strong class="card-title">Usuários com permissões de atendentes</strong>
+                        <strong class="card-title">Usuários com permissões de técnico</strong>
+                    </div>
+                    <div class="card-body">
+                        <a href="{% url 'accounts:add_clerk' %}"> <button type="button" class="btn btn-success btn-sm"
+                                style="border-radius: 3px;"><i class="fa fa-plus-square-o"> Cadastrar</i></button></a>
                     </div>
                     <div class="card-body">
                         <table id="bootstrap-data-table-export" class="table table-striped table-bordered">
