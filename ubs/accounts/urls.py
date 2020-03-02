@@ -25,6 +25,8 @@ urlpatterns = [
     path('doctor/edit/<int:pk>', views.DoctorUpdate.as_view(), name='update_doctor'),
     path('doctor/delete/<int:pk>', views.DoctorDelete.as_view(), name='delete_doctor'),
 
+    path('all/users/', views.AllUsersList.as_view(), name='list_cards_users'),
+
     path(
         'login/', auth_views.LoginView.as_view(
         template_name='login.html',
@@ -36,7 +38,7 @@ urlpatterns = [
     path(
         'logout/',
         auth_views.LogoutView.as_view(
-            next_page='/'
+            next_page='/accounts/login/'
         ),
         name='logout'
     ),

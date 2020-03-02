@@ -14,6 +14,8 @@ from django.urls import reverse, reverse_lazy
 from django.db import IntegrityError, transaction
 from django.http import HttpResponse, JsonResponse
 
+from django.db.models import Q
+
 
 class PatientCreate(CreateView):
     model = Patient
@@ -35,7 +37,7 @@ class ListPatient(ListView):
     def get_queryset(self):
         self.queryset = super(ListPatient, self).get_queryset()
         if self.request.GET.get('search_box', False):
-            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']) | Q(first_name__icontains=self.q))
+            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']))
         return self.queryset
 
     def get_context_data(self, **kwargs):
@@ -106,7 +108,7 @@ class ListCity(ListView):
     def get_queryset(self):
         self.queryset = super(ListCity, self).get_queryset()
         if self.request.GET.get('search_box', False):
-            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']) | Q(first_name__icontains=self.q))
+            self.queryset=self.queryset.filter(Q(name_city__icontains = self.request.GET['search_box']))
         return self.queryset
 
     def get_context_data(self, **kwargs):
@@ -177,8 +179,8 @@ class ListState(ListView):
 
     def get_queryset(self):
         self.queryset = super(ListState, self).get_queryset()
-        if self.request.GET.get('search_box', False):
-            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']) | Q(first_name__icontains=self.q))
+        if self.request.GET.get('search_box', False) :
+            self.queryset = self.queryset.filter(Q(State_codIBGE_UF__contains = self.request.GET['search_box']) )
         return self.queryset
 
     def get_context_data(self, **kwargs):
@@ -194,7 +196,8 @@ class ListState(ListView):
         if endPage >= num_pages - 1:
             endPage = num_pages + 1
         page_numbers = [n for n in range(startPage, endPage) \
-            if n > 0 and n <= num_pages]
+                        if n > 0 and n <= num_pages]
+
         context.update({
             'page_numbers': page_numbers,
             'show_first': 1 not in page_numbers,
@@ -250,7 +253,7 @@ class ListMedicalInsurance(ListView):
     def get_queryset(self):
         self.queryset = super(ListMedicalInsurance, self).get_queryset()
         if self.request.GET.get('search_box', False):
-            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']) | Q(first_name__icontains=self.q))
+            self.queryset=self.queryset.filter(Q(desc_medical_insurance__icontains = self.request.GET['search_box']))
         return self.queryset
 
     def get_context_data(self, **kwargs):
@@ -322,7 +325,7 @@ class ListColor(ListView):
     def get_queryset(self):
         self.queryset = super(ListColor, self).get_queryset()
         if self.request.GET.get('search_box', False):
-            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']) | Q(first_name__icontains=self.q))
+            self.queryset=self.queryset.filter(Q(name_color__icontains = self.request.GET['search_box']))
         return self.queryset
 
     def get_context_data(self, **kwargs):
@@ -394,7 +397,7 @@ class ListMaritalState(ListView):
     def get_queryset(self):
         self.queryset = super(ListMaritalState, self).get_queryset()
         if self.request.GET.get('search_box', False):
-            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']) | Q(first_name__icontains=self.q))
+            self.queryset=self.queryset.filter(Q(desc_marital_state__icontains = self.request.GET['search_box']) )
         return self.queryset
 
     def get_context_data(self, **kwargs):
@@ -461,6 +464,33 @@ class ListTypeLogradouro(ListView):
     context_object_name = 'object_list'
     paginate_by = 20
 
+    def get_queryset(self):
+        self.queryset = super(ListTypeLogradouro, self).get_queryset()
+        if self.request.GET.get('search_box', False):
+            self.queryset=self.queryset.filter(Q(desc_logradouro__icontains = self.request.GET['search_box']))
+        return self.queryset
+
+    def get_context_data(self, **kwargs):
+        _super = super(ListTypeLogradouro, self)
+        context = _super.get_context_data(**kwargs)
+        adjacent_pages = 3
+        page_number = context['page_obj'].number
+        num_pages = context['paginator'].num_pages
+        startPage = max(page_number - adjacent_pages, 1)
+        if startPage <= 5:
+            startPage = 1
+        endPage = page_number + adjacent_pages + 1
+        if endPage >= num_pages - 1:
+            endPage = num_pages + 1
+        page_numbers = [n for n in range(startPage, endPage) \
+            if n > 0 and n <= num_pages]
+        context.update({
+            'page_numbers': page_numbers,
+            'show_first': 1 not in page_numbers,
+            'show_last': num_pages not in page_numbers,
+            })
+        return context
+
     def get_success_url(self):
         return reverse('patient:list_logradouro')
 
@@ -511,7 +541,7 @@ class ListOcupation(ListView):
     def get_queryset(self):
         self.queryset = super(ListOcupation, self).get_queryset()
         if self.request.GET.get('search_box', False):
-            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']) | Q(first_name__icontains=self.q))
+            self.queryset=self.queryset.filter(Q(desc_ocupation__icontains = self.request.GET['search_box']))
         return self.queryset
 
     def get_context_data(self, **kwargs):

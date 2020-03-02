@@ -18,9 +18,9 @@ urlpatterns = [
 
     path('adicionar-estado', views.StateCreate.as_view(),name="add_state"),
     path('listagem-estado', views.ListState.as_view(),name="list_state"),
-    path('detalhes-estado/<int:pk> ', views.StateDetail.as_view(), name='detail_state'),
-    path('editar-estado/<int:pk> ', views.StateUpdate.as_view(), name='update_state'),
-    path('delete-estado/<int:pk>', views.DeleteState.as_view(), name='delete_state'),
+    path('detalhes-estado/<str:pk> ', views.StateDetail.as_view(), name='detail_state'),
+    path('editar-estado/<str:pk> ', views.StateUpdate.as_view(), name='update_state'),
+    path('delete-estado/<str:pk>', views.DeleteState.as_view(), name='delete_state'),
    
     path('adicionar-convenio', views.MedicalInsuranceCreate.as_view(),name="add_medical_insurance"),
     path('listagem-convenio', views.ListMedicalInsurance.as_view(),name="list_medical_insurance"),

@@ -38,6 +38,16 @@ class User(AbstractBaseUser, PermissionsMixin):
     def get_absolute_url(self):
         return reverse('accounts:list_all_admin')
 
+    def is_medical(self):
+        is_medical = False
+        try:
+            Doctor.objects.get(id=self.id)
+            is_medical = True
+        except:
+            pass
+
+        return is_medical
+
     class Meta:
         verbose_name = 'Usuário'
         verbose_name_plural = 'Usuários'
