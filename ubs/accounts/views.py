@@ -276,3 +276,22 @@ class DoctorDelete(DeleteView):
             return JsonResponse({'msg': "Médico excluido com sucesso!", 'code': "1"})
         except:
             return JsonResponse({'msg': "Esse médico não pôde ser excluído!", 'code': "0"})
+
+
+
+class AllUsersList(ListView):
+
+    model = User
+    http_method_names = ['get']
+    template_name = 'users/list.html'
+    context_object_name = 'object_list'
+
+    def get_context_data(self, **kwargs):
+        _super = super(AllUsersList, self)
+        context = _super.get_context_data(**kwargs)
+       
+        context.update({
+            'clerks' : Clerk.objects.all().count(),
+            'doctors' : Doctor.objects.all().count(),
+            })
+        return context
