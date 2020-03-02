@@ -190,6 +190,9 @@ class ClerkDelete(DeleteView):
             return JsonResponse({'msg': "Esse atendente não pôde ser excluído!", 'code': "0"})
 
 
+class ClerkDetail(DetailView):
+    model = Clerk
+    template_name = 'users/clerk/details.html'
 
 # Views for doctor
 class DoctorCreate(CreateView):
@@ -278,6 +281,9 @@ class DoctorDelete(DeleteView):
             return JsonResponse({'msg': "Esse médico não pôde ser excluído!", 'code': "0"})
 
 
+class DoctorDetail(DetailView):
+    model = Doctor
+    template_name = 'users/doctor/details.html'
 
 class AllUsersList(ListView):
 

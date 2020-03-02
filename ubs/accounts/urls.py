@@ -18,12 +18,14 @@ urlpatterns = [
     path('clerk/list/all', views.ClerkList.as_view(), name='list_all_clerk'),
     path('clerk/edit/<int:pk>', views.ClerkUpdate.as_view(), name='update_clerk'),
     path('clerk/delete/<int:pk>', views.ClerkDelete.as_view(), name='delete_clerk'),
+    path('clerk/detail/<int:pk>', views.ClerkDetail.as_view(), name='detail_clerk'),
 
     #URLS for doctor view
     path('doctor/add', views.DoctorCreate.as_view(), name='add_doctor'),
     path('doctor/list/all', views.DoctorList.as_view(), name='list_all_doctor'),
     path('doctor/edit/<int:pk>', views.DoctorUpdate.as_view(), name='update_doctor'),
     path('doctor/delete/<int:pk>', views.DoctorDelete.as_view(), name='delete_doctor'),
+    path('doctor/detail/<int:pk>', views.DoctorDetail.as_view(), name='detail_doctor'),
 
     path('all/users/', views.AllUsersList.as_view(), name='list_cards_users'),
 

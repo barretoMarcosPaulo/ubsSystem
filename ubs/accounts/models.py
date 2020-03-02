@@ -5,8 +5,9 @@ from django.urls import reverse
 from django.core import validators
 from django.contrib.auth.models import AbstractBaseUser, UserManager, PermissionsMixin
 from ubs.core.models import AuditModel
+from ubs.specialty.models import DoctorHasMedicalSpecialty
 
-class User(AbstractBaseUser, PermissionsMixin):
+class User(AbstractBaseUser, PermissionsMixin, AuditModel):
 
     username = models.CharField(
         'Usuário', max_length=200, default=uuid.uuid4, unique=True, validators=[
@@ -38,6 +39,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     def get_absolute_url(self):
         return reverse('accounts:list_all_admin')
 
+    def get_short_name(self):
+        return self.full_name.split(' ')[0]
+        
     def is_medical(self):
         is_medical = False
         try:
@@ -64,6 +68,17 @@ class Clerk(User):
 
 class Doctor(User):
     crm_doc = models.CharField('CRM do médico', max_length=20)
+
+    def get_specialts(self):
+        list_specialts = []
+
+        try:
+            specialtys = DoctorHasMedicalSpecialty.objects.get(doctor=self)
+            list_specialts = specialtys.MedicalSpecialty_idSpecialty.all()
+        except:
+            pass
+
+        return list_specialts
 
     def get_absolute_url(self):
         return reverse('accounts:list_all_doctor')  
