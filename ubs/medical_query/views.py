@@ -16,6 +16,8 @@ from django.db import IntegrityError, transaction
 from datetime import datetime
 from ubs.patient.models import Patient
 
+from django.db.models import Q
+
 
 # Views for Querys
 class QueryCreate(CreateView):
@@ -130,7 +132,7 @@ class ListQuerysHistory(ListView):
     def get_queryset(self):
         self.queryset = super(ListQuerysHistory, self).get_queryset()
         if self.request.GET.get('search_box', False):
-            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']) | Q(first_name__icontains=self.q))
+            self.queryset=self.queryset.filter(Q(main_complaint__icontains = self.request.GET['search_box']) | Q(current_health_history__icontains=self.request.GET['search_box']))
         return self.queryset
 
     def get_context_data(self, **kwargs):
@@ -166,7 +168,7 @@ class ListAttendances(ListView):
     def get_queryset(self):
         self.queryset = super(ListAttendances, self).get_queryset()
         if self.request.GET.get('search_box', False):
-            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']) | Q(first_name__icontains=self.q))
+            self.queryset=self.queryset.filter(Q(main_complaint__icontains = self.request.GET['search_box']) | Q(current_health_history__icontains=self.request.GET['search_box']))
         return self.queryset
 
     def get_context_data(self, **kwargs):
@@ -228,7 +230,7 @@ class ForwardingList(ListView):
     def get_queryset(self):
         self.queryset = super(ForwardingList, self).get_queryset()
         if self.request.GET.get('search_box', False):
-            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']) | Q(first_name__icontains=self.q))
+            self.queryset=self.queryset.filter(Q(patient__full_name__icontains = self.request.GET['search_box']) | Q(medical__full_name__icontains=self.request.GET['search_box']))
         return self.queryset
 
     def get_context_data(self, **kwargs):
@@ -268,7 +270,7 @@ class AwaitQuerys(ListView):
     def get_queryset(self):
         self.queryset = super(AwaitQuerys, self).get_queryset()
         if self.request.GET.get('search_box', False):
-            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']) | Q(first_name__icontains=self.q))
+            self.queryset=self.queryset.filter(Q(patient__full_name__icontains = self.request.GET['search_box']) | Q(medical__full_name__icontains=self.request.GET['search_box']))
         return self.queryset
 
     def get_context_data(self, **kwargs):
@@ -357,7 +359,7 @@ class ListCID10(ListView):
     def get_queryset(self):
         self.queryset = super(ListCID10, self).get_queryset()
         if self.request.GET.get('search_box', False):
-            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']) | Q(first_name__icontains=self.q))
+            self.queryset=self.queryset.filter(Q(desc_CID10__icontains = self.request.GET['search_box']))
         return self.queryset
 
     def get_context_data(self, **kwargs):

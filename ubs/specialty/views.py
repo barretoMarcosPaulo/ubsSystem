@@ -10,7 +10,9 @@ from django.http import HttpResponse, JsonResponse
 from django.db import IntegrityError, transaction
 
 from .models import *
+from ubs.accounts.models import Doctor
 from .forms import *
+from django.db.models import Q
 
 
 class SpecialtyCreate(CreateView):
@@ -32,7 +34,7 @@ class SpecialtyList(ListView):
     def get_queryset(self):
         self.queryset = super(SpecialtyList, self).get_queryset()
         if self.request.GET.get('search_box', False):
-            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']) | Q(first_name__icontains=self.q))
+            self.queryset=self.queryset.filter(Q(desc_specialty__icontains = self.request.GET['search_box']))
         return self.queryset
 
     def get_context_data(self, **kwargs):
@@ -98,7 +100,8 @@ class DoctorSpecialtyList(ListView):
     def get_queryset(self):
         self.queryset = super(DoctorSpecialtyList, self).get_queryset()
         if self.request.GET.get('search_box', False):
-            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']) | Q(first_name__icontains=self.q))
+            self.queryset=self.queryset.filter(Q(doctor__full_name__icontains = self.request.GET['search_box']) | Q(MedicalSpecialty_idSpecialty__desc_specialty__icontains=self.request.GET['search_box']))
+            
         return self.queryset
 
     def get_context_data(self, **kwargs):

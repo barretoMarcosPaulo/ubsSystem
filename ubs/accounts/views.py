@@ -12,6 +12,7 @@ from django.db import IntegrityError, transaction
 from .models import User, Clerk ,Doctor
 from .forms import UserAdminForm, UserClerkForm, UserDoctorForm
 
+from django.db.models import Q
 
 
 # Views for admin
@@ -55,7 +56,7 @@ class AdminList(ListView):
     def get_queryset(self):
         self.queryset = super(AdminList, self).get_queryset()
         if self.request.GET.get('search_box', False):
-            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']) | Q(first_name__icontains=self.q))
+            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']))
         return self.queryset
 
     def get_context_data(self, **kwargs):
@@ -143,7 +144,7 @@ class ClerkList(ListView):
     def get_queryset(self):
         self.queryset = super(ClerkList, self).get_queryset()
         if self.request.GET.get('search_box', False):
-            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']) | Q(first_name__icontains=self.q))
+            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']))
         return self.queryset
 
     def get_context_data(self, **kwargs):
@@ -231,7 +232,7 @@ class DoctorList(ListView):
     def get_queryset(self):
         self.queryset = super(DoctorList, self).get_queryset()
         if self.request.GET.get('search_box', False):
-            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']) | Q(first_name__icontains=self.q))
+            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']) )
         return self.queryset
 
     def get_context_data(self, **kwargs):

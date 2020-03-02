@@ -14,6 +14,8 @@ from django.urls import reverse, reverse_lazy
 from django.db import IntegrityError, transaction
 from django.http import HttpResponse, JsonResponse
 
+from django.db.models import Q
+
 
 class PatientCreate(CreateView):
     model = Patient
@@ -35,7 +37,7 @@ class ListPatient(ListView):
     def get_queryset(self):
         self.queryset = super(ListPatient, self).get_queryset()
         if self.request.GET.get('search_box', False):
-            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']) | Q(first_name__icontains=self.q))
+            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']))
         return self.queryset
 
     def get_context_data(self, **kwargs):
@@ -106,7 +108,7 @@ class ListCity(ListView):
     def get_queryset(self):
         self.queryset = super(ListCity, self).get_queryset()
         if self.request.GET.get('search_box', False):
-            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']) | Q(first_name__icontains=self.q))
+            self.queryset=self.queryset.filter(Q(name_city__icontains = self.request.GET['search_box']))
         return self.queryset
 
     def get_context_data(self, **kwargs):
@@ -178,7 +180,7 @@ class ListState(ListView):
     def get_queryset(self):
         self.queryset = super(ListState, self).get_queryset()
         if self.request.GET.get('search_box', False) :
-            self.queryset = self.queryset.filter(Q(title__contains = self.request.GET['search_box']) | Q(author__name__contains = self.request.GET['search_box']))
+            self.queryset = self.queryset.filter(Q(State_codIBGE_UF__contains = self.request.GET['search_box']) )
         return self.queryset
 
     def get_context_data(self, **kwargs):
@@ -251,7 +253,7 @@ class ListMedicalInsurance(ListView):
     def get_queryset(self):
         self.queryset = super(ListMedicalInsurance, self).get_queryset()
         if self.request.GET.get('search_box', False):
-            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']) | Q(first_name__icontains=self.q))
+            self.queryset=self.queryset.filter(Q(desc_medical_insurance__icontains = self.request.GET['search_box']))
         return self.queryset
 
     def get_context_data(self, **kwargs):
@@ -323,7 +325,7 @@ class ListColor(ListView):
     def get_queryset(self):
         self.queryset = super(ListColor, self).get_queryset()
         if self.request.GET.get('search_box', False):
-            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']) | Q(first_name__icontains=self.q))
+            self.queryset=self.queryset.filter(Q(name_color__icontains = self.request.GET['search_box']))
         return self.queryset
 
     def get_context_data(self, **kwargs):
@@ -395,7 +397,7 @@ class ListMaritalState(ListView):
     def get_queryset(self):
         self.queryset = super(ListMaritalState, self).get_queryset()
         if self.request.GET.get('search_box', False):
-            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']) | Q(first_name__icontains=self.q))
+            self.queryset=self.queryset.filter(Q(desc_marital_state__icontains = self.request.GET['search_box']) )
         return self.queryset
 
     def get_context_data(self, **kwargs):
@@ -465,7 +467,7 @@ class ListTypeLogradouro(ListView):
     def get_queryset(self):
         self.queryset = super(ListTypeLogradouro, self).get_queryset()
         if self.request.GET.get('search_box', False):
-            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']) | Q(first_name__icontains=self.q))
+            self.queryset=self.queryset.filter(Q(desc_logradouro__icontains = self.request.GET['search_box']))
         return self.queryset
 
     def get_context_data(self, **kwargs):
@@ -539,7 +541,7 @@ class ListOcupation(ListView):
     def get_queryset(self):
         self.queryset = super(ListOcupation, self).get_queryset()
         if self.request.GET.get('search_box', False):
-            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']) | Q(first_name__icontains=self.q))
+            self.queryset=self.queryset.filter(Q(desc_ocupation__icontains = self.request.GET['search_box']))
         return self.queryset
 
     def get_context_data(self, **kwargs):

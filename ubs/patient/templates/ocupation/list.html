@@ -56,6 +56,18 @@
                 <div class="card">
                     <div class="card-header">
                         <strong class="card-title">Ocupação</strong>
+                        <form action="" method="get" class="float-right">
+                            <div class="col-10" >
+                                <input name="search_box" type="text" class="form-control" placeholder="Procurar na página">
+                            </div>
+                            <div class="col-1">
+                                <button type="submit" class="btn btn-primary" style="border-radius: 3px;">
+                                    <span class="icon">
+                                        <i class="fa fa-search"></i>
+                                    </span>
+                                </button>
+                            </div>
+                        </form>
                     </div>
                     <div class="card-body">
                         <a href="{% url 'patient:add_ocupation' %}"> <button type="button" class="btn btn-success btn-sm" style="border-radius: 3px;"><i class="fa fa-plus-square-o" > Cadastrar</i></button></a>
