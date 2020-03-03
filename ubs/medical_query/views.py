@@ -17,7 +17,7 @@ from datetime import datetime
 from ubs.patient.models import Patient
 
 from django.db.models import Q
-
+from .pusher import pusher_client
 
 # Views for Querys
 class QueryCreate(CreateView):
@@ -75,7 +75,7 @@ class QueryCreate(CreateView):
             query.save()
             form.save_m2m()
 
-
+            pusher_client.trigger('my-channel', 'my-event', {'message': 'hello world'})
 
             return HttpResponseRedirect(self.get_success_url())
 

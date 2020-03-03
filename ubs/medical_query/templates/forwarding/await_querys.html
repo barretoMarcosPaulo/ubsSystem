@@ -6,6 +6,7 @@
 {% block head %}
 <link rel="stylesheet" href={% static "vendors/datatables.net-bs4/css/dataTables.bootstrap4.min.css" %}>
 <link rel="stylesheet" href={% static "vendors/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" %}>
+<script src="https://js.pusher.com/5.1/pusher.min.js"></script>
 {% endblock%}
 
 {% block body %}
@@ -183,4 +184,22 @@
     }
 
 </script>
+
+<script>
+
+    // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+
+        var pusher = new Pusher('7c5598615bc9fbb306d2', {
+            cluster: 'us2',
+            forceTLS: true
+        });
+
+        var channel = pusher.subscribe('my-channel');
+        channel.bind('my-event', function (data) {
+            alert(JSON.stringify(data));
+        });
+
+</script>
+
 {% endblock%}

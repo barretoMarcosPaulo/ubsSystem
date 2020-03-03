@@ -99,7 +99,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # auth
-LOGIN_URL = 'ubs.accounts:login'
+LOGIN_URL = 'accounts:login'
 LOGIN_REDIRECT_URL = 'core:index'
 
 LOGOUT_REDIRECT_URL = 'accounts:login'
