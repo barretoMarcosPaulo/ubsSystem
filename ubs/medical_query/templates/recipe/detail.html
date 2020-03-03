@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head> 
+        <style>
+            .data-patient {
+                margin-top: 10%; 
+                margin-right: 30%;
+                border: solid 1px red;
+            }
+
+        </style>
+    </head>
+    <body> 
+        <div class="container"> 
+            <div class="data-patient">
+                <p> {{ object.Patient_idPatient}}  </p>
+            </div>
+            <div class="medicine">
+                <p> Medicamentos:</p>
+                <ol>
+
+                    {% for ob in object.medicine.all %}
+                        <li> 
+                            <p> {{ ob.full_name }}: -----------</p>
+                        </li>
+                    {% endfor %}
+                </ol>
+            </div>
+            <div class="info-doctor">
+                <p> Picos, 25/01/2020 </p>
+                <p> {{ object.User_idUser.full_name}} </p>
+            </div>
+            <div class="info-ubs">
+                <p> Ambulatório em Saúde
+                    Curso de medicina-UFPI/CSHNB 
+                </p>
+                
+                <p id="location"> R. Cícero Duarte, nº 905 - Junco, Picos - PI, 64607-670 </p>
+                <p id="site"> ubssystem.com</p>
+                <p id="phone"> 89 9945555487 </p>
+            </div>
+
+
+        </div>
+    </body>
+</html>

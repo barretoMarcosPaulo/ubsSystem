@@ -32,4 +32,6 @@ urlpatterns = [
     path('editar-requisicao-exame/<str:pk> ', views.ExamRequestUpdate.as_view(), name='update_exam_request'),
     path('detalhes-requisicao-exame/<str:pk> ', views.ExamRequestDetail.as_view(), name='detail_exam_request'),
     path('delete-requisicao-exame/<str:pk>', views.DeleteExamRequest.as_view(), name='delete_exam_request'),
+    
+    path('receita/<int:pk>', views.Recipe.as_view(), name='recipe'),
 ]

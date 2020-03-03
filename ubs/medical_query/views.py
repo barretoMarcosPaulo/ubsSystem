@@ -25,6 +25,7 @@ class QueryCreate(CreateView):
     template_name = 'querys/add.html'
     form_class = MedicalQueryForm
     second_form_class = PhisicalExamForm
+    third_form_class = query_has_medicine_set_class
 
 
     def get(self, request,patient_pk,forwarding_pk,*args, **kwargs):
@@ -38,13 +39,16 @@ class QueryCreate(CreateView):
         
         form = self.form_class
         second_form = self.second_form_class
-
+        third_form_class = self.third_form_class()
+        # self.third_form_class.extra=0    
+        # self.third_form_class.min_num=1  
 
         return self.render_to_response(
             self.get_context_data(
                 form=form,
                 second_form=second_form,
-                patient=patient
+                patient=patient,
+                third_form_class=third_form_class
                 
             )
         )
@@ -53,27 +57,31 @@ class QueryCreate(CreateView):
         self.object = None
         form = self.form_class(self.request.POST, self.request.FILES)
         exam_form = self.second_form_class(self.request.POST)
+        query_has_medicine_form = self.third_form_class(self.request.POST)
 
         
-        if form.is_valid() and exam_form.is_valid() :
-            return self.form_valid(form,exam_form,patient_pk)
+        if form.is_valid() and exam_form.is_valid() and query_has_medicine_form.is_valid():
+            return self.form_valid(form,exam_form,patient_pk, query_has_medicine_form )
         else:
-            return self.form_invalid(form,exam_form)
+            return self.form_invalid(form,exam_form, query_has_medicine_form)
 
-    def form_valid(self, form, exam_form,patient_pk):
+    def form_valid(self, form, exam_form,patient_pk, query_has_medicine_form):
        
         with transaction.atomic():
 
             exam = exam_form.save()
-    
-            print(form)
 
             query = form.save(commit=False)
             query.medical = self.request.user
             query.PhisicalExam_idPhisicalExam = exam
             query.Patient_idPatient = Patient.objects.get(id=patient_pk)
             query.save()
+
             form.save_m2m()
+
+            medicine = query_has_medicine_form.save(commit=False)
+            medicine.Query_idQuery = query         
+            medicine.save()
 
 
 
@@ -89,6 +97,12 @@ class QueryCreate(CreateView):
 
     def get_success_url(self):
         return reverse('medical_query:list_query_history')
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['third_form']=self.third_form_class
+        return context
 
 
 class QueryUpdate(UpdateView):
@@ -548,5 +562,10 @@ class DeleteCID10(DeleteView):
             return JsonResponse({'msg': "Proposta excluida com sucesso!", 'code': "1"})
         except:
             return JsonResponse({'msg': "Essa proposta não pôde ser excluída!", 'code': "0"})
+
+class Recipe(DetailView):
+    model = Query
+    template_name="recipe/detail.html"
+    form_class = MedicalQueryForm
 
 

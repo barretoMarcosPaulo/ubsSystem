@@ -2,6 +2,8 @@ from django import forms
 from dal import autocomplete
 from .models import *
 
+from django.forms import inlineformset_factory
+
 class MedicalQueryForm(forms.ModelForm):
     class Meta:
         model = Query
@@ -10,7 +12,7 @@ class MedicalQueryForm(forms.ModelForm):
             'current_health_history','review_of_systems',
             'epidemiological_history','previous_pathological_history',
             'family_history','physiological_personal_antecedents',
-            'summary','diagnostic_hypotheses','take_duct','cid10','examRequest','medicine'
+            'summary','diagnostic_hypotheses','take_duct','cid10','examRequest'
         ]
 
 # Formulario para details
@@ -146,4 +148,16 @@ class ExamRequestDetailForm(forms.ModelForm):
         model = ExamRequest
         fields= "__all__"
 
+class ReceitaForm(forms.ModelForm):
+    class Meta:
+        model = Query
+        fields= "__all__"
 
+class Query_has_MedicineForm(forms.ModelForm):
+    class Meta:
+        model = Query_has_Medicine
+        fields = "__all__"
+       # exclude = ["Query_idQuery"]
+
+query_has_medicine_set_class = inlineformset_factory(
+    Medicine, Query_has_Medicine, form=Query_has_MedicineForm, extra=1)    
