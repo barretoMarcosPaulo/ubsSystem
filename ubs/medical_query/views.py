@@ -28,6 +28,7 @@ class QueryCreate(CreateView):
 
 
     def get(self, request,patient_pk,forwarding_pk,*args, **kwargs):
+        pusher_client.trigger('my-channel', 'my-event', {'message': forwarding_pk})
         self.object = None
         patient = Patient.objects.get(id=patient_pk)
         
@@ -75,7 +76,7 @@ class QueryCreate(CreateView):
             query.save()
             form.save_m2m()
 
-            pusher_client.trigger('my-channel', 'my-event', {'message': 'hello world'})
+            
 
             return HttpResponseRedirect(self.get_success_url())
 
