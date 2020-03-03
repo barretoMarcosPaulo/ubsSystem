@@ -48,6 +48,9 @@ class Medicine(AuditModel):
     dosage = models.CharField('Dosagem',max_length=255)
     unity = models.CharField('Unidade',choices=unity_option,max_length=3)
 
+    def unity_name(self):
+        dict_unity = dict (self.unity_option)
+        return dict_unity[self.unity]
 
     def __str__(self):
         return self.full_name
