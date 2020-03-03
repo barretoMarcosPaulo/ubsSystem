@@ -17,7 +17,7 @@ from datetime import datetime
 from ubs.patient.models import Patient
 
 from django.db.models import Q
-
+from .pusher import pusher_client
 
 # Views for Querys
 class QueryCreate(CreateView):
@@ -29,6 +29,7 @@ class QueryCreate(CreateView):
 
 
     def get(self, request,patient_pk,forwarding_pk,*args, **kwargs):
+        pusher_client.trigger('my-channel', 'my-event', {'message': forwarding_pk})
         self.object = None
         patient = Patient.objects.get(id=patient_pk)
         

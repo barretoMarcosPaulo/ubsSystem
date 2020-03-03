@@ -6,6 +6,7 @@
 {% block head %}
 <link rel="stylesheet" href={% static "vendors/datatables.net-bs4/css/dataTables.bootstrap4.min.css" %}>
 <link rel="stylesheet" href={% static "vendors/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" %}>
+
 {% endblock%}
 
 {% block body %}
@@ -81,7 +82,7 @@
                             </thead>
                             <tbody>
                                 {% for object in currents_forwardings%}
-                                <tr id="line-{{object.id}}">
+                                <tr id="{{object.id}}">
                                     <td> {{ object.patient}} </td>
                                     <td> 
                                         {{ object.priority}} 
@@ -183,4 +184,27 @@
     }
 
 </script>
+
+<script src="https://js.pusher.com/5.1/pusher.min.js"></script>
+
+<script>
+        
+    // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+
+        var pusher = new Pusher('7c5598615bc9fbb306d2', {
+            cluster: 'us2',
+            forceTLS: true
+        });
+
+        var channel = pusher.subscribe('my-channel');
+        channel.bind('my-event', function (data) {
+            response = data
+
+            
+            document.getElementById(response.message).style = "display: none;"
+        });
+
+</script>
+
 {% endblock%}
