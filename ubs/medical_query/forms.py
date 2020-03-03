@@ -17,7 +17,7 @@ class MedicalQueryForm(forms.ModelForm):
 
 # Formulario para details
 class MedicalQueryAttendanceForm(forms.ModelForm):
-    
+
     def __init__(self, *args, **kwargs):
        super(MedicalQueryAttendanceForm, self).__init__(*args, **kwargs)
 
@@ -39,7 +39,7 @@ class MedicalQueryAttendanceForm(forms.ModelForm):
 
 # Formulario para details
 class PhisicalExamAttendanceForm(forms.ModelForm):
-    
+
     def __init__(self, *args, **kwargs):
        super(PhisicalExamAttendanceForm, self).__init__(*args, **kwargs)
 
@@ -85,7 +85,7 @@ class CID10EditForm(forms.ModelForm):
 class CID10DetailForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(CID10DetailForm, self).__init__(*args, **kwargs)
-        for field in self.fields: 
+        for field in self.fields:
             self.fields[field].widget.attrs['readonly'] = True
 
     class Meta:
@@ -109,7 +109,7 @@ class CID10EditForm(forms.ModelForm):
 class CID10DetailForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(CID10DetailForm, self).__init__(*args, **kwargs)
-        for field in self.fields: 
+        for field in self.fields:
             self.fields[field].widget.attrs['readonly'] = True
 
     class Meta:
@@ -125,13 +125,13 @@ class MedicineForm(forms.ModelForm):
 class MedicineDetailForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(MedicineDetailForm, self).__init__(*args, **kwargs)
-        for field in self.fields: 
+        for field in self.fields:
             self.fields[field].widget.attrs['readonly'] = True
 
     class Meta:
         model = Medicine
         fields= "__all__"
-        
+
 class ExamRequestForm(forms.ModelForm):
     class Meta:
         model = ExamRequest
@@ -141,7 +141,7 @@ class ExamRequestForm(forms.ModelForm):
 class ExamRequestDetailForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ExamRequestDetailForm, self).__init__(*args, **kwargs)
-        for field in self.fields: 
+        for field in self.fields:
             self.fields[field].widget.attrs['readonly'] = True
 
     class Meta:
@@ -156,8 +156,7 @@ class ReceitaForm(forms.ModelForm):
 class Query_has_MedicineForm(forms.ModelForm):
     class Meta:
         model = Query_has_Medicine
-        fields = "__all__"
-       # exclude = ["Query_idQuery"]
+        exclude = ["Query_idQuery"]
 
 query_has_medicine_set_class = inlineformset_factory(
-    Medicine, Query_has_Medicine, form=Query_has_MedicineForm, extra=1)    
+    Query, Query_has_Medicine, form=Query_has_MedicineForm, extra=1)

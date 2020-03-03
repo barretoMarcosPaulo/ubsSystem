@@ -92,6 +92,7 @@
 
 
                             <div id="3" class="d-none">
+                                
                                 <div class="card">
                                     <div class="card-body" >
                                         <table class="table table-striped table-bordered" id="usercommitee" class="link-formset">
@@ -120,7 +121,7 @@
                                                         <tr {% if not has_medicine.pk %} class="dynamic-form"{% endif %}  id="{{ usercommittee.prefix }}-row">
                                                             {{ has_medicine.id }}
                                                             <td>
-                                                                {{ has_medicine.Medicine_idMedicine|add_class:"form-control input-md" }}
+                                                                {{ has_medicine.medicine|add_class:"form-control input-md" }}
                                                             </td>
                                                             <td>
                                                                 {{ has_medicine.amount|add_class:"form-control input-md" }}

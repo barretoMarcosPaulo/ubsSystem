@@ -49,7 +49,8 @@ class QueryCreate(CreateView):
                 form=form,
                 second_form=second_form,
                 patient=patient,
-                third_form_class=third_form_class
+                third_form_class=third_form_class,
+                form_test=Query_has_MedicineForm
                 
             )
         )
