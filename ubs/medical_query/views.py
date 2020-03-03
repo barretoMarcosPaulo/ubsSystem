@@ -50,8 +50,6 @@ class QueryCreate(CreateView):
                 second_form=second_form,
                 patient=patient,
                 third_form_class=third_form_class,
-                form_test=Query_has_MedicineForm
-                
             )
         )
 
@@ -82,8 +80,9 @@ class QueryCreate(CreateView):
             form.save_m2m()
 
             medicine = query_has_medicine_form.save(commit=False)
-            medicine.Query_idQuery = query         
-            medicine.save()
+            for aux in medicine:
+                aux.Query_idQuery = query         
+                aux.save()
 
 
 
