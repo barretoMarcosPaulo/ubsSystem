@@ -339,6 +339,146 @@ class AwaitQuerys(ListView):
             })
         return context
 
+class MedicineCreate(CreateView):
+    model = Medicine
+    template_name = 'medicine/add.html'
+    form_class = MedicineForm
+
+    def get_success_url(self):
+        return reverse('medical_query:list_medicine')
+
+class ListMedicine(ListView):
+
+    model = Medicine
+    template_name = 'medicine/list.html'
+    context_object_name = 'object_list'
+    http_method_names = ['get']
+    paginate_by = 20
+
+    
+    def get_queryset(self):
+        self.queryset = super(ListMedicine, self).get_queryset()
+        if self.request.GET.get('search_box', False):
+            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']) | Q(generic_name__icontains = self.request.GET['search_box']))
+        return self.queryset
+
+    def get_context_data(self, **kwargs):
+        _super = super(ListMedicine, self)
+        context = _super.get_context_data(**kwargs)
+        adjacent_pages = 3
+        page_number = context['page_obj'].number
+        num_pages = context['paginator'].num_pages
+        startPage = max(page_number - adjacent_pages, 1)
+        if startPage <= 5:
+            startPage = 1
+        endPage = page_number + adjacent_pages + 1
+        if endPage >= num_pages - 1:
+            endPage = num_pages + 1
+        page_numbers = [n for n in range(startPage, endPage) \
+            if n > 0 and n <= num_pages]
+        context.update({
+            'page_numbers': page_numbers,
+            'show_first': 1 not in page_numbers,
+            'show_last': num_pages not in page_numbers,
+            })
+        return context
+
+class MedicineUpdate(UpdateView):
+    model = Medicine
+    template_name = 'medicine/add.html'
+    form_class = MedicineForm
+
+    def get_success_url(self):
+        return reverse('medical_query:list_medicine')
+
+class MedicineDetail(UpdateView):
+    model = Medicine
+    template_name = 'medicine/detail.html'
+    form_class = MedicineDetailForm
+    
+class DeleteMedicine(DeleteView):
+    model = Medicine
+    template_name="medicine/list.html"
+
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        try:
+            self.object.delete()
+            return JsonResponse({'msg': "Proposta excluida com sucesso!", 'code': "1"})
+        except:
+            return JsonResponse({'msg': "Essa proposta não pôde ser excluída!", 'code': "0"})
+
+class ExamRequestCreate(CreateView):
+    model = ExamRequest
+    template_name = 'exam_request/add.html'
+    form_class = ExamRequestForm
+
+    def get_success_url(self):
+        return reverse('medical_query:list_exam_request')
+
+class ListExamRequest(ListView):
+
+    model = ExamRequest
+    template_name = 'exam_request/list.html'
+    context_object_name = 'object_list'
+    http_method_names = ['get']
+    paginate_by = 20
+
+    
+    def get_queryset(self):
+        self.queryset = super(ListExamRequest, self).get_queryset()
+        if self.request.GET.get('search_box', False):
+            self.queryset=self.queryset.filter(Q(desc_exam__icontains = self.request.GET['search_box']))
+        return self.queryset
+
+    def get_context_data(self, **kwargs):
+        _super = super(ListExamRequest, self)
+        context = _super.get_context_data(**kwargs)
+        adjacent_pages = 3
+        page_number = context['page_obj'].number
+        num_pages = context['paginator'].num_pages
+        startPage = max(page_number - adjacent_pages, 1)
+        if startPage <= 5:
+            startPage = 1
+        endPage = page_number + adjacent_pages + 1
+        if endPage >= num_pages - 1:
+            endPage = num_pages + 1
+        page_numbers = [n for n in range(startPage, endPage) \
+            if n > 0 and n <= num_pages]
+        context.update({
+            'page_numbers': page_numbers,
+            'show_first': 1 not in page_numbers,
+            'show_last': num_pages not in page_numbers,
+            })
+        return context
+
+class ExamRequestUpdate(UpdateView):
+    model = ExamRequest
+    template_name = 'exam_request/add.html'
+    form_class = ExamRequestForm
+
+    def get_success_url(self):
+        return reverse('medical_query:list_exam_request')
+
+class ExamRequestDetail(UpdateView):
+    model = ExamRequest
+    template_name = 'exam_request/detail.html'
+    form_class = ExamRequestDetailForm
+    
+class DeleteExamRequest(DeleteView):
+    model = ExamRequest
+    template_name="exam_request/list.html"
+
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        try:
+            self.object.delete()
+            return JsonResponse({'msg': "Proposta excluida com sucesso!", 'code': "1"})
+        except:
+            return JsonResponse({'msg': "Essa proposta não pôde ser excluída!", 'code': "0"})
+
 class CID10Create(CreateView):
     model = CID10
     template_name = 'CID10/add.html'

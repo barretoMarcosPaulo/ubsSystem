@@ -113,6 +113,37 @@ class CID10DetailForm(forms.ModelForm):
     class Meta:
         model = CID10
         fields= "__all__"
+
+class MedicineForm(forms.ModelForm):
+    class Meta:
+        model = Medicine
+        fields= "__all__"
+
+
+class MedicineDetailForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(MedicineDetailForm, self).__init__(*args, **kwargs)
+        for field in self.fields: 
+            self.fields[field].widget.attrs['readonly'] = True
+
+    class Meta:
+        model = Medicine
+        fields= "__all__"
         
+class ExamRequestForm(forms.ModelForm):
+    class Meta:
+        model = ExamRequest
+        fields= "__all__"
+
+
+class ExamRequestDetailForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ExamRequestDetailForm, self).__init__(*args, **kwargs)
+        for field in self.fields: 
+            self.fields[field].widget.attrs['readonly'] = True
+
+    class Meta:
+        model = ExamRequest
+        fields= "__all__"
 
 

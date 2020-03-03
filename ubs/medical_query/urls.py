@@ -20,5 +20,16 @@ urlpatterns = [
     path('detalhes-CID/<str:pk> ', views.CID10Detail.as_view(), name='detail_CID'),
     path('editar-CID/<str:pk> ', views.CID10Update.as_view(), name='update_CID'),
     path('delete-CID/<str:pk>', views.DeleteCID10.as_view(), name='delete_CID'),
+
+    path('adicionar-medicamento', views.MedicineCreate.as_view(),name="add_medicine"),
+    path('listagem-medicamento', views.ListMedicine.as_view(),name="list_medicine"),
+    path('detalhes-medicamento/<str:pk> ', views.MedicineDetail.as_view(), name='detail_medicine'),
+    path('editar-medicamento/<str:pk> ', views.MedicineUpdate.as_view(), name='update_medicine'),
+    path('delete-medicamento/<str:pk>', views.DeleteMedicine.as_view(), name='delete_medicine'),
     
+    path('adicionar-requisicao-exame', views.ExamRequestCreate.as_view(),name="add_exam_request"),
+    path('listagem-requisicao-exame', views.ListExamRequest.as_view(),name="list_exam_request"),
+    path('editar-requisicao-exame/<str:pk> ', views.ExamRequestUpdate.as_view(), name='update_exam_request'),
+    path('detalhes-requisicao-exame/<str:pk> ', views.ExamRequestDetail.as_view(), name='detail_exam_request'),
+    path('delete-requisicao-exame/<str:pk>', views.DeleteExamRequest.as_view(), name='delete_exam_request'),
 ]
