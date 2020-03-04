@@ -57,7 +57,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <strong class="card-title">Pacientes a serem atendidos-Fila de Espera</strong>
+                        <strong class="card-title">Pacientes do dia</strong>
                         <form action="" method="get" class="float-right">
                             <div class="col-10">
                                 <input name="search_box" type="text" class="form-control"
@@ -77,22 +77,45 @@
                             <thead>
                                 <tr>
                                     <th>Paciente</th>
-                                    <th class="text-center" width="20%">Em atendimento</th>
+                                    <th>Médico(a)</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for object in currents_forwardings%}
-                                <tr id="fila-{{object.id}}" {% if object.in_attendance %} class="bg-success" {% endif %}>
+                                {% if object.in_attendance %}
+                                <tr id="{{object.id}}" style="background-color: rgb(142, 196, 240)  ;">
                                     <td> {{ object.patient}} </td>
-                                    <td id="atendimento-{{object.id}}">
-                                        {% if object.in_attendance %}
-                                            Sim
-                                        {% else %}
-                                            Não
-                                        {% endif %}
+                                    <td>
+                                        {{object.medical}}
                                     </td>
 
                                 </tr>
+                                {% elif object.finalized %}
+
+
+
+                                <tr id="{{object.id}}" style="background-color: #9AFF9A">
+                                    <td> {{ object.patient}} </td>
+                                    <td>
+                                        {{object.medical}}
+                                    </td>
+
+
+                                </tr>
+
+
+
+                                {% else %}
+                                <tr id="{{object.id}}">
+                                    <td> {{ object.patient}} </td>
+                                    <td>
+                                        {{object.medical}}
+                                    </td>
+
+                                </tr>
+
+
+                                {% endif %}
                                 {% endfor %}
                             </tbody>
                         </table>
@@ -130,9 +153,19 @@
     var channel = pusher.subscribe('my-channel');
     channel.bind('my-event', function (data) {
         response = data
-        document.getElementById("fila-"+response.message).className = "bg-info"
-        document.getElementById("atendimento-"+response.message).innerHTML = "Sim"
+
+
+        document.getElementById(response.message).style = "background-color: rgb(142, 196, 240)"
     });
+
+
+    var channel = pusher.subscribe('my-channel-finalized');
+    channel.bind('finalized', function (data) {
+        response = data
+
+        document.getElementById(response.finalized).style = "background-color: #9AFF9A ;"
+    });
+
 
 </script>
 

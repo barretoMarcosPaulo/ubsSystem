@@ -439,7 +439,7 @@ class AwaitQuerysClerk(ListView):
             if n > 0 and n <= num_pages]
        
         context.update({
-            'currents_forwardings': Forwarding.objects.filter(created_on=datetime.now().date(), medical=self.request.user.id),
+            'currents_forwardings': Forwarding.objects.filter(created_on=datetime.now().date()),
             'page_numbers': page_numbers,
             'show_first': 1 not in page_numbers,
             'show_last': num_pages not in page_numbers,
