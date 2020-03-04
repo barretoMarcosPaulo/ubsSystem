@@ -82,10 +82,14 @@
                             </thead>
                             <tbody>
                                 {% for object in currents_forwardings%}
-                                <tr id="fila-{{object.id}}">
+                                <tr id="fila-{{object.id}}" {% if object.in_attendance %} class="bg-success" {% endif %}>
                                     <td> {{ object.patient}} </td>
                                     <td id="atendimento-{{object.id}}">
-                                        Não
+                                        {% if object.in_attendance %}
+                                            Sim
+                                        {% else %}
+                                            Não
+                                        {% endif %}
                                     </td>
 
                                 </tr>
@@ -126,8 +130,8 @@
     var channel = pusher.subscribe('my-channel');
     channel.bind('my-event', function (data) {
         response = data
-        alert("fila-"+response.message)
-        document.getElementById("fila-"+response.message).style = "background-color: green;"
+        document.getElementById("fila-"+response.message).className = "bg-info"
+        document.getElementById("atendimento-"+response.message).innerHTML = "Sim"
     });
 
 </script>

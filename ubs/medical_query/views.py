@@ -292,47 +292,47 @@ class AwaitQuerys(ListView):
         _super = super(AwaitQuerys, self)
         context = _super.get_context_data(**kwargs)
 
-        not_priority =  Forwarding.objects.filter(created_on=datetime.now().date(), medical=self.request.user.id, priority=False).exclude(in_attendance=True)
-        priority =  Forwarding.objects.filter(created_on=datetime.now().date(), medical=self.request.user.id, priority=True).exclude(in_attendance=True)
-        list_values = []
+        # not_priority =  Forwarding.objects.filter(created_on=datetime.now().date(), medical=self.request.user.id, priority=False).exclude(in_attendance=True)
+        # priority =  Forwarding.objects.filter(created_on=datetime.now().date(), medical=self.request.user.id, priority=True).exclude(in_attendance=True)
+        # list_values = []
 
-        p = list(priority)
-        n = list(not_priority)
+        # p = list(priority)
+        # n = list(not_priority)
 
-        count = 0
-        index_aux = 0 
-        count_p = 1 
+        # count = 0
+        # index_aux = 0 
+        # count_p = 1 
 
-        if len(p) < len(n):
-            for nao_prioritario in n:
-                if count_p <= 2 and index_aux < len(p):
-                    n.insert(count,p[index_aux])
-                    index_aux+=1
-                    count_p+=1
-                else:
-                    count_p=1
-                count+=1
-            list_values = n
+        # if len(p) < len(n):
+        #     for nao_prioritario in n:
+        #         if count_p <= 2 and index_aux < len(p):
+        #             n.insert(count,p[index_aux])
+        #             index_aux+=1
+        #             count_p+=1
+        #         else:
+        #             count_p=1
+        #         count+=1
+        #     list_values = n
 
-        else:
+        # else:
 
-            for prioritario in p:
-                if count_p == 3:
+        #     for prioritario in p:
+        #         if count_p == 3:
                     
-                    if index_aux == len(n):
-                        break
+        #             if index_aux == len(n):
+        #                 break
 
-                    p.insert(count, n[index_aux])
-                    n.pop(index_aux)
-                    index_aux+=1
-                    count_p = 1
-                else:
-                    count_p+=1
-                count+=1
+        #             p.insert(count, n[index_aux])
+        #             n.pop(index_aux)
+        #             index_aux+=1
+        #             count_p = 1
+        #         else:
+        #             count_p+=1
+        #         count+=1
 
-            for restante in n:
-                p.append(restante)
-            list_values= p
+        #     for restante in n:
+        #         p.append(restante)
+        #     list_values= p
         adjacent_pages = 3
         page_number = context['page_obj'].number
         num_pages = context['paginator'].num_pages
@@ -346,7 +346,7 @@ class AwaitQuerys(ListView):
             if n > 0 and n <= num_pages]
        
         context.update({
-            'currents_forwardings': list_values,
+            'currents_forwardings': Forwarding.objects.filter(created_on=datetime.now().date(), medical=self.request.user.id),
             'page_numbers': page_numbers,
             'show_first': 1 not in page_numbers,
             'show_last': num_pages not in page_numbers,
@@ -374,47 +374,52 @@ class AwaitQuerysClerk(ListView):
         _super = super(AwaitQuerysClerk, self)
         context = _super.get_context_data(**kwargs)
 
-        not_priority =  Forwarding.objects.filter(created_on=datetime.now().date(), priority=False).exclude(in_attendance=True)
-        priority =  Forwarding.objects.filter(created_on=datetime.now().date(), priority=True).exclude(in_attendance=True)
-        list_values = []
+        # not_priority =  Forwarding.objects.filter(created_on=datetime.now().date(), priority=False).exclude(in_attendance=True)
+        # priority =  Forwarding.objects.filter(created_on=datetime.now().date(), priority=True).exclude(in_attendance=True)
 
-        p = list(priority)
-        n = list(not_priority)
+        # not_priority =  Forwarding.objects.filter(created_on=datetime.now().date(), priority=False)
+        # priority =  Forwarding.objects.filter(created_on=datetime.now().date(), priority=True)
+       
+        # list_values = []
 
-        count = 0
-        index_aux = 0 
-        count_p = 1 
+        # p = list(priority)
+        # n = list(not_priority)
 
-        if len(p) < len(n):
-            for nao_prioritario in n:
-                if count_p <= 2 and index_aux < len(p):
-                    n.insert(count,p[index_aux])
-                    index_aux+=1
-                    count_p+=1
-                else:
-                    count_p=1
-                count+=1
-            list_values = n
+        # count = 0
+        # index_aux = 0 
+        # count_p = 1 
 
-        else:
+        # if len(p) < len(n):
+        #     for nao_prioritario in n:
+        #         if count_p <= 2 and index_aux < len(p):
+        #             n.insert(count,p[index_aux])
+        #             index_aux+=1
+        #             count_p+=1
+        #         else:
+        #             count_p=1
+        #         count+=1
+        #     list_values = n
 
-            for prioritario in p:
-                if count_p == 3:
+        # else:
+
+        #     for prioritario in p:
+        #         if count_p == 3:
                     
-                    if index_aux == len(n):
-                        break
+        #             if index_aux == len(n):
+        #                 break
 
-                    p.insert(count, n[index_aux])
-                    n.pop(index_aux)
-                    index_aux+=1
-                    count_p = 1
-                else:
-                    count_p+=1
-                count+=1
+        #             p.insert(count, n[index_aux])
+        #             n.pop(index_aux)
+        #             index_aux+=1
+        #             count_p = 1
+        #         else:
+        #             count_p+=1
+        #         count+=1
 
-            for restante in n:
-                p.append(restante)
-            list_values= p
+        #     for restante in n:
+        #         p.append(restante)
+        #     list_values= p
+
         adjacent_pages = 3
         page_number = context['page_obj'].number
         num_pages = context['paginator'].num_pages
@@ -428,7 +433,7 @@ class AwaitQuerysClerk(ListView):
             if n > 0 and n <= num_pages]
        
         context.update({
-            'currents_forwardings': list_values,
+            'currents_forwardings': Forwarding.objects.filter(created_on=datetime.now().date(), medical=self.request.user.id),
             'page_numbers': page_numbers,
             'show_first': 1 not in page_numbers,
             'show_last': num_pages not in page_numbers,

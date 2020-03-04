@@ -82,32 +82,53 @@
                             </thead>
                             <tbody>
                                 {% for object in currents_forwardings%}
-                                <tr id="{{object.id}}">
+                                {% if object.in_attendance %}
+                                <tr id="{{object.id}}" style="background-color: rgb(142, 196, 240)  ;">
                                     <td> {{ object.patient}} </td>
                                     <td> 
-                                        {{ object.priority}} 
+                                        {% if object.priority == 'True' %}
+                                            <strong >Prioritário</strong>
+                                        {% else %}
+                                            <strong >NÃO</strong> Prioritário
+                                        {% endif %}
                                     </td>
                              
 
                                     <td class="text-center">
                                         <div>
-                                            <a href="{% url 'medical_query:add_query' object.patient.id object.id %}">
-                                                <button type="button" class="btn btn-success btn-md"
-                                                    style="border-radius: 3px;">
-                                                    <i class="fa fa-heartbeat" aria-hidden="true"></i>
-                                                </button>
+                                            <a id="btn-{{object.id}}"  href="#">
+                                                <strong style="color: black;">Em Atendimento</strong>
                                             </a>
-
-                                            <a href="{% url 'medical_query:add_query' object.patient.id object.id %}">
-                                                <button type="button" class="btn btn-primary btn-md" style="border-radius: 3px;">
-                                                    <i class="fa fa-address-card" aria-hidden="true"></i>
-                                                </button>
-                                            </a>
-
 
                                         </div>
                                     </td>
                                 </tr>
+                                {% else %}
+                                <tr id="{{object.id}}">
+                                    <td> {{ object.patient}} </td>
+                                    <td>
+                                        {% if object.priority == 'True' %}
+                                            <strong >Prioritário</strong >
+                                        {% else %}
+                                            <strong >NÃO</strong> Prioritário
+                                        {% endif %}
+                                    </td>
+                                
+                                
+                                    <td class="text-center">
+                                        <div>
+                                            <a id="btn-{{object.id}}" href="{% url 'medical_query:add_query' object.patient.id object.id %}">
+                                                <button type="button" class="btn btn-success btn-md" style="border-radius: 3px;">
+                                                    <i class="fa fa-heartbeat" aria-hidden="true"></i>
+                                                </button>
+                                            </a>
+                                
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                
+                                {% endif %}
                                 {% endfor %}
                             </tbody>
                         </table>
@@ -202,7 +223,10 @@
             response = data
 
             
-            document.getElementById(response.message).style = "display: none;"
+            document.getElementById("btn-"+response.message).innerHTML = "<strong>Em Atendimento</strong>"
+            document.getElementById("btn-"+response.message).href = "#"
+            // document.getElementById(response.message).style = "background-color: #9AFF9A ;"
+            document.getElementById(response.message).style = " style="background-color: rgb(142, 196, 240)"
         });
 
 </script>
