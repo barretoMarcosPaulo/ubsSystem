@@ -81,11 +81,8 @@ class Query(AuditModel):
     examRequest =models.ManyToManyField(ExamRequest, verbose_name="Exame(s)",related_name='examRequest')
     medicine = models.ManyToManyField(Medicine, verbose_name="Medicamento(s)",related_name='medicine') 
 
-    '''
-    priority = models.BooleanField('Paciente Prioritário', default=False)
-    opened = models.BooleanField('Consulta em Aberto', default=True)
-    '''
-
+    gestational_history = models.TextField('História Gestacional', max_length=400, blank=True, null=True)
+    repoductive_health = models.TextField('Saúde Reprodutiva', max_length=400, blank=True, null=True)
     
 
     def get_absolute_url(self):

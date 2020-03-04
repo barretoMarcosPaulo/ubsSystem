@@ -12,7 +12,8 @@ class MedicalQueryForm(forms.ModelForm):
             'current_health_history','review_of_systems',
             'epidemiological_history','previous_pathological_history',
             'family_history','physiological_personal_antecedents',
-            'summary','diagnostic_hypotheses','take_duct','cid10','examRequest'
+            'summary','diagnostic_hypotheses','take_duct','cid10','examRequest',
+            'gestational_history','repoductive_health'
         ]
 
 # Formulario para details
@@ -31,6 +32,10 @@ class MedicalQueryAttendanceForm(forms.ModelForm):
        self.fields['summary'].widget.attrs['readonly'] = True
        self.fields['diagnostic_hypotheses'].widget.attrs['readonly'] = True
        self.fields['take_duct'].widget.attrs['readonly'] = True
+       self.fields['gestational_history'].widget.attrs['readonly'] = True
+       self.fields['repoductive_health'].widget.attrs['readonly'] = True
+       
+
 
     class Meta:
         model = Query
