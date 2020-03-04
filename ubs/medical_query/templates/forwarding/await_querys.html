@@ -103,6 +103,33 @@
                                         </div>
                                     </td>
                                 </tr>
+                                {% elif object.finalized %}
+
+
+
+                                    <tr id="{{object.id}}" style="background-color: #9AFF9A">
+                                        <td> {{ object.patient}} </td>
+                                        <td>
+                                            {% if object.priority == 'True' %}
+                                            <strong>Prioritário</strong>
+                                            {% else %}
+                                            <strong>NÃO</strong> Prioritário
+                                            {% endif %}
+                                        </td>
+                                    
+                                    
+                                        <td class="text-center">
+                                            <div>
+                                                <a id="btn-{{object.id}}" href="#">
+                                                    <strong style="color: black;">Finalizado</strong>
+                                                </a>
+                                    
+                                            </div>
+                                        </td>
+                                    </tr>
+
+
+
                                 {% else %}
                                 <tr id="{{object.id}}">
                                     <td> {{ object.patient}} </td>
@@ -149,62 +176,7 @@
 {% endblock%}
 
 {% block js %}
-<script>
 
-    id_user = 0
-    user_name = " "
-
-    function get_datas(user, id) {
-        document.getElementById('user_remove_alert').innerHTML = user
-        id_user = id
-        user_name = user
-    }
-    function remove_user() {
-
-        urlDel = "http://localhost:8000/accounts/admin/delete/" + id_user
-
-        let xhr = new XMLHttpRequest()
-
-        xhr.open('GET', urlDel)
-
-        xhr.onreadystatechange = function () {
-            let response = JSON.parse(xhr.responseText);
-            status = response['code']
-            if (status == 1) {
-                document.getElementById('line-' + id_user).className = 'd-none'
-                document.getElementById('msg_remove').innerHTML = "A exlusão do usuário foi realizada com sucesso, o mesmo não possui mais acesso ao sistema."
-                document.getElementById('icon_remove').className = "fa fa-check-circle-o"
-                document.getElementById('icon_remove').style = "color: green; font-size:30px;"
-                document.getElementById('content_remove').innerHTML = "Usuário removido com sucesso!"
-                document.getElementById('btn_cancel').className = "d-none"
-                document.getElementById('btn_confirm').className = "d-none"
-
-            } else {
-
-                document.getElementById('msg_remove').innerHTML = "Não foi possivel excluir este usuário, por favor consulte um dos administradores do sistema ou um técnico."
-                document.getElementById('content_remove').innerHTML = "Erro! Houve um erro ao excluir o usuário selecionado!"
-                document.getElementById('btn_cancel').className = "d-none"
-                document.getElementById('btn_confirm').className = "d-none"
-
-            }
-        }
-
-        xhr.send()
-    }
-
-    function reset_html() {
-
-        document.getElementById('msg_remove').innerHTML = "Ao clicar em confirmar o usuário <strong id='user_remove_alert'>" + user_name + "</strong> será removido permanentemente. Essa ação não poderá ser desfeita!"
-        document.getElementById('icon_remove').className = "fa fa-exclamation-triangle"
-        document.getElementById('icon_remove').style = "font-size: 30px; color:#dc3545;"
-        document.getElementById('content_remove').innerHTML = "Têm certeza de que deseja remover este usuário?"
-        document.getElementById('btn_cancel').className = "btn btn-secondary"
-        document.getElementById('btn_confirm').innerHTML = "Confirmar"
-        document.getElementById('btn_confirm').className = "btn btn-primary"
-
-    }
-
-</script>
 
 <script src="https://js.pusher.com/5.1/pusher.min.js"></script>
 
@@ -223,11 +195,22 @@
             response = data
 
             
-            document.getElementById("btn-"+response.message).innerHTML = "<strong>Em Atendimento</strong>"
+            document.getElementById("btn-"+response.message).innerHTML = "<strong style='color: black;'>Em Atendimento</strong>"
             document.getElementById("btn-"+response.message).href = "#"
             // document.getElementById(response.message).style = "background-color: #9AFF9A ;"
-            document.getElementById(response.message).style = " style="background-color: rgb(142, 196, 240)"
+            document.getElementById(response.message).style = "background-color: rgb(142, 196, 240)"
         });
+
+
+        var channel = pusher.subscribe('my-channel-finalized');
+        channel.bind('finalized', function (data) {
+            response = data
+
+            document.getElementById("btn-" + response.finalized).innerHTML = "<strong style='color: black;'>Finalizado</strong>"
+            document.getElementById("btn-" + response.finalized).href = "#"
+            document.getElementById(response.finalized).style = "background-color: #9AFF9A ;"
+        });
+
 
 </script>
 

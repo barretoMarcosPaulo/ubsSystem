@@ -57,13 +57,18 @@ class QueryCreate(CreateView):
         exam_form = self.second_form_class(self.request.POST)
         query_has_medicine_form = self.third_form_class(self.request.POST)
 
-        
+        patient_forwarding = Forwarding.objects.get(patient=patient_pk,id=forwarding_pk)
+        patient_forwarding.in_attendance=False
+        patient_forwarding.finalized=True
+        patient_forwarding.save()
+
+
         if form.is_valid() and exam_form.is_valid() and exam_form.is_valid() and query_has_medicine_form.is_valid():
-            return self.form_valid(form,exam_form,patient_pk, query_has_medicine_form )
+            return self.form_valid(form,exam_form,patient_pk,forwarding_pk,query_has_medicine_form )
         else:
             return self.form_invalid(form,exam_form, query_has_medicine_form)
 
-    def form_valid(self, form, exam_form,patient_pk, query_has_medicine_form):
+    def form_valid(self, form, exam_form,patient_pk,forwarding_pk, query_has_medicine_form):
        
         with transaction.atomic():
 
@@ -83,6 +88,7 @@ class QueryCreate(CreateView):
                 aux.save()
 
 
+            pusher_client.trigger('my-channel-finalized', 'finalized', {'finalized': forwarding_pk})
 
             return HttpResponseRedirect(self.get_success_url())
 

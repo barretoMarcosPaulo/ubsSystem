@@ -119,6 +119,7 @@ class Forwarding(AuditModel):
     patient= models.ForeignKey(Patient,verbose_name="Paciente", null=True, blank=True, on_delete=models.SET_NULL)
     medical = models.ForeignKey(Doctor,verbose_name="Profissional", null=True, blank=True, on_delete=models.SET_NULL)
     in_attendance = models.BooleanField('Paciente em atendimento', default=False)
+    finalized = models.BooleanField('Finalizado', default=False)
     priority = models.BooleanField('Paciente Prioritário', default=False)
     
     def __str__(self):
