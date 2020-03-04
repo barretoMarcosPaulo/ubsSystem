@@ -41,8 +41,6 @@ class QueryCreate(CreateView):
         form = self.form_class
         second_form = self.second_form_class
         third_form_class = self.third_form_class()
-        # self.third_form_class.extra=0    
-        # self.third_form_class.min_num=1  
 
         return self.render_to_response(
             self.get_context_data(
@@ -60,7 +58,7 @@ class QueryCreate(CreateView):
         query_has_medicine_form = self.third_form_class(self.request.POST)
 
         
-        if form.is_valid() and exam_form.is_valid() and query_has_medicine_form.is_valid():
+        if form.is_valid() and exam_form.is_valid() and exam_form.is_valid() and query_has_medicine_form.is_valid():
             return self.form_valid(form,exam_form,patient_pk, query_has_medicine_form )
         else:
             return self.form_invalid(form,exam_form, query_has_medicine_form)
@@ -88,11 +86,12 @@ class QueryCreate(CreateView):
 
             return HttpResponseRedirect(self.get_success_url())
 
-    def form_invalid(self, form, exam_form):
-        print("Formulario Invalido")
+    def form_invalid(self, form, exam_form, query_has_medicine_form):
         return self.render_to_response(
             self.get_context_data(
                     form=form,
+                    second_form=exam_form,
+                    third_form_class=query_has_medicine_form,
                 )
             )
 

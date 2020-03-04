@@ -109,7 +109,7 @@ class Query(AuditModel):
 class Query_has_Medicine(AuditModel):
     medicine = models.ForeignKey(Medicine,verbose_name=' Medicamento', null=True,on_delete=models.SET_NULL) 
     Query_idQuery = models.ForeignKey(Query,verbose_name='Consulta',null=True,on_delete=models.SET_NULL)
-    amount = models.CharField('Quantidade',max_length=400)
+    amount = models.CharField('Quantidade',max_length=400, null=True)
 
 
 
