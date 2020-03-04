@@ -231,7 +231,7 @@ class ForwardingCreate(CreateView):
     form_class = ForwardingForm
 
     def get_success_url(self):
-        return reverse('medical_query:currents_forwarding')
+        return reverse('medical_query:await_querys_clerk')
 
 class ForwardingList(ListView):
     model = Forwarding
@@ -352,6 +352,89 @@ class AwaitQuerys(ListView):
             'show_last': num_pages not in page_numbers,
             })
         return context
+
+
+
+class AwaitQuerysClerk(ListView):
+    model = Forwarding
+    template_name = 'forwarding/await_querys_clerk.html'
+    http_method_names = ['get']
+    paginate_by = 20
+
+
+
+    def get_queryset(self):
+        self.queryset = super(AwaitQuerysClerk, self).get_queryset()
+        if self.request.GET.get('search_box', False):
+            self.queryset=self.queryset.filter(Q(patient__full_name__icontains = self.request.GET['search_box']) | Q(medical__full_name__icontains=self.request.GET['search_box']))
+        return self.queryset
+
+    def get_context_data(self, **kwargs):
+
+        _super = super(AwaitQuerysClerk, self)
+        context = _super.get_context_data(**kwargs)
+
+        not_priority =  Forwarding.objects.filter(created_on=datetime.now().date(), priority=False).exclude(in_attendance=True)
+        priority =  Forwarding.objects.filter(created_on=datetime.now().date(), priority=True).exclude(in_attendance=True)
+        list_values = []
+
+        p = list(priority)
+        n = list(not_priority)
+
+        count = 0
+        index_aux = 0 
+        count_p = 1 
+
+        if len(p) < len(n):
+            for nao_prioritario in n:
+                if count_p <= 2 and index_aux < len(p):
+                    n.insert(count,p[index_aux])
+                    index_aux+=1
+                    count_p+=1
+                else:
+                    count_p=1
+                count+=1
+            list_values = n
+
+        else:
+
+            for prioritario in p:
+                if count_p == 3:
+                    
+                    if index_aux == len(n):
+                        break
+
+                    p.insert(count, n[index_aux])
+                    n.pop(index_aux)
+                    index_aux+=1
+                    count_p = 1
+                else:
+                    count_p+=1
+                count+=1
+
+            for restante in n:
+                p.append(restante)
+            list_values= p
+        adjacent_pages = 3
+        page_number = context['page_obj'].number
+        num_pages = context['paginator'].num_pages
+        startPage = max(page_number - adjacent_pages, 1)
+        if startPage <= 5:
+            startPage = 1
+        endPage = page_number + adjacent_pages + 1
+        if endPage >= num_pages - 1:
+            endPage = num_pages + 1
+        page_numbers = [n for n in range(startPage, endPage) \
+            if n > 0 and n <= num_pages]
+       
+        context.update({
+            'currents_forwardings': list_values,
+            'page_numbers': page_numbers,
+            'show_first': 1 not in page_numbers,
+            'show_last': num_pages not in page_numbers,
+            })
+        return context
+
 
 class MedicineCreate(CreateView):
     model = Medicine

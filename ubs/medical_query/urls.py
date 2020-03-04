@@ -14,6 +14,9 @@ urlpatterns = [
     path('encaminhamentos-realizados/', views.ForwardingList.as_view(), name='currents_forwarding'),
 
     path('atendimentos-dia/', views.AwaitQuerys.as_view(), name='await_querys'),  
+    
+    # Para o Técnico
+    path('fila-de-espera/', views.AwaitQuerysClerk.as_view(), name='await_querys_clerk'),  
 
     path('adicionar-CID', views.CID10Create.as_view(),name="add_CID"),
     path('listagem-CID', views.ListCID10.as_view(),name="list_CID"),
