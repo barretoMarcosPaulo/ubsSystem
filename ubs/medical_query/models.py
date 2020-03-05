@@ -54,6 +54,7 @@ class Medicine(AuditModel):
 
     def __str__(self):
         return self.full_name
+    
 
 
 class Query(AuditModel):
@@ -84,6 +85,8 @@ class Query(AuditModel):
     gestational_history = models.TextField('História Gestacional', max_length=400, blank=True, null=True)
     repoductive_health = models.TextField('Saúde Reprodutiva', max_length=400, blank=True, null=True)
     
+    def get_QueryHasMedicine(self):
+        return QueryHasMedicine.objects.filter(Query_idQuery=self)
 
     def get_absolute_url(self):
         return reverse('medical_query:list_query')
@@ -103,7 +106,7 @@ class Query(AuditModel):
         verbose_name_plural = 'Consultas Medicas'
         ordering = ['created_on']
 
-class Query_has_Medicine(AuditModel):
+class QueryHasMedicine(AuditModel):
     medicine = models.ForeignKey(Medicine,verbose_name=' Medicamento', null=True,on_delete=models.SET_NULL) 
     Query_idQuery = models.ForeignKey(Query,verbose_name='Consulta',null=True,on_delete=models.SET_NULL)
     amount = models.CharField('Pescrição',max_length=400, null=True)
