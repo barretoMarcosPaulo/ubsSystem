@@ -40,7 +40,7 @@
                                                 </div>
                                             
                                             {%else%}
-                                            {% if field.name != 'cid10' and field.name != 'examRequest' and field.name != 'medicine'  %}
+                                            {% if field.name != 'cid10' and field.name != 'examRequest' and field.name != 'gestational_history' and field.name != 'repoductive_health' and field.name != 'medicine'%}
                                                 <div
                                                     class="col-md-{% if field.name in 'summary\review_of_systems\main_complaint\current_health_history\type_query' %}12
                                                     {% elif field.name in 'epidemiological_history/previous_pathological_history/family_history/physiological_personal_antecedents' %}6
@@ -91,7 +91,34 @@
                                 {% endfor %}
                             </div>
 
-                            <div id="3" , class="d-none">
+
+                        <div id="3" class="d-none">
+                            {% for field in form %}
+                            {% if field.errors %}
+                            <div
+                                class="col-md-{% if field.name in 'name' %}8{% elif field.name in 'main_complaint\email' %}6{% elif field.name in 'username\sex\birth_date\marital_status\phone\cpf\rg\matricula' %}4{% elif field.name in 'nome_mae\nome_pai' %}6{% else %}12{% endif %} margin-bottom-15 has-error has-feedback">
+                                <label class="control-label">{{ field.label }}</label>
+                                {{ field|add_class:"form-control input-md" }}
+                                <span class="text-danger"> <strong>{{ field.help_text }}</strong> </span>
+                                {% for error in field.errors%}
+                                <span class="help-inline error">{{ error}}</span>
+                                {% endfor%}
+                            </div>
+                            {%else%}
+                            {% if field.name == 'gestational_history' or field.name == 'repoductive_health' %}
+
+                            <div class="col-md-12 margin-bottom-15">
+
+                                <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
+                                {{ field|add_class:"form-control input-md" }}
+                                <span class="text-danger"> <strong>{{ field.help_text }}</strong></span>
+                            </div>
+                            {% endif %}
+                            {%endif%}
+                            {% endfor %}
+                        </div>
+
+                            <div id="4" , class="d-none">
 
                                 <div class="col-md-12">
                                     <br>
@@ -115,8 +142,8 @@
                                 <div class="col-md-12">
                                     <br>
                                     <h4 style="margin-bottom: 1%; font-weight: bold;">Medicamentos</h4>
-                                    {% for medicine in object.medicine.all %}
-                                    <label class="btn btn-primary btn-sm">{{medicine}}</label>
+                                    {% for med in medicines %}
+                                    <label class="btn btn-primary btn-sm">{{med.medicine}}</label>
                                     {% endfor %}
                                 </div>
                             </div>
@@ -155,7 +182,7 @@
         document.getElementById(current).className= ""
         document.getElementById('back').className= "btn btn-danger"
         
-        if(current == 3){
+        if(current == 4){
             document.getElementById('next').className="d-none"
         }
     }
