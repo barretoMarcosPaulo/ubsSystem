@@ -567,5 +567,3 @@ class Recipe(DetailView):
     model = Query
     template_name="recipe/detail.html"
     form_class = MedicalQueryForm
-
-

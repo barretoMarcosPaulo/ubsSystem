@@ -1,43 +1,102 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html>
     <head> 
         <style>
             .data-patient {
-                margin-top: 10%; 
-                margin-right: 30%;
-                border: solid 1px red;
+                top: 150px; 
+                margin-bottom: 3%; 
+                border: solid red;
+            }
+            .info-doctor {
+                margin-top: 15%; 
+                display: flex; 
+            }
+
+            #doctor{
+                margin-left: 3%;
+            }
+
+            .info-ubs{
+                text-align: center; 
+                /* margin-top: 150px; */
+                /* margin-bottom: 0%; */
+                /* height: 200px;
+                position: absolute; */
+                /* position: absolute; */
+                /* float: bottom; */
+                /* bottom: 0; */
+                /* right: 0; */
+                /* height: 150px; */
+                /* width: auto; */
+            }
+
+            .contact{
+                display: flex; 
+
+            }
+            .cabecalho{
+                text-align: center; 
+
+            }
+            #logomarca{
+                /* bottom: 2; */
+                /* right: 0; */
+                /* height: 200px; */
+                width: 10%;
+                display: block;
+                margin-left: auto;
+                margin-top: 5%;
+                margin-right: auto
+
+            }
+
+            *{
+                font-family: Arial, Helvetica, sans-serif;
+                margin-left: 1%;
             }
 
         </style>
     </head>
     <body> 
-        <div class="container"> 
-            <div class="data-patient">
-                <p> {{ object.Patient_idPatient}}  </p>
+        <div class="container" id="tabela"> 
+            <img id="logomarca" src="{% static 'images/ufpi.png' %}" alt="Logomarca UFPI">
+            <div class="cabecalho">
+                <div>
+                    <p>Ambulatório em Saúde</p>
+                    <p>Curso de medicina-UFPI/CSHNB</p>
+                </div>
+                <div class="data-patient">
+                    <h3> {{ object.Patient_idPatient|upper }}</h3>
+                </div>
             </div>
             <div class="medicine">
-                <p> Medicamentos:</p>
+                <p> MEDICAMENTOS:</p>
                 <ol>
-
-                    {% for ob in object.medicine.all %}
+                    {% for ob in object.get_QueryHasMedicine %}
                         <li> 
-                            <p> {{ ob.full_name }}: -----------</p>
+                            <p> {{ ob.medicine.full_name|upper }}: ----------- {{ ob.amount|upper }}</p>
                         </li>
                     {% endfor %}
                 </ol>
             </div>
             <div class="info-doctor">
                 <p> Picos, 25/01/2020 </p>
-                <p> {{ object.User_idUser.full_name}} </p>
+                <p id="doctor"> Dr. Lorem ipsum dolor sit amet {{ object.User_idUser|upper}} - CRM 6785</p>
             </div>
             <div class="info-ubs">
-                <p> Ambulatório em Saúde
-                    Curso de medicina-UFPI/CSHNB 
-                </p>
-                
-                <p id="location"> R. Cícero Duarte, nº 905 - Junco, Picos - PI, 64607-670 </p>
-                <p id="site"> ubssystem.com</p>
-                <p id="phone"> 89 9945555487 </p>
+                <!-- <div>
+                    <p> Ambulatório em Saúde
+                        Curso de medicina-UFPI/CSHNB 
+                    </p>
+                </div> -->
+                <div>
+                    <p id="location"> R. Cícero Duarte, nº 905 - Junco, Picos - PI, 64607-670 </p>
+                </div>
+                <div >
+                    <p id="site"> ubssystem.com</p>
+                    <p id="phone"> 89 9945555487 </p>
+                </div>
             </div>
 
 

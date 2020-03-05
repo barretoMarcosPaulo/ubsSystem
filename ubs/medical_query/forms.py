@@ -153,11 +153,11 @@ class ReceitaForm(forms.ModelForm):
         model = Query
         fields= "__all__"
 
-class Query_has_MedicineForm(forms.ModelForm):
+class QueryHasMedicineForm(forms.ModelForm):
     class Meta:
-        model = Query_has_Medicine
+        model = QueryHasMedicine
         fields = "__all__"
         # exclude = ["Query_idQuery"]
 
 query_has_medicine_set_class = inlineformset_factory(
-    Query, Query_has_Medicine, form=Query_has_MedicineForm, extra=1)
+    Query, QueryHasMedicine, form=QueryHasMedicineForm, extra=1)
