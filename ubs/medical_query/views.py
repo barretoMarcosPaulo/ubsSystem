@@ -75,7 +75,7 @@ class QueryCreate(CreateView):
             exam = exam_form.save()
 
             query = form.save(commit=False)
-            query.medical = self.request.user
+            query.User_idUser = Doctor.objects.get(id=self.request.user.id)
             query.PhisicalExam_idPhisicalExam = exam
             query.Patient_idPatient = Patient.objects.get(id=patient_pk)
             query.save()
@@ -152,7 +152,7 @@ class ListQuerysHistory(ListView):
     def get_queryset(self):
         self.queryset = super(ListQuerysHistory, self).get_queryset()
         if self.request.GET.get('search_box', False):
-            self.queryset=self.queryset.filter(Q(main_complaint__icontains = self.request.GET['search_box']) | Q(current_health_history__icontains=self.request.GET['search_box']))
+            self.queryset=self.queryset.filter(Q(Patient_idPatient__full_name__icontains = self.request.GET['search_box']) | Q(current_health_history__icontains=self.request.GET['search_box']))
         return self.queryset
 
     def get_context_data(self, **kwargs):
@@ -667,3 +667,32 @@ class Recipe(DetailView):
     form_class = MedicalQueryForm
 
 
+    def get(self, request,query_pk,*args, **kwargs):
+        self.object = None
+        medicnes = Query_has_Medicine.objects.filter(Query_idQuery=query_pk)
+        
+
+        return self.render_to_response(
+            self.get_context_data(
+                current_date = datetime.now().date(),
+                medicines = medicnes,
+                object = Query.objects.get(id=query_pk)
+            )
+        )
+
+
+class ExamRequestPDF(DetailView):
+    model = Query
+    template_name="examRequest/examRequest.html"
+    form_class = MedicalQueryForm
+
+
+    def get(self, request,query_pk,*args, **kwargs):
+        self.object = None
+
+        return self.render_to_response(
+            self.get_context_data(
+                current_date = datetime.now().date(),
+                object = Query.objects.get(id=query_pk)
+            )
+        )

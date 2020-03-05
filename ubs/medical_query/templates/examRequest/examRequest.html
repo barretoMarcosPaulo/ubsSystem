@@ -53,10 +53,11 @@
             display: inline;
             vertical-align: middle;
         }
-        #button{
+
+        #button {
             margin: 0 auto;
             background-color: #007bff;
-            border:none;
+            border: none;
             color: white;
             padding: 5px;
             font-size: 18px;
@@ -94,32 +95,31 @@
 
 
         <p class="patient">{{object.Patient_idPatient}}</p>
+        Requisição de Exames
         <ol>
-            {% for med in medicines %}
+            {% for exam in object.examRequest.all %}
             <li>
-                {{med.medicine}}
-                <br>
-                <strong>{{med.amount}}</strong>
+                {{exam}}
             </li>
             {% endfor %}
         </ol>
 
-            <div class="medical_info">
-                <label>Picos-PI, {{current_date}}</label>
-                <label>,<strong> Dr(a) {{object.User_idUser}} - CRM {{object.User_idUser.crm_doc}}</strong></label>
-            </div>
+        <div class="medical_info">
+            <label>Picos-PI, {{current_date}}</label>
+            <label>,<strong> Dr(a) {{object.User_idUser}} - CRM {{object.User_idUser.crm_doc}}</strong></label>
+        </div>
 
 
-            <div class="medical_assinator">
-                <hr>
-                <label>Assinatura</label>
-            </div>
+        <div class="medical_assinator">
+            <hr>
+            <label>Assinatura</label>
+        </div>
 
 
 
     </div>
 
-    
+
 
     <script>
 

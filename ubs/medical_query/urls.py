@@ -36,5 +36,6 @@ urlpatterns = [
     path('detalhes-requisicao-exame/<str:pk> ', views.ExamRequestDetail.as_view(), name='detail_exam_request'),
     path('delete-requisicao-exame/<str:pk>', views.DeleteExamRequest.as_view(), name='delete_exam_request'),
     
-    path('receita/<int:pk>', views.Recipe.as_view(), name='recipe'),
+    path('receita/<int:query_pk>', views.Recipe.as_view(), name='recipe'),
+    path('exames/<int:query_pk>', views.ExamRequestPDF.as_view(), name='exam_request_pdf'),
 ]
