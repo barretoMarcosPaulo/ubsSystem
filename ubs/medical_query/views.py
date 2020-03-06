@@ -223,7 +223,7 @@ class Attendances(UpdateView):
     def get_context_data(self, **kwargs):
         _super = super(Attendances, self)
         context = _super.get_context_data(**kwargs)
-        medicines = Query_has_Medicine.objects.filter(Query_idQuery=self.object.id)
+        medicines = QueryHasMedicine.objects.filter(Query_idQuery=self.object.id)
         print(medicines)
         physical_exam = PhisicalExam.objects.get(id=self.object.PhisicalExam_idPhisicalExam.id)
         context.update({

@@ -94,4 +94,10 @@
             });
         });
     </script>
+    {{ form.media }}
+    {{ block.super }}
+
+    <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+
+
 {% endblock %}

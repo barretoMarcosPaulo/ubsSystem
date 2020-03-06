@@ -52,4 +52,6 @@ urlpatterns = [
     path('editar-ocupacao/<int:pk> ', views.OcupationUpdate.as_view(), name='update_ocupation'),
     path('delete-ocupacao/<int:pk>', views.DeleteOcupation.as_view(), name='delete_ocupation'),
    
+    path('logradouro-autocomplete', views.TypeLogradouroAutocomplete.as_view(),name="logradouro_autocomplete"),
+
 ]

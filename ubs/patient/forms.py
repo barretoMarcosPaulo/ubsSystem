@@ -19,6 +19,13 @@ class PatientForm(forms.ModelForm):
     class Meta:
         model = Patient
         fields= "__all__"
+        widgets = {
+            'Type_Logradouro_idLogradouro': autocomplete.ModelSelect2(url='patient:logradouro_autocomplete'),
+            # 'instituicao': autocomplete.ModelSelect2(url='ensino:instituicao_autocomplete'),
+            # 'professor': autocomplete.ModelSelect2(url='accounts:professor_autocomplete'),
+            # 'competencias': autocomplete.ModelSelect2Multiple(url='oferta:competencia_autocomplete'),
+            # 'habilidades': autocomplete.ModelSelect2Multiple(url='oferta:habilidades_autocomplete',attrs={'data-width': '100%'},  forward=["competencias",])
+    }
 
 class PatientDetailForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
