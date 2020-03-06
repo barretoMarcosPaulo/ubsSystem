@@ -76,7 +76,7 @@ class Query(AuditModel):
     take_duct = models.TextField('Conduta Tomada', max_length=400, blank=False, null=False)
     PhisicalExam_idPhisicalExam = models.ForeignKey(PhisicalExam,verbose_name='Exame Físico',blank=True, null=True,on_delete=models.SET_NULL) #OBS
     Patient_idPatient = models.ForeignKey(Patient,verbose_name="Paciente", null=True, blank=True, on_delete=models.SET_NULL)
-    User_idUser = models.ForeignKey(User,verbose_name="Profissional", null=True, blank=True, on_delete=models.SET_NULL)
+    User_idUser = models.ForeignKey(Doctor,verbose_name="Profissional", null=True, blank=True, on_delete=models.SET_NULL)
 
     cid10 = models.ManyToManyField(CID10, verbose_name="CID10",related_name='cid10')
     examRequest =models.ManyToManyField(ExamRequest, verbose_name="Exame(s)",related_name='examRequest')
@@ -109,7 +109,7 @@ class Query(AuditModel):
 class QueryHasMedicine(AuditModel):
     medicine = models.ForeignKey(Medicine,verbose_name=' Medicamento', null=True,on_delete=models.SET_NULL) 
     Query_idQuery = models.ForeignKey(Query,verbose_name='Consulta',null=True,on_delete=models.SET_NULL)
-    amount = models.CharField('Quantidade',max_length=400, null=True)
+    amount = models.CharField('Pescrição',max_length=400, null=True)
 
 
 
