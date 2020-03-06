@@ -669,7 +669,7 @@ class Recipe(DetailView):
 
     def get(self, request,query_pk,*args, **kwargs):
         self.object = None
-        medicnes = Query_has_Medicine.objects.filter(Query_idQuery=query_pk)
+        medicnes = QueryHasMedicine.objects.filter(Query_idQuery=query_pk)
         
 
         return self.render_to_response(
