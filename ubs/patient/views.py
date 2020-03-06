@@ -591,3 +591,14 @@ class OcupationDetail(UpdateView):
     model = Ocupation
     template_name = 'ocupation/detail.html'
     form_class = OcupationDetailForm
+
+class TypeLogradouroAutocomplete(autocomplete.Select2QuerySetView):
+
+    def get_queryset(self):
+        
+        qs = TypeLogradouro.objects.all()
+
+        if self.q:
+            qs = qs.filter(Q(desc_logradouro__icontains=self.q))
+        
+        return qs
