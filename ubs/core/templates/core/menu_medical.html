@@ -10,12 +10,22 @@
         <li class="menu-item-has-children dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i
                     class="menu-icon fa fa-tasks"></i>Consultas Realizadas</a>
+            <ul class="sub-menu children dropdown-menu">
+                <li><i class="fa fa-user-md"></i><a href="{% url 'medical_query:list_query_history' %}">Listar</a></li>
+
+            </ul>
+
         </li>
 
         <h3 class="menu-title">Atendimentos</h3><!-- /.menu-title -->
         <li class="menu-item-has-children dropdown" >
             <a href="{% url 'medical_query:await_querys' %}" class="dropdown-toggle" data-toggle="" aria-haspopup="true" aria-expanded="false">
+                <i class="menu-icon fa fa-tasks"></i>
                 Atendimentos do dia
+            </a>
+            <a href="{% url 'medical_query:await_querys' %}" class="dropdown-toggle" data-toggle="" aria-haspopup="true" aria-expanded="false">
+                <i class="menu-icon fa fa-tasks"></i>
+                Listar atendimentos
             </a>
         </li>
 
