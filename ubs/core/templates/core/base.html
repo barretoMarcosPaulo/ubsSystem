@@ -11,11 +11,11 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{% block title %}UBS-Admin{% endblock %}</title>
+    <title>{% block title %}EmSaúde - UBS{% endblock %}</title>
     <meta name="description" content="Sufee Admin - HTML5 Admin Template">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="apple-touch-icon" href="{% static 'apple-icon.png' %}">
+    <link rel="apple-touch-icon" href="{% static 'images/logoEmsaudeCerta.png' %}">
     <link rel="shortcut icon" href="{% static 'favicon.ico' %}">
 
     
@@ -47,11 +47,10 @@
         <nav class="navbar navbar-expand-sm navbar-default">
 
             <div class="navbar-header">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
-                    <i class="fa fa-bars"></i>
-                </button>
-                <a class="navbar-brand" href="./"><img src="{% static 'images/logo.png' %}" alt="Logo"></a>
-                <a class="navbar-brand hidden" href="./"><img src="{% static 'images/logo2.png' %}" alt="Logo"></a>
+
+                
+                <a class="navbar-brand hidden" href="./"><img src="{% static 'images/logoEmsaudeCerta.png' %}" alt="Logo"></a>
+                <img src="{% static 'images/logoEmsaudeCerta.png' %}" alt="Logo" width="50%" style="margin: 0 auto; display: block;">
             </div>
 
             {% if request.user.is_superuser %}
@@ -78,7 +77,7 @@
 
                 <div class="col-sm-7">
                     <a id="menuToggle" class="menutoggle pull-left"><i class="fa fa fa-tasks"></i></a>
-                    <h4>Únidade Básica de Saúde - <strong>UFPI</strong> </h4>
+                    <h4>{{request.user}} - <strong>UFPI</strong> </h4>
                 </div>
 
                 <div class="col-sm-5">

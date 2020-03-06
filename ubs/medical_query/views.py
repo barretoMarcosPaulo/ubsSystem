@@ -223,7 +223,7 @@ class Attendances(UpdateView):
     def get_context_data(self, **kwargs):
         _super = super(Attendances, self)
         context = _super.get_context_data(**kwargs)
-        medicines = Query_has_Medicine.objects.filter(Query_idQuery=self.object.id)
+        medicines = QueryHasMedicine.objects.filter(Query_idQuery=self.object.id)
         print(medicines)
         physical_exam = PhisicalExam.objects.get(id=self.object.PhisicalExam_idPhisicalExam.id)
         context.update({
@@ -669,7 +669,7 @@ class Recipe(DetailView):
 
     def get(self, request,query_pk,*args, **kwargs):
         self.object = None
-        medicnes = Query_has_Medicine.objects.filter(Query_idQuery=query_pk)
+        medicnes = QueryHasMedicine.objects.filter(Query_idQuery=query_pk)
         
 
         return self.render_to_response(
