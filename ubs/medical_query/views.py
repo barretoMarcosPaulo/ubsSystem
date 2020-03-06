@@ -241,7 +241,7 @@ class ForwardingCreate(CreateView):
     form_class = ForwardingForm
 
     def get_success_url(self):
-        return reverse('medical_query:await_querys_clerk')
+        return reverse('medical_query:currents_forwarding')
 
 class ForwardingList(ListView):
     model = Forwarding
@@ -281,6 +281,47 @@ class ForwardingList(ListView):
             'show_last': num_pages not in page_numbers,
             })
         return context
+
+
+class CurrentForwardingList(ListView):
+    model = Forwarding
+    template_name = 'forwarding/current_list.html'
+    http_method_names = ['get']
+    paginate_by = 20
+
+    
+
+    def get_queryset(self):
+        self.queryset = super(CurrentForwardingList, self).get_queryset()
+        if self.request.GET.get('search_box', False):
+            self.queryset=self.queryset.filter(Q(patient__full_name__icontains = self.request.GET['search_box']) | Q(medical__full_name__icontains=self.request.GET['search_box']))
+        return self.queryset
+
+    def get_context_data(self, **kwargs):
+
+        _super = super(CurrentForwardingList, self)
+        context = _super.get_context_data(**kwargs)
+
+        adjacent_pages = 3
+        page_number = context['page_obj'].number
+        num_pages = context['paginator'].num_pages
+        startPage = max(page_number - adjacent_pages, 1)
+        if startPage <= 5:
+            startPage = 1
+        endPage = page_number + adjacent_pages + 1
+        if endPage >= num_pages - 1:
+            endPage = num_pages + 1
+        page_numbers = [n for n in range(startPage, endPage) \
+            if n > 0 and n <= num_pages]
+
+        context.update({
+            'currents_forwardings': Forwarding.objects.filter(created_on=datetime.now().date()),
+            'page_numbers': page_numbers,
+            'show_first': 1 not in page_numbers,
+            'show_last': num_pages not in page_numbers,
+            })
+        return context
+
 
 
 class AwaitQuerys(ListView):
