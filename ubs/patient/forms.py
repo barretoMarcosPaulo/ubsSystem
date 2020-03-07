@@ -20,11 +20,12 @@ class PatientForm(forms.ModelForm):
         model = Patient
         fields= "__all__"
         widgets = {
-            'Type_Logradouro_idLogradouro': autocomplete.ModelSelect2(url='patient:logradouro_autocomplete'),
-            # 'instituicao': autocomplete.ModelSelect2(url='ensino:instituicao_autocomplete'),
-            # 'professor': autocomplete.ModelSelect2(url='accounts:professor_autocomplete'),
-            # 'competencias': autocomplete.ModelSelect2Multiple(url='oferta:competencia_autocomplete'),
-            # 'habilidades': autocomplete.ModelSelect2Multiple(url='oferta:habilidades_autocomplete',attrs={'data-width': '100%'},  forward=["competencias",])
+            'Type_Logradouro_idLogradouro': autocomplete.ModelSelect2(url='patient:logradouro_autocomplete' , attrs={'class': 'col-md-10'}),
+            'City_codIBGE': autocomplete.ModelSelect2(url='patient:logradouro_autocomplete' , attrs={'class': 'col-md-10'}),
+            'Medical_Insurance_idMedical_insurance': autocomplete.ModelSelect2(url='patient:logradouro_autocomplete' , attrs={'class': 'col-md-10'}),
+            'Color_idColor': autocomplete.ModelSelect2(url='patient:logradouro_autocomplete' , attrs={'class': 'col-md-10'}),
+            'Marital_State_idMarital_State': autocomplete.ModelSelect2(url='patient:logradouro_autocomplete' , attrs={'class': 'col-md-10'}),
+            'Ocupation_idOcupation': autocomplete.ModelSelect2(url='patient:logradouro_autocomplete' , attrs={'class': 'col-md-10'}),
     }
 
 class PatientDetailForm(forms.ModelForm):

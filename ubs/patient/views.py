@@ -602,3 +602,58 @@ class TypeLogradouroAutocomplete(autocomplete.Select2QuerySetView):
             qs = qs.filter(Q(desc_logradouro__icontains=self.q))
         
         return qs
+
+class CityAutocomplete(autocomplete.Select2QuerySetView):
+
+    def get_queryset(self):
+        
+        qs = City.objects.all()
+
+        if self.q:
+            qs = qs.filter(Q(name_city__icontains=self.q))
+        
+        return qs
+
+class MedicalInsuranceAutocomplete(autocomplete.Select2QuerySetView):
+
+    def get_queryset(self):
+        
+        qs = MedicalInsurance.objects.all()
+
+        if self.q:
+            qs = qs.filter(Q(desc_medical_insurance_insurance__icontains=self.q))
+        
+        return qs
+
+class ColorAutocomplete(autocomplete.Select2QuerySetView):
+
+    def get_queryset(self):
+        
+        qs = Color.objects.all()
+
+        if self.q:
+            qs = qs.filter(Q(name_color__icontains=self.q))
+        
+        return qs
+
+class MaritalStateAutocomplete(autocomplete.Select2QuerySetView):
+
+    def get_queryset(self):
+        
+        qs = MaritalState.objects.all()
+
+        if self.q:
+            qs = qs.filter(Q(desc_marital_state__icontains=self.q))
+        
+        return qs
+
+class OcupationAutocomplete(autocomplete.Select2QuerySetView):
+
+    def get_queryset(self):
+        
+        qs = Ocupation.objects.all()
+
+        if self.q:
+            qs = qs.filter(Q(desc_ocupation__icontains=self.q))
+        
+        return qs

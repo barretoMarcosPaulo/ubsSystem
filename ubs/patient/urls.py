@@ -52,6 +52,12 @@ urlpatterns = [
     path('editar-ocupacao/<int:pk> ', views.OcupationUpdate.as_view(), name='update_ocupation'),
     path('delete-ocupacao/<int:pk>', views.DeleteOcupation.as_view(), name='delete_ocupation'),
    
+    #autocomplete patient
     path('logradouro-autocomplete', views.TypeLogradouroAutocomplete.as_view(),name="logradouro_autocomplete"),
+    path('city-autocomplete', views.CityAutocomplete.as_view(),name="city_autocomplete"),
+    path('medicalInsurance-autocomplete', views.MedicalInsuranceAutocomplete.as_view(),name="medicalInsurance_autocomplete"),
+    path('color-autocomplete', views.ColorAutocomplete.as_view(),name="color_autocomplete"),
+    path('maritalState-autocomplete', views.MaritalStateAutocomplete.as_view(),name="maritalState_autocomplete"),
+    path('ocupation-autocomplete', views.OcupationAutocomplete.as_view(),name="ocupation_autocomplete"),
 
 ]
