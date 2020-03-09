@@ -1,5 +1,6 @@
 from django.urls import path 
 from . import views
+from .models import ExamRequest
 
 app_name = 'medical_query'
 
@@ -39,4 +40,7 @@ urlpatterns = [
     
     path('receita/<int:query_pk>', views.Recipe.as_view(), name='recipe'),
     path('exames/<int:query_pk>', views.ExamRequestPDF.as_view(), name='exam_request_pdf'),
+
+    path('exames/autocomplete', views.ExamRequestAutocomplete.as_view(create_field='desc_exam',model=ExamRequest), name='examRequest_autocomplete'),
+    path('cid10/autocomplete', views.CID10Autocomplete.as_view(), name='cid10_autocomplete'),
 ]

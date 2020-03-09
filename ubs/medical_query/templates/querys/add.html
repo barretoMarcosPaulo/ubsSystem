@@ -113,29 +113,21 @@
 
 
                     <div id="4" class="d-none">
-                        {% for field in form %}
-                        {% if field.errors %}
-                        <div
-                            class="col-md-{% if field.name in 'name' %}8{% elif field.name in 'main_complaint\email' %}6{% elif field.name in 'username\sex\birth_date\marital_status\phone\cpf\rg\matricula' %}4{% elif field.name in 'nome_mae\nome_pai' %}6{% else %}12{% endif %} margin-bottom-15 has-error has-feedback">
-                            <label class="control-label">{{ field.label }}</label>
-                            {{ field|add_class:"form-control input-md" }}
-                            <span class="text-danger"> <strong>{{ field.help_text }}</strong> </span>
-                            {% for error in field.errors%}
-                            <span class="help-inline error">{{ error}}</span>
-                            {% endfor%}
-                        </div>
-                        {%else%}
-                        {% if field.name == 'cid10' or field.name == 'examRequest' %}
 
-                        <div class="col-md-12 margin-bottom-15">
 
-                            <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
-                            {{ field|add_class:"form-control input-md" }}
-                            <span class="text-danger"> <strong>{{ field.help_text }}</strong></span>
+                        <div class="form-group">
+                            <div class="col-md-12 col-sm-12 box-select">
+                                <label class="control-label" style="margin-top: 12px;">{{ form.cid10.label }}</label>
+                                {{form.cid10|add_class:"col-md-12 "}}
+                            </div>
+
+                            <div class="col-md-12 col-sm-12 box-select">
+                                <label class="control-label" style="margin-top: 12px;">{{ form.examRequest.label }}</label>
+                                {{form.examRequest|add_class:"col-md-12 "}}
+                            </div>
                         </div>
-                        {% endif %}
-                        {%endif%}
-                        {% endfor %}
+
+
                     </div>
 
 
@@ -264,4 +256,9 @@
     });
 </script>
 
+{% endblock %}
+
+
+{% block js %}
+    {{ form.media }}
 {% endblock %}

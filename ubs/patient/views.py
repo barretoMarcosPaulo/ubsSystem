@@ -15,6 +15,7 @@ from django.db import IntegrityError, transaction
 from django.http import HttpResponse, JsonResponse
 
 from django.db.models import Q
+from dal import autocomplete
 
 
 class PatientCreate(CreateView):

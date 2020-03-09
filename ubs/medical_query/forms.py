@@ -15,6 +15,10 @@ class MedicalQueryForm(forms.ModelForm):
             'summary','diagnostic_hypotheses','take_duct','cid10','examRequest',
             'gestational_history','repoductive_health'
         ]
+        widgets = {
+            'examRequest': autocomplete.ModelSelect2Multiple(url='medical_query:examRequest_autocomplete' , attrs={'class': 'col-md-10'}),
+            'cid10': autocomplete.ModelSelect2(url='medical_query:cid10_autocomplete' , attrs={'class': 'col-md-10'}),
+    }
 
 # Formulario para details
 class MedicalQueryAttendanceForm(forms.ModelForm):

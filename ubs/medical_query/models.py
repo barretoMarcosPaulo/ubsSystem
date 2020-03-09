@@ -26,7 +26,7 @@ class CID10(AuditModel):
         return self.desc_CID10
 
 
-class ExamRequest(AuditModel):
+class ExamRequest(models.Model):
     desc_exam = models.TextField('Descrição do exame',max_length=255)
 
     def __str__(self):

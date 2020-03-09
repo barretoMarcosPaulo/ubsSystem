@@ -19,6 +19,8 @@ from ubs.patient.models import Patient
 from django.db.models import Q
 from .pusher import pusher_client
 
+from dal import autocomplete
+
 # Views for Querys
 class QueryCreate(CreateView):
     model = Query
@@ -737,3 +739,28 @@ class ExamRequestPDF(DetailView):
                 object = Query.objects.get(id=query_pk)
             )
         )
+
+
+
+
+class ExamRequestAutocomplete(autocomplete.Select2QuerySetView):
+
+    def get_queryset(self):
+        
+        qs = ExamRequest.objects.all()
+
+        if self.q:
+            qs = qs.filter(Q(desc_exam__icontains=self.q))
+        
+        return qs
+
+class CID10Autocomplete(autocomplete.Select2QuerySetView):
+
+    def get_queryset(self):
+        
+        qs = CID10.objects.all()
+
+        if self.q:
+            qs = qs.filter(Q(desc_CID10__icontains=self.q))
+        
+        return qs
