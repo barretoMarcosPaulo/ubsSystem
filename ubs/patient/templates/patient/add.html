@@ -15,7 +15,7 @@
 
 <div class="content col-md-12">
     <div class="animated fadeIn">
-        <form enctype="multipart/form-data" method="post">
+        <div enctype="multipart/form-data" method="post">
             {% csrf_token %}
                 <div class="row">
                     <div class="col-md-10" style="margin: 20px auto;">
@@ -48,9 +48,14 @@
                                          {% if field.name == "Type_Logradouro_idLogradouro" or field.name == "City_codIBGE" or field.name == "Color_idColor" or field.name == "Ocupation_idOcupation" or field.name == "Marital_State_idMarital_State" or field.name == "Medical_Insurance_idMedical_insurance" %}
                                          <div class="col-md-6 col-sm-12 box-select" >   
                                              <label class="control-label" style="margin-top: 12px;">{{ field.label }}</label>
-                                            {{field|add_class:"col-md-12 "}}
-                                        </div>
-                                         {% else %}
+                                             {{field|add_class:"col-md-12 "}}
+                                            </div>
+                                            {% elif field.name == "date_birth" %}
+                                            <div class="col-md-4 box-select" >   
+                                                <label class="control-label" style="margin-top: 12px;">{{ field.label }}</label>
+                                                {{field|add_class:"form-control input-md"}}
+                                            </div>
+                                            {% else %}
                                             <div
                                                 class="col-md-{% if field.name in 'full_name' %}6
                                                 {% elif field.name in 'color\sex\marital_state\date_birth\local_birth' %}4
@@ -93,6 +98,11 @@
 
 {% block js %}
     <script src="{% static 'js/jquery.min.js' %}"></script>
+    
+    <script>
+        document.getElementById('id_date_birth').setAttribute('type','date')
+    </script>
+    
     <script>
         {% comment %} $( document ).ready(function() {
             if ({{alert}}==0){
