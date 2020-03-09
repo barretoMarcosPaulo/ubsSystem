@@ -21,11 +21,11 @@ class PatientForm(forms.ModelForm):
         fields= "__all__"
         widgets = {
             'Type_Logradouro_idLogradouro': autocomplete.ModelSelect2(url='patient:logradouro_autocomplete' , attrs={'class': 'col-md-10'}),
-            'City_codIBGE': autocomplete.ModelSelect2(url='patient:logradouro_autocomplete' , attrs={'class': 'col-md-10'}),
-            'Medical_Insurance_idMedical_insurance': autocomplete.ModelSelect2(url='patient:logradouro_autocomplete' , attrs={'class': 'col-md-10'}),
-            'Color_idColor': autocomplete.ModelSelect2(url='patient:logradouro_autocomplete' , attrs={'class': 'col-md-10'}),
-            'Marital_State_idMarital_State': autocomplete.ModelSelect2(url='patient:logradouro_autocomplete' , attrs={'class': 'col-md-10'}),
-            'Ocupation_idOcupation': autocomplete.ModelSelect2(url='patient:logradouro_autocomplete' , attrs={'class': 'col-md-10'}),
+            'City_codIBGE': autocomplete.ModelSelect2(url='patient:city_autocomplete' , attrs={'class': 'col-md-10'}),
+            'Medical_Insurance_idMedical_insurance': autocomplete.ModelSelect2(url='patient:medicalInsurance_autocomplete' , attrs={'class': 'col-md-10'}),
+            'Color_idColor': autocomplete.ModelSelect2(url='patient:color_autocomplete' , attrs={'class': 'col-md-10'}),
+            'Marital_State_idMarital_State': autocomplete.ModelSelect2(url='patient:maritalState_autocomplete' , attrs={'class': 'col-md-10'}),
+            'Ocupation_idOcupation': autocomplete.ModelSelect2(url='patient:ocupation_autocomplete' , attrs={'class': 'col-md-10'}),
     }
 
 class PatientDetailForm(forms.ModelForm):
