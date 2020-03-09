@@ -71,7 +71,10 @@ class ForwardingForm(forms.ModelForm):
     class Meta:
         model = Forwarding
         fields = ['patient','priority','medical']
-
+        widgets = {
+            'patient': autocomplete.ModelSelect2(url='patient:patient_autocomplete' , attrs={'class': 'col-md-10'}),
+            'medical': autocomplete.ModelSelect2(url='accounts:doctor_autocomplete' , attrs={'class': 'col-md-10'}),
+    }
 
 class CID10Form(forms.ModelForm):
     class Meta:

@@ -29,6 +29,8 @@ urlpatterns = [
 
     path('all/users/', views.AllUsersList.as_view(), name='list_cards_users'),
 
+    path('doctor/autocomplete/', views.DoctorAutocomplete.as_view(), name='doctor_autocomplete'),
+
     path(
         'login/', auth_views.LoginView.as_view(
         template_name='login.html',

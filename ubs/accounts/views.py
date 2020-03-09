@@ -13,7 +13,7 @@ from .models import User, Clerk ,Doctor
 from .forms import UserAdminForm, UserClerkForm, UserDoctorForm
 
 from django.db.models import Q
-
+from dal import autocomplete
 
 # Views for admin
 class AdminCreate(CreateView):
@@ -301,3 +301,16 @@ class AllUsersList(ListView):
             'doctors' : Doctor.objects.all().count(),
             })
         return context
+
+
+
+class DoctorAutocomplete(autocomplete.Select2QuerySetView):
+
+    def get_queryset(self):
+        
+        qs = Doctor.objects.all()
+
+        if self.q:
+            qs = qs.filter(Q(full_name__icontains=self.q))
+        
+        return qs

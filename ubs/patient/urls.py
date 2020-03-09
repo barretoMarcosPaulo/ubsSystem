@@ -59,5 +59,6 @@ urlpatterns = [
     path('color-autocomplete', views.ColorAutocomplete.as_view(),name="color_autocomplete"),
     path('maritalState-autocomplete', views.MaritalStateAutocomplete.as_view(),name="maritalState_autocomplete"),
     path('ocupation-autocomplete', views.OcupationAutocomplete.as_view(),name="ocupation_autocomplete"),
+    path('patient-autocomplete', views.PatientAutocomplete.as_view(),name="patient_autocomplete"),
 
 ]

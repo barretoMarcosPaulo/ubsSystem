@@ -47,7 +47,7 @@
                                         <div class="col-md-12 margin-bottom-15">
 
                                             <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
-                                            {{ field|add_class:"form-control input-md" }}
+                                            {{ field|add_class:"form-control input-md col-md-12" }}
                                             <span class="text-danger"> <strong>{{ field.help_text }}</strong></span>
                                         </div>
                                     {%endif%}
@@ -73,4 +73,8 @@
 </div>
 </div>
 
+{% endblock %}
+
+{% block js %}
+    {{ form.media }}
 {% endblock %}

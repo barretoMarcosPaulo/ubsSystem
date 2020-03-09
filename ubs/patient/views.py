@@ -657,3 +657,15 @@ class OcupationAutocomplete(autocomplete.Select2QuerySetView):
             qs = qs.filter(Q(desc_ocupation__icontains=self.q))
         
         return qs
+
+
+class PatientAutocomplete(autocomplete.Select2QuerySetView):
+
+    def get_queryset(self):
+        
+        qs = Patient.objects.all()
+
+        if self.q:
+            qs = qs.filter(Q(full_name__icontains=self.q))
+        
+        return qs
