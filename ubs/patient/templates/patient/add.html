@@ -120,6 +120,24 @@
         });
     </script>
     {{ form.media }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
+
+    <script>
+        $(function(){
+            $("#id_cpf_patient").inputmask({
+                mask: "999.999.999-99"
+            });
+            $("#id_phone_number_main").inputmask({
+                mask: "(99) 9 9999-9999 "
+            });
+            $("#id_phone_number_optional").inputmask({
+                mask: "(99) 9 9999-9999 "
+            });
+            
+            $("#frmNumero").inputmask();
+        });
+    </script>
 
 
 {% endblock %}

@@ -21,9 +21,9 @@ class User(AbstractBaseUser, PermissionsMixin, AuditModel):
         ], help_text='Um nome curto que será usado para identificá-lo de forma única na plataforma'
     )
     full_name = models.CharField('Nome Completo',max_length=100)
-    cpf = models.CharField('CPF', max_length=11)
-    phone = models.CharField('Telefone', max_length=13)
-    email = models.EmailField('Email',max_length=100)
+    cpf = models.CharField('CPF', max_length=14, unique="True")
+    phone = models.CharField('Telefone', max_length=16)
+    email = models.EmailField('Email',max_length=100,unique="True")
     is_staff = models.BooleanField('is staff',default=False)
     is_clerk = models.BooleanField('Atendente',default=False)
     is_doctor = models.BooleanField('Medico',default=False)
