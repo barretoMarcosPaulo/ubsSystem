@@ -5,6 +5,8 @@
 {% block title %}Realizar Nova{% endblock %}
 
 {% block body %}
+
+
 <div class="content col-md-12">
     <div class="animated fadeIn">
         <form method="post">
@@ -14,11 +16,11 @@
                         <div class="card">
                             <div class="card-header"><strong>{{patient.full_name}}</strong>
                             </div>
-                           
+                            
                     <fieldset>
 
                         <div class="form-group">
-                           <div id="1" class="">
+                           <div id="1">
                                 {% for field in form %}
                                     {% if field.errors %}
                                         <div
@@ -83,55 +85,46 @@
 
 
 
-                        <div id="3" class="d-none">
-                            {% for field in form %}
-                            {% if field.errors %}
-                            <div
-                                class="col-md-{% if field.name in 'name' %}8{% elif field.name in 'main_complaint\email' %}6{% elif field.name in 'username\sex\birth_date\marital_status\phone\cpf\rg\matricula' %}4{% elif field.name in 'nome_mae\nome_pai' %}6{% else %}12{% endif %} margin-bottom-15 has-error has-feedback">
-                                <label class="control-label">{{ field.label }}</label>
-                                {{ field|add_class:"form-control input-md" }}
-                                <span class="text-danger"> <strong>{{ field.help_text }}</strong> </span>
-                                {% for error in field.errors%}
-                                <span class="help-inline error">{{ error}}</span>
-                                {% endfor%}
+                            <div id="3" class="d-none">
+                                {% for field in form %}
+                                {% if field.errors %}
+                                <div
+                                    class="col-md-{% if field.name in 'name' %}8{% elif field.name in 'main_complaint\email' %}6{% elif field.name in 'username\sex\birth_date\marital_status\phone\cpf\rg\matricula' %}4{% elif field.name in 'nome_mae\nome_pai' %}6{% else %}12{% endif %} margin-bottom-15 has-error has-feedback">
+                                    <label class="control-label">{{ field.label }}</label>
+                                    {{ field|add_class:"form-control input-md" }}
+                                    <span class="text-danger"> <strong>{{ field.help_text }}</strong> </span>
+                                    {% for error in field.errors%}
+                                    <span class="help-inline error">{{ error}}</span>
+                                    {% endfor%}
+                                </div>
+                                {%else%}
+                                {% if field.name == 'gestational_history' or field.name == 'repoductive_health' %}
+                            
+                                <div class="col-md-12 margin-bottom-15">
+                            
+                                    <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
+                                    {{ field|add_class:"form-control input-md" }}
+                                    <span class="text-danger"> <strong>{{ field.help_text }}</strong></span>
+                                </div>
+                                {% endif %}
+                                {%endif%}
+                                {% endfor %}
                             </div>
-                            {%else%}
-                            {% if field.name == 'gestational_history' or field.name == 'repoductive_health' %}
-                        
-                            <div class="col-md-12 margin-bottom-15">
-                        
-                                <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
-                                {{ field|add_class:"form-control input-md" }}
-                                <span class="text-danger"> <strong>{{ field.help_text }}</strong></span>
-                            </div>
-                            {% endif %}
-                            {%endif%}
-                            {% endfor %}
-                        </div>
-
-
 
 
                             <div id="4" class="d-none">
-
-
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-12 col-sm-12">
-                                        <label class="control-label" style="margin-top: 12px;">{{ form.cid10.label }}</label>
-                                        {{form.cid10|add_class:" col-md-12"}}
-                                    </div>
-
-                                    <div class="col-md-12 col-sm-12">
-                                        <label class="control-label" style="margin-top: 12px;">{{ form.examRequest.label }}</label>
-                                        {{form.examRequest|add_class:" col-md-12"}}
-                                    </div>
+                            
+                                <div class="col-md-12">
+                                    <label class="control-label" style="margin-top: 10px;">{{ form.cid10.label }}</label>
+                                    {{form.cid10|add_class:"col-md-12"}}
                                 </div>
-
-
+                            
+                                <div class="col-md-12">
+                                    <label class="control-label" style="margin-top: 10px;">{{ form.examRequest.label }}</label>
+                                    {{form.examRequest|add_class:"col-md-12"}}
+                                </div>
                             </div>
-
-
-
+                            
                             <div id="5" class="d-none">
                                 
                                 <div class="card">
@@ -140,7 +133,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>Medicamento</th>
-                                                    <th>Quantidade</th>
+                                                    <th>Pescrição</th>
                                                     <th>Ação</th>
                                                 </tr>
                                             </thead>
@@ -183,7 +176,9 @@
 
                         </div>
                     </fieldset>
-                    
+
+
+
                     <br>
                     
 
@@ -208,6 +203,8 @@
 
 <script>
 
+
+
     let current = 1
 
     function next(){
@@ -216,7 +213,12 @@
         current+=1
         document.getElementById(current).className= ""
         document.getElementById('back').className= "btn btn-danger"
-        
+        if(current == 4){
+            let inputs_select = document.getElementsByClassName('select2')
+            for(i in inputs_select){
+                inputs_select[i].style="width:100%"
+            }
+        }
         if(current == 5){
             document.getElementById('finished').className="btn btn-success"
             document.getElementById('next').className="d-none"

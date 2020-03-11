@@ -764,3 +764,15 @@ class CID10Autocomplete(autocomplete.Select2QuerySetView):
             qs = qs.filter(Q(desc_CID10__icontains=self.q))
         
         return qs
+
+
+class MedicineAutocomplete(autocomplete.Select2QuerySetView):
+
+    def get_queryset(self):
+        
+        qs = Medicine.objects.all()
+
+        if self.q:
+            qs = qs.filter(Q(generic_name__icontains=self.q))
+        
+        return qs
