@@ -14,11 +14,11 @@
                         <div class="card">
                             <div class="card-header"><strong>{{patient.full_name}}</strong>
                             </div>
-                            
+                           
                     <fieldset>
 
                         <div class="form-group">
-                           <div id="1">
+                           <div id="1" class="">
                                 {% for field in form %}
                                     {% if field.errors %}
                                         <div
@@ -112,23 +112,23 @@
 
 
 
-                    <div id="4" class="d-none">
+                            <div id="4" class="d-none">
 
 
-                        <div class="form-group">
-                            <div class="col-md-12 col-sm-12 box-select">
-                                <label class="control-label" style="margin-top: 12px;">{{ form.cid10.label }}</label>
-                                {{form.cid10|add_class:"col-md-12 "}}
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-12 col-sm-12">
+                                        <label class="control-label" style="margin-top: 12px;">{{ form.cid10.label }}</label>
+                                        {{form.cid10|add_class:" col-md-12"}}
+                                    </div>
+
+                                    <div class="col-md-12 col-sm-12">
+                                        <label class="control-label" style="margin-top: 12px;">{{ form.examRequest.label }}</label>
+                                        {{form.examRequest|add_class:" col-md-12"}}
+                                    </div>
+                                </div>
+
+
                             </div>
-
-                            <div class="col-md-12 col-sm-12 box-select">
-                                <label class="control-label" style="margin-top: 12px;">{{ form.examRequest.label }}</label>
-                                {{form.examRequest|add_class:"col-md-12 "}}
-                            </div>
-                        </div>
-
-
-                    </div>
 
 
 
