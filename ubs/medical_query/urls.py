@@ -43,4 +43,5 @@ urlpatterns = [
 
     path('exames/autocomplete', views.ExamRequestAutocomplete.as_view(create_field='desc_exam',model=ExamRequest), name='examRequest_autocomplete'),
     path('cid10/autocomplete', views.CID10Autocomplete.as_view(), name='cid10_autocomplete'),
+    path('medicine/autocomplete', views.MedicineAutocomplete.as_view(), name='medicine_autocomplete'),
 ]

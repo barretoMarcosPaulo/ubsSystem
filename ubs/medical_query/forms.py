@@ -169,7 +169,9 @@ class QueryHasMedicineForm(forms.ModelForm):
     class Meta:
         model = QueryHasMedicine
         fields = "__all__"
-        # exclude = ["Query_idQuery"]
+        widgets = {
+            'medicine': autocomplete.ModelSelect2(url='medical_query:medicine_autocomplete' , attrs={'class': 'col-md-12'}),
+        }
 
 query_has_medicine_set_class = inlineformset_factory(
     Query, QueryHasMedicine, form=QueryHasMedicineForm, extra=1)
