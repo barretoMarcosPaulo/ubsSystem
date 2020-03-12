@@ -43,14 +43,12 @@ class User(AbstractBaseUser, PermissionsMixin, AuditModel):
         return self.full_name.split(' ')[0]
         
     def is_medical(self):
-        is_medical = False
         try:
             Doctor.objects.get(id=self.id)
-            is_medical = True
+            return True
         except:
-            pass
+            return False
 
-        return is_medical
 
     class Meta:
         verbose_name = 'Usuário'
