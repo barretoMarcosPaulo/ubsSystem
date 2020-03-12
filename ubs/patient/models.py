@@ -124,9 +124,9 @@ class Patient(AuditModel):
     City_codIBGE = models.ForeignKey(City,verbose_name="Cidade",null=True,on_delete=models.SET_NULL)
     Type_Logradouro_idLogradouro = models.ForeignKey(TypeLogradouro,verbose_name="Logradouro",null=True,on_delete=models.SET_NULL)                                                                                                                   
     
-    address_cep = models.CharField('Cep do Endereço',max_length=8,default='64600000')
+    address_cep = models.CharField('Cep do Endereço',max_length=8)
     address_name = models.CharField('Endereço',max_length=60)
-    address_number = models.CharField('Número do Endereço',max_length=6,default='S/N')
+    address_number = models.CharField('Número do Endereço',max_length=6)
     address_complement = models.CharField('Complemento do Endereço',max_length=50, null=True, blank=True)
     address_neighborhood = models.CharField('Bairro do Endereço',max_length=45)
     
