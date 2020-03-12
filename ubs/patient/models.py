@@ -105,7 +105,7 @@ class Patient(AuditModel):
     )
 
     full_name = models.CharField('Nome Completo',max_length=100)
-    cpf_patient = models.CharField('CPF',max_length=11,unique=True)
+    cpf_patient = models.CharField('CPF',max_length=14,unique=True)
     sex = models.CharField('Sexo',choices=sex_option,max_length=1)
     date_birth = models.DateField('Data de Nascimento')
     local_birth = models.CharField('Local de Nascimento',max_length=60)
@@ -115,10 +115,10 @@ class Patient(AuditModel):
     Marital_State_idMarital_State = models.ForeignKey(MaritalState,verbose_name="Estado Conjugal",null=True,on_delete=models.SET_NULL)
     Medical_Insurance_idMedical_insurance = models.ForeignKey(MedicalInsurance,verbose_name="Convênio",null=True,on_delete=models.SET_NULL)
     
-    phone_number_main = models.CharField('Número de telefone (principal)',max_length=13,unique=True)
-    phone_type_optional = models.CharField('Tipo de telefone',choices=type_phone,max_length=11, null=True, blank=True)
-    phone_number_optional = models.CharField('Número de telefone (opcional)',max_length=13,unique=True, null=True, blank=True)
+    phone_number_main = models.CharField('Número de telefone (principal)',max_length=16,unique=True)
     phone_type_main = models.CharField('Tipo de telefone',choices=type_phone,default='CELL',max_length=11)
+    phone_number_optional = models.CharField('Número de telefone (opcional)',max_length=16,unique=True, null=True, blank=True)
+    phone_type_optional = models.CharField('Tipo de telefone',choices=type_phone,max_length=11, null=True, blank=True)
     email = models.EmailField('email',max_length=50,null=True, blank=True)
     
     City_codIBGE = models.ForeignKey(City,verbose_name="Cidade",null=True,on_delete=models.SET_NULL)
