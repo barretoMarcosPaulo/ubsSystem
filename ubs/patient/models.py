@@ -119,7 +119,7 @@ class Patient(AuditModel):
     phone_type_main = models.CharField('Tipo de telefone',choices=type_phone,default='CELL',max_length=11)
     phone_number_optional = models.CharField('Número de telefone (opcional)',max_length=16,unique=True, null=True, blank=True)
     phone_type_optional = models.CharField('Tipo de telefone',choices=type_phone,max_length=11, null=True, blank=True)
-    email = models.EmailField('email',max_length=50,null=True, blank=True)
+    email = models.EmailField('email',max_length=50,null=True, blank=True, unique=True)
     
     City_codIBGE = models.ForeignKey(City,verbose_name="Cidade",null=True,on_delete=models.SET_NULL)
     Type_Logradouro_idLogradouro = models.ForeignKey(TypeLogradouro,verbose_name="Logradouro",null=True,on_delete=models.SET_NULL)                                                                                                                   
