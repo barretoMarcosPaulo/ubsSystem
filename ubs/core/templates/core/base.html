@@ -96,9 +96,38 @@
                 </div>
             </div>
 
-        </header><!-- /header -->
-        <!-- Header-->
+        </header>
+
         {% block body %}
+
+        <div class="breadcrumbs">
+            <div class="col-sm-4">
+                <div class="page-header float-left">
+                    <div class="page-title">
+                        <h1>Painel de Controle</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="page-header float-right">
+                    <div class="page-title">
+                        <ol class="breadcrumb text-right">
+                            <li class="active">Dashboard</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+            {% if request.user.is_superuser %}
+                {% include "core/dashboard_admin.html" %}
+            {% elif request.user.is_medical %}
+                {% include "core/dashboard_medical.html" %}
+            {% else %}
+                {% include "core/dashboard_tecnical.html" %}
+            {% endif %}
+
+
         {% endblock %}
 
     </div><!-- /#right-panel -->
