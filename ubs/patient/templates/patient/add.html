@@ -99,7 +99,10 @@
     <script src="{% static 'js/jquery.min.js' %}"></script>
     
     <script>
-        document.getElementById('id_date_birth').setAttribute('type','date')
+        valor = document.getElementById("id_date_birth").value
+        if ( !valor){
+            document.getElementById('id_date_birth').setAttribute('type','date')
+        }
     </script>
     
     <script>

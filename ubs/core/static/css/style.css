@@ -2,3 +2,7 @@
     #query textarea{
         height: 100px;
     }
+
+    .errorlist {
+        color: red;
+    }
