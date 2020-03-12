@@ -49,8 +49,7 @@
             <div class="navbar-header">
 
                 
-                <a class="navbar-brand hidden" href="./"><img src="{% static 'images/logoEmsaudeCerta.png' %}" alt="Logo"></a>
-                <img src="{% static 'images/logoEmsaudeCerta.png' %}" alt="Logo" width="50%" style="margin: 0 auto; display: block;">
+                <a href=" {% url 'core:index' %}"><img src="{% static 'images/logoEmsaudeCerta.png' %}" alt="Logo" width="50%" style="margin: 0 auto; display: block;"> </a>
             </div>
 
             {% if request.user.is_superuser %}

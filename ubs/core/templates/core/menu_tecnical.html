@@ -3,7 +3,12 @@
 
 
 
-        <h3 class="menu-title text-center">UBS-Em Saúde<del></del></h3><!-- /.menu-title -->
+        <a class="menu-title text-center" href="{% url 'core:index' %}"><h3 class="menu-title text-center">UBS-Em Saúde<del></del></h3></a>
+        <li>
+            <a href="{% url 'core:index' %}" > 
+                <i class="menu-icon fa fa-home"></i>Home</a>
+        </li>
+
         <li class="menu-item-has-children dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
                 <i
@@ -41,8 +46,8 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i
                     class="menu-icon fa fa-exclamation-triangle"></i>CID10</a>
             <ul class="sub-menu children dropdown-menu">
-                <li><i class="fa fa-plus"></i><a href="{% url 'medical_query:add_CID' %}">Novo CID10</a></li>
-                <li><i class="fa fa-list-alt"></i><a href="{% url 'medical_query:list_CID' %}">Ver CIDs10</a></li>       
+                <li><i class="fa fa-plus"></i><a href="{% url 'medical_query:add_CID' %}" target="blank">Novo CID10</a></li>
+                <li><i class="fa fa-list-alt"></i><a href="{% url 'medical_query:list_CID' %}" target="blank">Ver CIDs10</a></li>       
             </ul>
         </li>
 
@@ -51,8 +56,8 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i
                     class="menu-icon fa fa-medkit"></i>Medicamentos</a>
             <ul class="sub-menu children dropdown-menu">
-                <li><i class="fa fa-plus"></i><a href="{% url 'medical_query:add_medicine' %}">Novo Medicamento</a></li>
-                <li><i class="fa fa-list-alt"></i><a href="{% url 'medical_query:list_medicine' %}">Ver Medicamentos</a></li>
+                <li><i class="fa fa-plus"></i><a href="{% url 'medical_query:add_medicine' %}" target="blank" >Novo Medicamento</a></li>
+                <li><i class="fa fa-list-alt"></i><a href="{% url 'medical_query:list_medicine' %}" target="blank" >Ver Medicamentos</a></li>
             </ul>
         </li>
 
@@ -60,8 +65,8 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i
                     class="menu-icon fa fa-stethoscope"></i>Exames</a>
             <ul class="sub-menu children dropdown-menu">
-                <li><i class="fa fa-plus"></i><a href="{% url 'medical_query:add_exam_request' %}">Novo Exame</a></li>
-                <li><i class="fa fa-list-alt"></i><a href="{% url 'medical_query:list_exam_request' %}">Ver Exames</a></li>
+                <li><i class="fa fa-plus"></i><a href="{% url 'medical_query:add_exam_request' %}" target="blank" >Novo Exame</a></li>
+                <li><i class="fa fa-list-alt"></i><a href="{% url 'medical_query:list_exam_request' %}" target="blank" >Ver Exames</a></li>
             </ul>
         </li>
 
