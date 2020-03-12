@@ -175,6 +175,7 @@ class ListQuerysHistory(ListView):
             'page_numbers': page_numbers,
             'show_first': 1 not in page_numbers,
             'show_last': num_pages not in page_numbers,
+            'object_list': Query.objects.filter(User_idUser=self.request.user.id)
             })
         return context
 

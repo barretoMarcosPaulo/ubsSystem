@@ -1,7 +1,7 @@
 <div class="col-sm-12">
     <div class="alert  alert-success alert-dismissible fade show" role="alert">
         <span class="badge badge-pill badge-success">Bem Vindo(a)</span> {{request.user}} seu login foi efetuado com
-        sucesso, a partir de agora você pode utilizar todos os recursos do nível <strong>MÉDICO(A)</strong>.
+        sucesso, a partir de agora você pode utilizar todos os recursos do nível <strong>TÉCNICO</strong>.
     </div>
 </div>
 
@@ -15,14 +15,13 @@
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                     <div class="dropdown-menu-content">
-                        <a class="dropdown-item" href="{% url 'patient:add_patient' %}">Novo</a>
-                        <a class="dropdown-item" href="{% url 'patient:list_patient' %}">Ver Todos</a>
+                        <a class="dropdown-item" href="{% url 'patient:list_patient' %}">Meus Pacientes</a>
                     </div>
                 </div>
             </div>
 
             <h4 class="mb-0">
-                <span class="count">10468</span>
+                <span class="count">{{patients_count}}</span>
             </h4>
             <p class="text-light">Pacientes</p>
 
@@ -39,21 +38,21 @@
 <div class="col-sm-6 col-lg-3">
     <div class="card text-white bg-flat-color-2">
         <div class="card-body pb-0">
-            {% if request.user.is_medical %}
+
             <div class="dropdown float-right">
-                <button class="btn bg-transparent dropdown-toggle theme-toggle text-light" type="button"
-                    id="dropdownMenuButton2" data-toggle="dropdown">
+                <button class="btn bg-transparent dropdown-toggle theme-toggle text-light" type="button" id="dropdownMenuButton2"
+                    data-toggle="dropdown">
                     <i class="fa fa-cog"></i>
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
                     <div class="dropdown-menu-content">
-                        <a class="dropdown-item" href="#">Ver todas</a>
+                        <a class="dropdown-item" href="{% url 'medical_query:list_query_history' %}">Minhas Consultas</a>
                     </div>
                 </div>
             </div>
-            {% endif %}
+
             <h4 class="mb-0">
-                <span class="count">10468</span>
+                <span class="count">{{querys_count}}</span>
             </h4>
             <p class="text-light">Consultas</p>
 
@@ -69,20 +68,9 @@
 <div class="col-sm-6 col-lg-3">
     <div class="card text-white bg-flat-color-3">
         <div class="card-body pb-0">
-            <div class="dropdown float-right">
-                <button class="btn bg-transparent dropdown-toggle theme-toggle text-light" type="button"
-                    id="dropdownMenuButton2" data-toggle="dropdown">
-                    <i class="fa fa-cog"></i>
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                    <div class="dropdown-menu-content">
-                        <a class="dropdown-item" href="{% url 'accounts:add_doctor' %}">Novo</a>
-                        <a class="dropdown-item" href="{% url 'accounts:list_all_doctor' %}">Ver Todos</a>
-                    </div>
-                </div>
-            </div>
+
             <h4 class="mb-0">
-                <span class="count">10468</span>
+                <span class="count">{{doctors_count}}</span>
             </h4>
             <p class="text-light">Medicos(as)</p>
 
@@ -98,20 +86,9 @@
 <div class="col-sm-6 col-lg-3">
     <div class="card text-white bg-flat-color-4">
         <div class="card-body pb-0">
-            <div class="dropdown float-right">
-                <button class="btn bg-transparent dropdown-toggle theme-toggle text-light" type="button"
-                    id="dropdownMenuButton2" data-toggle="dropdown">
-                    <i class="fa fa-cog"></i>
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                    <div class="dropdown-menu-content">
-                        <a class="dropdown-item" href="{% url 'accounts:add_clerk' %}">Novo</a>
-                        <a class="dropdown-item" href="{% url 'accounts:list_all_clerk' %}">Ver Todos</a>
-                    </div>
-                </div>
-            </div>
+
             <h4 class="mb-0">
-                <span class="count">10468</span>
+                <span class="count">{{clerks_count}}</span>
             </h4>
             <p class="text-light">Técnicos(as)</p>
 

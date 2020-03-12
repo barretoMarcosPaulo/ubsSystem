@@ -16,10 +16,20 @@ class IndexView(TemplateView):
         _super = super(IndexView, self)
         context = _super.get_context_data(**kwargs)
        
-        context.update({
-            'patients_count':Patient.objects.count(),
-            'doctors_count':Doctor.objects.count(),
-            'clerks_count':Clerk.objects.count(),
-            'querys_count':Query.objects.count(),
-            })
+
+        if self.request.user.is_medical:
+            context.update({
+                'patients_count':Query.objects.filter(User_idUser=self.request.user.id).values('Patient_idPatient').distinct().count(),
+                'doctors_count':Doctor.objects.count(),
+                'clerks_count':Clerk.objects.count(),
+                'querys_count':Query.objects.filter(User_idUser=self.request.user.id).count(),
+                })
+        else:
+            context.update({
+                'patients_count':Patient.objects.count(),
+                'doctors_count':Doctor.objects.count(),
+                'clerks_count':Clerk.objects.count(),
+                'querys_count':Query.objects.count(),
+                })   
+                   
         return context
