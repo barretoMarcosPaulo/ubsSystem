@@ -119,7 +119,7 @@
         </div>
 
             {% if request.user.is_superuser %}
-                {% include "core/dashboard_admin.html" %}
+                {% include "core/dashboard_tecnical.html" %}
             {% elif request.user.is_medical %}
                 {% include "core/dashboard_medical.html" %}
             {% else %}
