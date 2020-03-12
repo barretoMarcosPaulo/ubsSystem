@@ -70,6 +70,39 @@
             </ul>
         </li>
 
+        <li class="menu-item-has-children active dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-tasks"></i>Outros</a>
+            <ul class="sub-menu children dropdown-menu">
+                <li class="menu-item-has-children dropdown">
+                    <i class="menu-icon fa fa-th-list"></i><a href=" {% url 'patient:list_city' %}" class="dropdown-toggle" aria-haspopup="true"> Cidades</a>
+                </li>
+                <li class="menu-item-has-children dropdown">
+                    <i class="menu-icon fa fa-th-list"></i><a href=" {% url 'patient:list_state' %}" class="dropdown-toggle" aria-haspopup="true"
+                        aria-expanded="false"> Estados</a>
+                </li>
+                <li class="menu-item-has-children dropdown">
+                    <i class="menu-icon fa fa-th-list"></i><a href=" {% url 'patient:list_medical_insurance' %}" class="dropdown-toggle" aria-haspopup="true"
+                        aria-expanded="false"> Convênios</a>
+                </li>
+                <li class="menu-item-has-children dropdown">
+                    <i class="menu-icon fa fa-th-list"></i><a href=" {% url 'patient:list_color' %}" class="dropdown-toggle" aria-haspopup="true"
+                        aria-expanded="false"> Cores</a>
+                </li>
+                <li class="menu-item-has-children dropdown">
+                    <i class="menu-icon fa fa-th-list"></i><a href=" {% url 'patient:list_marital_state' %}" class="dropdown-toggle" aria-haspopup="true"
+                        aria-expanded="false"> Estado Conjugal</a>
+                </li>
+                <li class="menu-item-has-children dropdown">
+                    <i class="menu-icon fa fa-th-list"></i><a href=" {% url 'patient:list_logradouro' %}" class="dropdown-toggle" aria-haspopup="true"
+                        aria-expanded="false"> Logradouro</a>
+                </li>
+                <li class="menu-item-has-children dropdown">
+                    <i class="menu-icon fa fa-th-list"></i><a href=" {% url 'patient:list_ocupation' %}" class="dropdown-toggle" aria-haspopup="true"
+                        aria-expanded="false"> Ocupação</a>
+                </li>
+            </ul>
+        </li>
+
 
     </ul>
 </div>
