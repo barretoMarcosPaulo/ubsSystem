@@ -1,7 +1,7 @@
 {% extends 'core/base.html' %}
 {% load widget_tweaks %}
 
-{% block title %}Realizar Nova{% endblock %}
+{% block title %}Paciente{% endblock %}
 
 {% block body %}
 <div class="content col-md-12">
@@ -18,7 +18,7 @@
                             <div class="form-group">
                                 {% for field in form %}
                                         {% if field.name in 'Type_Logradouro_idLogradouro'   %}
-                                            <div class="col-md-4 margin-bottom-15">
+                                            <div class="col-md-6 margin-bottom-15">
                                                 <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
                                                 <input type="text" class="form-control input-md" readonly value={{ object.Type_Logradouro_idLogradouro}}> 
                                                 <span class="text-danger"> <strong>{{ field.help_text }}</strong></span>
@@ -30,25 +30,25 @@
                                                 <span class="text-danger"> <strong>{{ field.help_text }}</strong></span>
                                             </div>
                                         {% elif field.name in 'Color_idColor' %}
-                                            <div class="col-md-4 margin-bottom-15">
+                                            <div class="col-md-3 margin-bottom-15">
                                                 <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
                                                 <input type="text" class="form-control input-md" readonly value={{ object.Color_idColor}}> 
                                                 <span class="text-danger"> <strong>{{ field.help_text }}</strong></span>
                                             </div>
                                         {% elif field.name in 'Marital_State_idMarital_State'%}
-                                            <div class="col-md-4 margin-bottom-15">
+                                            <div class="col-md-3 margin-bottom-15">
                                                 <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
                                                 <input type="text" class="form-control input-md" readonly value={{ object.Marital_State_idMarital_State}}> 
                                                 <span class="text-danger"> <strong>{{ field.help_text }}</strong></span>
                                             </div>
                                         {% elif field.name in 'Ocupation_idOcupation'%}
-                                            <div class="col-md-6 margin-bottom-15">
+                                            <div class="col-md-3 margin-bottom-15">
                                                 <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
                                                 <input type="text" class="form-control input-md" readonly value={{ object.Ocupation_idOcupation}}> 
                                                 <span class="text-danger"> <strong>{{ field.help_text }}</strong></span>
                                             </div>
                                         {% elif field.name in 'Medical_Insurance_idMedical_insurance'%}
-                                            <div class="col-md-4 margin-bottom-15">
+                                            <div class="col-md-3 margin-bottom-15">
                                                 <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
                                                 <input type="text" class="form-control input-md" readonly value={{ object.Medical_Insurance_idMedical_insurance}}> 
                                                 <span class="text-danger"> <strong>{{ field.help_text }}</strong></span>
@@ -71,7 +71,7 @@
                                                 <span class="text-danger"> <strong>{{ field.help_text }}</strong></span>
                                             </div>
                                         {% else %}
-                                            <div class="col-md-{% if field.name in 'date_birth\local_birth\address_number\address_cep' %}4
+                                            <div class="col-md-{% if field.name in 'date_birth\local_birth' %}4
                                                 {% else %}6
                                                 {% endif %} margin-bottom-15">
                                                 <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
