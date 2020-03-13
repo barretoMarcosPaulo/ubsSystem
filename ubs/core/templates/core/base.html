@@ -150,7 +150,31 @@
     <script src="{% static 'vendors/jqvmap/dist/maps/jquery.vmap.world.js'%}"></script>
 
 
+    <script src="https://js.pusher.com/5.1/pusher.min.js"></script>
 
+    <script>
+
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+
+        var pusher = new Pusher('7c5598615bc9fbb306d2', {
+            cluster: 'us2',
+            forceTLS: true
+        });
+
+        var channel = pusher.subscribe('notification');
+        channel.bind('recieve-notification', function (data) {
+            response = data
+
+            if(response.message == {{request.user.id}}){
+                alert("Você possui um novo paciente disponível para atendimento")
+            }
+
+        });
+
+
+
+    </script>
     
     <script>
         (function($) {

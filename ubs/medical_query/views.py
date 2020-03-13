@@ -243,6 +243,25 @@ class ForwardingCreate(CreateView):
     template_name = 'forwarding/add.html'
     form_class = ForwardingForm
 
+    def post(self, request, *args, **kwargs):
+        self.object = None
+        form = self.form_class(self.request.POST, self.request.FILES)
+
+        if form.is_valid() :
+            return self.form_valid(form)
+
+    def form_valid(self, form):
+
+        forwarding = form.save()
+        print(forwarding.patient)
+        print(forwarding.medical)
+
+        pusher_client.trigger('notification', 'recieve-notification', {'message': forwarding.medical.id})
+
+        return HttpResponseRedirect(self.get_success_url())
+
+
+
     def get_success_url(self):
         return reverse('medical_query:currents_forwarding')
 
