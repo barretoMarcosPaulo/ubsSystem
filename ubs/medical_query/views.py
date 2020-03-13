@@ -21,7 +21,12 @@ from .pusher import pusher_client
 
 from dal import autocomplete
 
-# Views for Querys
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+
+
+
+@method_decorator(login_required, name='dispatch')
 class QueryCreate(CreateView):
     model = Query
     template_name = 'querys/add.html'
@@ -113,6 +118,9 @@ class QueryCreate(CreateView):
         return context
 
 
+
+
+@method_decorator(login_required, name='dispatch')
 class QueryUpdate(UpdateView):
     model = Query
     template_name = 'querys/add.html'
@@ -122,6 +130,9 @@ class QueryUpdate(UpdateView):
         return reverse('medical_query:list_query_history')
 
 
+
+
+@method_decorator(login_required, name='dispatch')
 class QueryDetail(DetailView):
     model = Query
     template_name = 'querys/detail.html'
@@ -142,7 +153,10 @@ class QueryDetail(DetailView):
             )
         )
 
-# Views for history attendances
+
+
+
+@method_decorator(login_required, name='dispatch')
 class ListQuerysHistory(ListView):
 
     model = Query
@@ -180,6 +194,10 @@ class ListQuerysHistory(ListView):
         return context
 
 
+
+
+
+@method_decorator(login_required, name='dispatch')
 class ListAttendances(ListView):
 
     model = Query
@@ -216,6 +234,9 @@ class ListAttendances(ListView):
         return context
 
 
+
+
+@method_decorator(login_required, name='dispatch')
 class Attendances(UpdateView):
 
     model = Query
@@ -238,6 +259,9 @@ class Attendances(UpdateView):
         return context
 
 
+
+
+@method_decorator(login_required, name='dispatch')
 class ForwardingCreate(CreateView):
     model = Forwarding
     template_name = 'forwarding/add.html'
@@ -246,6 +270,9 @@ class ForwardingCreate(CreateView):
     def get_success_url(self):
         return reverse('medical_query:currents_forwarding')
 
+
+
+@method_decorator(login_required, name='dispatch')
 class ForwardingList(ListView):
     model = Forwarding
     template_name = 'forwarding/list.html'
@@ -286,6 +313,9 @@ class ForwardingList(ListView):
         return context
 
 
+
+
+@method_decorator(login_required, name='dispatch')
 class CurrentForwardingList(ListView):
     model = Forwarding
     template_name = 'forwarding/current_list.html'
@@ -327,6 +357,9 @@ class CurrentForwardingList(ListView):
 
 
 
+
+
+@method_decorator(login_required, name='dispatch')
 class AwaitQuerys(ListView):
     model = Forwarding
     template_name = 'forwarding/await_querys.html'
@@ -409,6 +442,9 @@ class AwaitQuerys(ListView):
 
 
 
+
+
+@method_decorator(login_required, name='dispatch')
 class AwaitQuerysClerk(ListView):
     model = Forwarding
     template_name = 'forwarding/await_querys_clerk.html'
@@ -495,6 +531,9 @@ class AwaitQuerysClerk(ListView):
         return context
 
 
+
+
+@method_decorator(login_required, name='dispatch')
 class MedicineCreate(CreateView):
     model = Medicine
     template_name = 'medicine/add.html'
@@ -503,6 +542,9 @@ class MedicineCreate(CreateView):
     def get_success_url(self):
         return reverse('medical_query:list_medicine')
 
+
+
+@method_decorator(login_required, name='dispatch')
 class ListMedicine(ListView):
 
     model = Medicine
@@ -539,6 +581,9 @@ class ListMedicine(ListView):
             })
         return context
 
+
+
+@method_decorator(login_required, name='dispatch')
 class MedicineUpdate(UpdateView):
     model = Medicine
     template_name = 'medicine/add.html'
@@ -547,11 +592,17 @@ class MedicineUpdate(UpdateView):
     def get_success_url(self):
         return reverse('medical_query:list_medicine')
 
+
+
+@method_decorator(login_required, name='dispatch')
 class MedicineDetail(UpdateView):
     model = Medicine
     template_name = 'medicine/detail.html'
     form_class = MedicineDetailForm
-    
+
+
+
+@method_decorator(login_required, name='dispatch')
 class DeleteMedicine(DeleteView):
     model = Medicine
     template_name="medicine/list.html"
@@ -565,6 +616,9 @@ class DeleteMedicine(DeleteView):
         except:
             return JsonResponse({'msg': "Essa proposta não pôde ser excluída!", 'code': "0"})
 
+
+
+@method_decorator(login_required, name='dispatch')
 class ExamRequestCreate(CreateView):
     model = ExamRequest
     template_name = 'exam_request/add.html'
@@ -573,6 +627,9 @@ class ExamRequestCreate(CreateView):
     def get_success_url(self):
         return reverse('medical_query:list_exam_request')
 
+
+
+@method_decorator(login_required, name='dispatch')
 class ListExamRequest(ListView):
 
     model = ExamRequest
@@ -609,6 +666,9 @@ class ListExamRequest(ListView):
             })
         return context
 
+
+
+@method_decorator(login_required, name='dispatch')
 class ExamRequestUpdate(UpdateView):
     model = ExamRequest
     template_name = 'exam_request/add.html'
@@ -617,11 +677,18 @@ class ExamRequestUpdate(UpdateView):
     def get_success_url(self):
         return reverse('medical_query:list_exam_request')
 
+
+
+@method_decorator(login_required, name='dispatch')
 class ExamRequestDetail(UpdateView):
     model = ExamRequest
     template_name = 'exam_request/detail.html'
     form_class = ExamRequestDetailForm
-    
+
+
+
+
+@method_decorator(login_required, name='dispatch')
 class DeleteExamRequest(DeleteView):
     model = ExamRequest
     template_name="exam_request/list.html"
@@ -635,6 +702,9 @@ class DeleteExamRequest(DeleteView):
         except:
             return JsonResponse({'msg': "Essa proposta não pôde ser excluída!", 'code': "0"})
 
+
+
+@method_decorator(login_required, name='dispatch')
 class CID10Create(CreateView):
     model = CID10
     template_name = 'CID10/add.html'
@@ -643,6 +713,9 @@ class CID10Create(CreateView):
     def get_success_url(self):
         return reverse('medical_query:list_CID')
 
+
+
+@method_decorator(login_required, name='dispatch')
 class ListCID10(ListView):
 
     model = CID10
@@ -679,6 +752,8 @@ class ListCID10(ListView):
             })
         return context
 
+
+@method_decorator(login_required, name='dispatch')
 class CID10Update(UpdateView):
     model = CID10
     template_name = 'CID10/add.html'
@@ -687,11 +762,15 @@ class CID10Update(UpdateView):
     def get_success_url(self):
         return reverse('medical_query:list_CID')
 
+
+@method_decorator(login_required, name='dispatch')
 class CID10Detail(UpdateView):
     model = CID10
     template_name = 'CID10/detail.html'
     form_class = CID10DetailForm
-    
+
+ 
+@method_decorator(login_required, name='dispatch')   
 class DeleteCID10(DeleteView):
     model = CID10
     template_name="CID10/list.html"
@@ -705,6 +784,8 @@ class DeleteCID10(DeleteView):
         except:
             return JsonResponse({'msg': "Essa proposta não pôde ser excluída!", 'code': "0"})
 
+
+@method_decorator(login_required, name='dispatch')
 class Recipe(DetailView):
     model = Query
     template_name="recipe/detail.html"
@@ -725,6 +806,8 @@ class Recipe(DetailView):
         )
 
 
+
+@method_decorator(login_required, name='dispatch')
 class ExamRequestPDF(DetailView):
     model = Query
     template_name="examRequest/examRequest.html"
@@ -744,6 +827,8 @@ class ExamRequestPDF(DetailView):
 
 
 
+
+@method_decorator(login_required, name='dispatch')
 class ExamRequestAutocomplete(autocomplete.Select2QuerySetView):
 
     def get_queryset(self):
@@ -755,6 +840,8 @@ class ExamRequestAutocomplete(autocomplete.Select2QuerySetView):
         
         return qs
 
+
+@method_decorator(login_required, name='dispatch')
 class CID10Autocomplete(autocomplete.Select2QuerySetView):
 
     def get_queryset(self):
@@ -767,6 +854,8 @@ class CID10Autocomplete(autocomplete.Select2QuerySetView):
         return qs
 
 
+
+@method_decorator(login_required, name='dispatch')
 class MedicineAutocomplete(autocomplete.Select2QuerySetView):
 
     def get_queryset(self):
