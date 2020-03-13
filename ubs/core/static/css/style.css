@@ -3,6 +3,6 @@
         height: 100px;
     }
 
-    .errorlist {
-        color: red;
+    .errorlist ,.error {
+        color: #DC3545;
     }

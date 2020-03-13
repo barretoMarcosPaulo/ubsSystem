@@ -19,9 +19,17 @@ class UserClerkForm(UserCreationForm):
 
 
 
+class UserClerkEditForm(forms.ModelForm):
+    class Meta:
+        model = Clerk
+        fields= ['full_name','cpf','register_clerk','email','phone']
+
 class UserDoctorForm(UserCreationForm):
     class Meta:
         model = Doctor
         fields= ['full_name','cpf','crm_doc','email','phone']
 
-
+class UserDoctorEditForm(forms.ModelForm):
+    class Meta:
+        model = Doctor
+        fields= ['full_name','cpf','crm_doc','email','phone']

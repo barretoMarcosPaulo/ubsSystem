@@ -10,13 +10,14 @@ from django.http import HttpResponse, JsonResponse
 from django.db import IntegrityError, transaction
 
 from .models import User, Clerk ,Doctor
-from .forms import UserAdminForm, UserClerkForm, UserDoctorForm
+from .forms import UserAdminForm, UserClerkForm, UserDoctorForm, UserClerkEditForm, UserDoctorEditForm
 
 from django.db.models import Q
 from dal import autocomplete
 
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 
 
 @method_decorator(login_required, name='dispatch')
@@ -186,11 +187,35 @@ class ClerkList(ListView):
 class ClerkUpdate(UpdateView):
     model = Clerk
     template_name = 'users/clerk/edit.html'
-    form_class = UserClerkForm
+    form_class = UserClerkEditForm
 
-    def get_success_url(self):
-        return reverse('accounts:logout')
 
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+		
+        form = self.form_class(self.request.POST, instance=self.object)
+
+        if form.is_valid():
+            return self.form_valid(form, request)
+
+
+    def form_valid(self, form , request):
+		
+        user = form.save(commit=False)
+        
+        equal_email = False
+        
+        # Verificando se o email foi mudado
+        if user.email == self.request.user.email:
+            equal_email = True
+
+        user.save()
+
+        if equal_email:
+            return HttpResponseRedirect(reverse('core:index'))
+        else:
+            return HttpResponseRedirect(reverse('accounts:logout'))
 
 
 @method_decorator(login_required, name='dispatch')
@@ -284,10 +309,34 @@ class DoctorList(ListView):
 class DoctorUpdate(UpdateView):
     model = Doctor
     template_name = 'users/doctor/edit.html'
-    form_class = UserDoctorForm
+    form_class = UserDoctorEditForm
 
-    def get_success_url(self):
-        return reverse('accounts:list_all_doctor')
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+		
+        form = self.form_class(self.request.POST, instance=self.object)
+
+        if form.is_valid():
+            return self.form_valid(form, request)
+
+
+    def form_valid(self, form , request):
+		
+        user = form.save(commit=False)
+        
+        equal_email = False
+        
+        # Verificando se o email foi mudado
+        if user.email == self.request.user.email:
+            equal_email = True
+
+        user.save()
+
+        if equal_email:
+            return HttpResponseRedirect(reverse('core:index'))
+        else:
+            return HttpResponseRedirect(reverse('accounts:logout'))
+
 
 
 
