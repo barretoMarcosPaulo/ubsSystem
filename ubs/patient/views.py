@@ -69,9 +69,10 @@ class PatientByDoctor(ListView):
 
     model = Patient
     http_method_names = ['get']
-    template_name = 'patient/patients_by_doctor.html'
+    template_name = 'patient/list_by_doctor.html'
     context_object_name = 'object_list'
     paginate_by = 20
+
 
     def get_queryset(self):
         self.queryset = super(PatientByDoctor, self).get_queryset()
@@ -93,10 +94,21 @@ class PatientByDoctor(ListView):
             endPage = num_pages + 1
         page_numbers = [n for n in range(startPage, endPage) \
             if n > 0 and n <= num_pages]
+
+
+        all_patients = Patient.objects.all()
+        patient_by_doctor = list()
+        
+        for patient in all_patients:
+            have_query = Query.objects.filter(User_idUser=self.request.user.id, Patient_idPatient= patient.id)
+            if have_query:
+                patient_by_doctor.append(patient)
+
         context.update({
             'page_numbers': page_numbers,
             'show_first': 1 not in page_numbers,
             'show_last': num_pages not in page_numbers,
+            'object_list':patient_by_doctor
             })
         return context
 

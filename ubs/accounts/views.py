@@ -175,7 +175,7 @@ class ClerkUpdate(UpdateView):
     form_class = UserClerkForm
 
     def get_success_url(self):
-        return reverse('accounts:list_all_clerk')
+        return reverse('accounts:logout')
 
 
 class ClerkDelete(DeleteView):
