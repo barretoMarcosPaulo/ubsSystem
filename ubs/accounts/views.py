@@ -15,7 +15,11 @@ from .forms import UserAdminForm, UserClerkForm, UserDoctorForm
 from django.db.models import Q
 from dal import autocomplete
 
-# Views for admin
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+
+
+@method_decorator(login_required, name='dispatch')
 class AdminCreate(CreateView):
     model = User
     template_name = 'users/admin/add.html'
@@ -45,6 +49,7 @@ class AdminCreate(CreateView):
         )
 
 
+@method_decorator(login_required, name='dispatch')
 class AdminList(ListView):
 
     model = User
@@ -81,6 +86,8 @@ class AdminList(ListView):
         return context
 
 
+
+@method_decorator(login_required, name='dispatch')
 class AdminUpdate(UpdateView):
     model = User
     template_name = 'users/admin/edit.html'
@@ -90,6 +97,8 @@ class AdminUpdate(UpdateView):
         return reverse('accounts:list_all_admin')
 
 
+
+@method_decorator(login_required, name='dispatch')
 class AdminDelete(DeleteView):
     model = User
 
@@ -103,7 +112,8 @@ class AdminDelete(DeleteView):
 
 
 
-# Views for clerk
+
+@method_decorator(login_required, name='dispatch')
 class ClerkCreate(CreateView):
     model = Clerk
     template_name = 'users/clerk/add.html'
@@ -133,6 +143,8 @@ class ClerkCreate(CreateView):
         )
 
 
+
+@method_decorator(login_required, name='dispatch')
 class ClerkList(ListView):
 
     model = Clerk
@@ -169,15 +181,19 @@ class ClerkList(ListView):
         return context
 
 
+
+@method_decorator(login_required, name='dispatch')
 class ClerkUpdate(UpdateView):
     model = Clerk
     template_name = 'users/clerk/edit.html'
     form_class = UserClerkForm
 
     def get_success_url(self):
-        return reverse('accounts:list_all_clerk')
+        return reverse('accounts:logout')
 
 
+
+@method_decorator(login_required, name='dispatch')
 class ClerkDelete(DeleteView):
     model = Clerk
 
@@ -190,11 +206,13 @@ class ClerkDelete(DeleteView):
             return JsonResponse({'msg': "Esse atendente não pôde ser excluído!", 'code': "0"})
 
 
+@method_decorator(login_required, name='dispatch')
 class ClerkDetail(DetailView):
     model = Clerk
     template_name = 'users/clerk/details.html'
 
-# Views for doctor
+
+@method_decorator(login_required, name='dispatch')
 class DoctorCreate(CreateView):
     model = Doctor
     template_name = 'users/doctor/add.html'
@@ -224,6 +242,8 @@ class DoctorCreate(CreateView):
         )
 
 
+
+@method_decorator(login_required, name='dispatch')
 class DoctorList(ListView):
 
     model = Doctor
@@ -259,7 +279,8 @@ class DoctorList(ListView):
             })
         return context
 
-        
+     
+@method_decorator(login_required, name='dispatch')   
 class DoctorUpdate(UpdateView):
     model = Doctor
     template_name = 'users/doctor/edit.html'
@@ -269,6 +290,8 @@ class DoctorUpdate(UpdateView):
         return reverse('accounts:list_all_doctor')
 
 
+
+@method_decorator(login_required, name='dispatch')
 class DoctorDelete(DeleteView):
     model = Doctor
 
@@ -281,10 +304,15 @@ class DoctorDelete(DeleteView):
             return JsonResponse({'msg': "Esse médico não pôde ser excluído!", 'code': "0"})
 
 
+
+@method_decorator(login_required, name='dispatch')
 class DoctorDetail(DetailView):
     model = Doctor
     template_name = 'users/doctor/details.html'
 
+
+
+@method_decorator(login_required, name='dispatch')
 class AllUsersList(ListView):
 
     model = User
@@ -304,6 +332,7 @@ class AllUsersList(ListView):
 
 
 
+@method_decorator(login_required, name='dispatch')
 class DoctorAutocomplete(autocomplete.Select2QuerySetView):
 
     def get_queryset(self):

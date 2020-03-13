@@ -26,37 +26,6 @@
         </li>
 
 
-        
-        <li class="menu-item-has-children dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i
-                    class="menu-icon fa fa-exclamation-triangle"></i>CID10</a>
-            <ul class="sub-menu children dropdown-menu">
-                <li><i class="fa fa-plus"></i><a href="{% url 'medical_query:add_CID' %}">Novo CID10</a></li>
-                <li><i class="fa fa-list-alt"></i><a href="{% url 'medical_query:list_CID' %}">Ver CIDs10</a></li>       
-            </ul>
-        </li>
-
-
-        <li class="menu-item-has-children dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i
-                    class="menu-icon fa fa-medkit"></i>Medicamentos</a>
-            <ul class="sub-menu children dropdown-menu">
-                <li><i class="fa fa-plus"></i><a href="{% url 'medical_query:add_medicine' %}">Novo Medicamento</a></li>
-                <li><i class="fa fa-list-alt"></i><a href="{% url 'medical_query:list_medicine' %}">Ver Medicamentos</a></li>
-            </ul>
-        </li>
-
-        <li class="menu-item-has-children dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i
-                    class="menu-icon fa fa-stethoscope"></i>Exames</a>
-            <ul class="sub-menu children dropdown-menu">
-                <li><i class="fa fa-plus"></i><a href="{% url 'medical_query:add_exam_request' %}">Novo Exame</a></li>
-                <li><i class="fa fa-list-alt"></i><a href="{% url 'medical_query:list_exam_request' %}">Ver Exames</a></li>
-            </ul>
-        </li>
-
-
-
         <li class="menu-item-has-children dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i
                     class="menu-icon fa fa-exclamation-triangle"></i>CID10</a>
@@ -83,6 +52,39 @@
             <ul class="sub-menu children dropdown-menu">
                 <li><i class="fa fa-plus"></i><a href="{% url 'medical_query:add_exam_request' %}">Novo Exame</a></li>
                 <li><i class="fa fa-list-alt"></i><a href="{% url 'medical_query:list_exam_request' %}">Ver Exames</a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="menu-item-has-children active dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-tasks"></i>Outros</a>
+            <ul class="sub-menu children dropdown-menu">
+                <li class="menu-item-has-children dropdown">
+                    <i class="menu-icon fa fa-th-list"></i><a target="_blank" href=" {% url 'patient:list_city' %}" class="dropdown-toggle" aria-haspopup="true"> Cidades</a>
+                </li>
+                <li class="menu-item-has-children dropdown">
+                    <i class="menu-icon fa fa-th-list"></i><a target="_blank" href=" {% url 'patient:list_state' %}" class="dropdown-toggle" aria-haspopup="true"
+                        aria-expanded="false"> Estados</a>
+                </li>
+                <li class="menu-item-has-children dropdown">
+                    <i class="menu-icon fa fa-th-list"></i><a target="_blank" href=" {% url 'patient:list_medical_insurance' %}" class="dropdown-toggle" aria-haspopup="true"
+                        aria-expanded="false"> Convênios</a>
+                </li>
+                <li class="menu-item-has-children dropdown">
+                    <i class="menu-icon fa fa-th-list"></i><a target="_blank" href=" {% url 'patient:list_color' %}" class="dropdown-toggle" aria-haspopup="true"
+                        aria-expanded="false"> Cores</a>
+                </li>
+                <li class="menu-item-has-children dropdown">
+                    <i class="menu-icon fa fa-th-list"></i><a target="_blank" href=" {% url 'patient:list_marital_state' %}" class="dropdown-toggle" aria-haspopup="true"
+                        aria-expanded="false"> Estado Conjugal</a>
+                </li>
+                <li class="menu-item-has-children dropdown">
+                    <i class="menu-icon fa fa-th-list"></i><a target="_blank" href=" {% url 'patient:list_logradouro' %}" class="dropdown-toggle" aria-haspopup="true"
+                        aria-expanded="false"> Logradouro</a>
+                </li>
+                <li class="menu-item-has-children dropdown">
+                    <i class="menu-icon fa fa-th-list"></i><a target="_blank" href=" {% url 'patient:list_ocupation' %}" class="dropdown-toggle" aria-haspopup="true"
+                        aria-expanded="false"> Ocupação</a>
                 </li>
             </ul>
         </li>

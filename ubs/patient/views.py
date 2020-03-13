@@ -19,6 +19,11 @@ from dal import autocomplete
 
 from ubs.medical_query.models import Query
 
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+
+
+@method_decorator(login_required, name='dispatch')
 class PatientCreate(CreateView):
     model = Patient
     template_name = 'patient/add.html'
@@ -28,6 +33,8 @@ class PatientCreate(CreateView):
     def get_success_url(self):
         return reverse('patient:list_patient')
 
+
+@method_decorator(login_required, name='dispatch')
 class ListPatient(ListView):
 
     model = Patient
@@ -65,13 +72,16 @@ class ListPatient(ListView):
 
 
 
+
+@method_decorator(login_required, name='dispatch')
 class PatientByDoctor(ListView):
 
     model = Patient
     http_method_names = ['get']
-    template_name = 'patient/patients_by_doctor.html'
+    template_name = 'patient/list_by_doctor.html'
     context_object_name = 'object_list'
     paginate_by = 20
+
 
     def get_queryset(self):
         self.queryset = super(PatientByDoctor, self).get_queryset()
@@ -93,14 +103,27 @@ class PatientByDoctor(ListView):
             endPage = num_pages + 1
         page_numbers = [n for n in range(startPage, endPage) \
             if n > 0 and n <= num_pages]
+
+
+        all_patients = Patient.objects.all()
+        patient_by_doctor = list()
+        
+        for patient in all_patients:
+            have_query = Query.objects.filter(User_idUser=self.request.user.id, Patient_idPatient= patient.id)
+            if have_query:
+                patient_by_doctor.append(patient)
+
         context.update({
             'page_numbers': page_numbers,
             'show_first': 1 not in page_numbers,
             'show_last': num_pages not in page_numbers,
+            'object_list':patient_by_doctor
             })
         return context
 
 
+
+@method_decorator(login_required, name='dispatch')
 class PatientUpdate(UpdateView):
     model = Patient
     template_name = 'patient/add.html'
@@ -109,6 +132,8 @@ class PatientUpdate(UpdateView):
     def get_success_url(self):
         return reverse('patient:list_patient')
 
+
+@method_decorator(login_required, name='dispatch')
 class DeletePatient(DeleteView):
     model = Patient
     template_name="patient/list.html"
@@ -122,11 +147,15 @@ class DeletePatient(DeleteView):
         except:
             return JsonResponse({'msg': "Essa proposta não pôde ser excluída!", 'code': "0"})
 
+
+@method_decorator(login_required, name='dispatch')
 class PatientDetail(UpdateView):
     template_name = 'patient/detail.html'
     form_class = PatientDetailForm
     model = Patient
-        
+
+ 
+@method_decorator(login_required, name='dispatch')       
 #Initial City
 class CityCreate(CreateView):
 	model = City
@@ -136,6 +165,9 @@ class CityCreate(CreateView):
 	def get_success_url(self):
 		return reverse('patient:list_city')
 
+
+
+@method_decorator(login_required, name='dispatch')
 class ListCity(ListView):
 
     model = City
@@ -172,6 +204,9 @@ class ListCity(ListView):
             })
         return context
 
+
+
+@method_decorator(login_required, name='dispatch')
 class CityUpdate(UpdateView):
 	model = City
 	template_name = 'city/add.html'
@@ -180,6 +215,9 @@ class CityUpdate(UpdateView):
 	def get_success_url(self):
 		return reverse('patient:list_city')
 
+
+
+@method_decorator(login_required, name='dispatch')
 class DeleteCity(DeleteView):
     model = City
     template_name="city/list.html"
@@ -193,13 +231,18 @@ class DeleteCity(DeleteView):
         except:
             return JsonResponse({'msg': "Essa proposta não pôde ser excluída!", 'code': "0"})
 
+
+
+@method_decorator(login_required, name='dispatch')
 class CityDetail(UpdateView):
 
     model = City
     template_name = 'city/detail.html'
     form_class = CityDetailForm
 
-#initial State
+
+
+@method_decorator(login_required, name='dispatch')
 class StateCreate(CreateView):
 	model = State
 	template_name = 'state/add.html'
@@ -208,6 +251,9 @@ class StateCreate(CreateView):
 	def get_success_url(self):
 		return reverse('patient:list_state')
 
+
+
+@method_decorator(login_required, name='dispatch')
 class ListState(ListView):
 
     model = State
@@ -245,6 +291,9 @@ class ListState(ListView):
             })
         return context
 
+
+
+@method_decorator(login_required, name='dispatch')
 class StateUpdate(UpdateView):
 	model = State
 	template_name = 'state/add.html'
@@ -253,6 +302,9 @@ class StateUpdate(UpdateView):
 	def get_success_url(self):
 		return reverse('patient:list_state')
 
+
+
+@method_decorator(login_required, name='dispatch')
 class DeleteState(DeleteView):
     model = State
     template_name="state/list.html"
@@ -266,13 +318,17 @@ class DeleteState(DeleteView):
         except:
             return JsonResponse({'msg': "Essa proposta não pôde ser excluída!", 'code': "0"})
 
+
+
+@method_decorator(login_required, name='dispatch')
 class StateDetail(UpdateView):
 
     model = State
     template_name = 'state/detail.html'
     form_class = StateDetailForm
 
-#initial MedicalInsurance
+
+@method_decorator(login_required, name='dispatch')
 class MedicalInsuranceCreate(CreateView):
 	model = MedicalInsurance
 	template_name = 'medical_insurance/add.html'
@@ -281,6 +337,9 @@ class MedicalInsuranceCreate(CreateView):
 	def get_success_url(self):
 		return reverse('patient:list_medical_insurance')
 
+
+
+@method_decorator(login_required, name='dispatch')
 class ListMedicalInsurance(ListView):
 
     model = MedicalInsurance
@@ -317,6 +376,9 @@ class ListMedicalInsurance(ListView):
             })
         return context
 
+
+
+@method_decorator(login_required, name='dispatch')
 class MedicalInsuranceUpdate(UpdateView):
     model = MedicalInsurance
     template_name = 'medical_insurance/add.html'
@@ -325,6 +387,9 @@ class MedicalInsuranceUpdate(UpdateView):
     def get_success_url(self):
         return reverse('patient:list_medical_insurance')
 
+
+
+@method_decorator(login_required, name='dispatch')
 class DeleteMedicalInsurance(DeleteView):
     model = MedicalInsurance
     template_name="medica_insurance/list.html"
@@ -338,13 +403,18 @@ class DeleteMedicalInsurance(DeleteView):
         except:
             return JsonResponse({'msg': "Essa proposta não pôde ser excluída!", 'code': "0"})
 
+
+
+@method_decorator(login_required, name='dispatch')
 class MedicalInsuranceDetail(UpdateView):
 
     model = MedicalInsurance
     template_name = 'medical_insurance/detail.html'
     form_class = MedicalInsuranceDetailForm
 
-#initial Color
+
+
+@method_decorator(login_required, name='dispatch')
 class ColorCreate(CreateView):
 	model = Color
 	template_name = 'color/add.html'
@@ -353,6 +423,9 @@ class ColorCreate(CreateView):
 	def get_success_url(self):
 		return reverse('patient:list_color')
 
+
+
+@method_decorator(login_required, name='dispatch')
 class ListColor(ListView):
 
     model = Color
@@ -389,6 +462,9 @@ class ListColor(ListView):
             })
         return context
 
+
+
+@method_decorator(login_required, name='dispatch')
 class ColorUpdate(UpdateView):
 	model = Color
 	template_name = 'color/add.html'
@@ -397,6 +473,9 @@ class ColorUpdate(UpdateView):
 	def get_success_url(self):
 		return reverse('patient:list_color')
 
+
+
+@method_decorator(login_required, name='dispatch')
 class DeleteColor(DeleteView):
     model = Color
     template_name="cor/list.html"
@@ -410,13 +489,18 @@ class DeleteColor(DeleteView):
         except:
             return JsonResponse({'msg': "Essa proposta não pôde ser excluída!", 'code': "0"})
 
+
+
+@method_decorator(login_required, name='dispatch')
 class ColorDetail(UpdateView):
 
     model = Color
     template_name = 'color/detail.html'
     form_class = ColorDetailForm
 
-#initial MaritalState
+
+
+@method_decorator(login_required, name='dispatch')
 class MaritalStateCreate(CreateView):
 	model = MaritalState
 	template_name = 'marital_state/add.html'
@@ -425,6 +509,9 @@ class MaritalStateCreate(CreateView):
 	def get_success_url(self):
 		return reverse('patient:list_marital_state')
 
+
+
+@method_decorator(login_required, name='dispatch')
 class ListMaritalState(ListView):
 
     model = MaritalState
@@ -461,6 +548,9 @@ class ListMaritalState(ListView):
             })
         return context
 
+
+
+@method_decorator(login_required, name='dispatch')
 class MaritalStateUpdate(UpdateView):
 	model = MaritalState
 	template_name = 'marital_state/add.html'
@@ -469,6 +559,9 @@ class MaritalStateUpdate(UpdateView):
 	def get_success_url(self):
 		return reverse('patient:list_marital_state')
 
+
+
+@method_decorator(login_required, name='dispatch')
 class DeleteMaritalState(DeleteView):
     model = MaritalState
     template_name="marital_state/list.html"
@@ -482,12 +575,17 @@ class DeleteMaritalState(DeleteView):
         except:
             return JsonResponse({'msg': "Essa proposta não pôde ser excluída!", 'code': "0"})
 
+
+
+@method_decorator(login_required, name='dispatch')
 class MaritalStateDetail(UpdateView):
     model = MaritalState
     template_name = 'marital_state/detail.html'
     form_class = MaritalStateDetailForm
 
-#initial TypeLogradouro
+
+
+@method_decorator(login_required, name='dispatch')
 class TypeLogradouroCreate(CreateView):
 	model = TypeLogradouro
 	template_name = 'logradouro/add.html'
@@ -496,6 +594,9 @@ class TypeLogradouroCreate(CreateView):
 	def get_success_url(self):
 		return reverse('patient:list_logradouro')
 
+
+
+@method_decorator(login_required, name='dispatch')
 class ListTypeLogradouro(ListView):
 
     model = TypeLogradouro
@@ -534,6 +635,9 @@ class ListTypeLogradouro(ListView):
     def get_success_url(self):
         return reverse('patient:list_logradouro')
 
+
+
+@method_decorator(login_required, name='dispatch')
 class TypeLogradouroUpdate(UpdateView):
     model = TypeLogradouro
     template_name = 'logradouro/add.html'
@@ -542,6 +646,9 @@ class TypeLogradouroUpdate(UpdateView):
     def get_success_url(self):
         return reverse('patient:list_logradouro')
 
+
+
+@method_decorator(login_required, name='dispatch')
 class DeleteTypeLogradouro(DeleteView):
     model = TypeLogradouro
     template_name="logradouro/list.html"
@@ -554,12 +661,18 @@ class DeleteTypeLogradouro(DeleteView):
         except:
             return JsonResponse({'msg': "Essa proposta não pôde ser excluída!", 'code': "0"})
 
+
+
+@method_decorator(login_required, name='dispatch')
 class TypeLogradouroDetail(UpdateView):
 
     model = TypeLogradouro
     template_name = 'logradouro/detail.html'
     form_class = TypeLogradouroDetailForm
 
+
+
+@method_decorator(login_required, name='dispatch')
 #initial TypeLogradouro
 class OcupationCreate(CreateView):
 	model = Ocupation
@@ -569,6 +682,9 @@ class OcupationCreate(CreateView):
 	def get_success_url(self):
 		return reverse('patient:list_ocupation')
 
+
+
+@method_decorator(login_required, name='dispatch')
 class ListOcupation(ListView):
 
     model = Ocupation
@@ -605,6 +721,9 @@ class ListOcupation(ListView):
             })
         return context
 
+
+
+@method_decorator(login_required, name='dispatch')
 class OcupationUpdate(UpdateView):
 	model = Ocupation
 	template_name = 'ocupation/add.html'
@@ -613,6 +732,9 @@ class OcupationUpdate(UpdateView):
 	def get_success_url(self):
 		return reverse('patient:list_ocupation')
 
+
+
+@method_decorator(login_required, name='dispatch')
 class DeleteOcupation(DeleteView):
     model = Ocupation
     template_name="ocupation/list.html"
@@ -626,12 +748,18 @@ class DeleteOcupation(DeleteView):
         except:
             return JsonResponse({'msg': "Essa proposta não pôde ser excluída!", 'code': "0"})
 
+
+
+@method_decorator(login_required, name='dispatch')
 class OcupationDetail(UpdateView):
 
     model = Ocupation
     template_name = 'ocupation/detail.html'
     form_class = OcupationDetailForm
 
+
+
+@method_decorator(login_required, name='dispatch')
 class TypeLogradouroAutocomplete(autocomplete.Select2QuerySetView):
 
     def get_queryset(self):
@@ -643,6 +771,9 @@ class TypeLogradouroAutocomplete(autocomplete.Select2QuerySetView):
         
         return qs
 
+
+
+@method_decorator(login_required, name='dispatch')
 class CityAutocomplete(autocomplete.Select2QuerySetView):
 
     def get_queryset(self):
@@ -654,6 +785,9 @@ class CityAutocomplete(autocomplete.Select2QuerySetView):
         
         return qs
 
+
+
+@method_decorator(login_required, name='dispatch')
 class MedicalInsuranceAutocomplete(autocomplete.Select2QuerySetView):
 
     def get_queryset(self):
@@ -665,6 +799,9 @@ class MedicalInsuranceAutocomplete(autocomplete.Select2QuerySetView):
         
         return qs
 
+
+
+@method_decorator(login_required, name='dispatch')
 class ColorAutocomplete(autocomplete.Select2QuerySetView):
 
     def get_queryset(self):
@@ -676,6 +813,9 @@ class ColorAutocomplete(autocomplete.Select2QuerySetView):
         
         return qs
 
+
+
+@method_decorator(login_required, name='dispatch')
 class MaritalStateAutocomplete(autocomplete.Select2QuerySetView):
 
     def get_queryset(self):
@@ -687,6 +827,9 @@ class MaritalStateAutocomplete(autocomplete.Select2QuerySetView):
         
         return qs
 
+
+
+@method_decorator(login_required, name='dispatch')
 class OcupationAutocomplete(autocomplete.Select2QuerySetView):
 
     def get_queryset(self):
@@ -699,6 +842,9 @@ class OcupationAutocomplete(autocomplete.Select2QuerySetView):
         return qs
 
 
+
+
+@method_decorator(login_required, name='dispatch')
 class PatientAutocomplete(autocomplete.Select2QuerySetView):
 
     def get_queryset(self):

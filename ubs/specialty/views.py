@@ -14,7 +14,12 @@ from ubs.accounts.models import Doctor
 from .forms import *
 from django.db.models import Q
 
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
+
+
+@method_decorator(login_required, name='dispatch')
 class SpecialtyCreate(CreateView):
     model = MedicalSpecialty
     template_name = 'specialty/add.html'
@@ -23,6 +28,9 @@ class SpecialtyCreate(CreateView):
     def get_success_url(self):
         return reverse('specialty:list_specialty')
 
+
+
+@method_decorator(login_required, name='dispatch')
 class SpecialtyList(ListView):
 
     model = MedicalSpecialty
@@ -59,6 +67,9 @@ class SpecialtyList(ListView):
         return context
 
 
+
+
+@method_decorator(login_required, name='dispatch')
 class SpecialtyUpdate(UpdateView):
     model = MedicalSpecialty
     template_name = 'specialty/edit.html'
@@ -68,6 +79,9 @@ class SpecialtyUpdate(UpdateView):
         return reverse('specialty:list_specialty')
 
 
+
+
+@method_decorator(login_required, name='dispatch')
 class  SpecialtyDelete(DeleteView):
     model = MedicalSpecialty
 
@@ -81,6 +95,8 @@ class  SpecialtyDelete(DeleteView):
 
 
 
+
+@method_decorator(login_required, name='dispatch')
 class DoctorSpecialtyCreate(CreateView):
     model = DoctorHasMedicalSpecialty
     template_name = 'doctor_specialty/add.html'
@@ -89,6 +105,9 @@ class DoctorSpecialtyCreate(CreateView):
     def get_success_url(self):
         return reverse('specialty:list_doctor_specialty')
 
+
+
+@method_decorator(login_required, name='dispatch')
 class DoctorSpecialtyList(ListView):
 
     model = DoctorHasMedicalSpecialty
@@ -126,6 +145,9 @@ class DoctorSpecialtyList(ListView):
         return context
 
 
+
+
+@method_decorator(login_required, name='dispatch')
 class DoctorSpecialtyUpdate(UpdateView):
     model = DoctorHasMedicalSpecialty
     template_name = 'doctor_specialty/edit.html'
@@ -135,6 +157,8 @@ class DoctorSpecialtyUpdate(UpdateView):
         return reverse('specialty:list_doctor_specialty')
 
 
+
+@method_decorator(login_required, name='dispatch')
 class  DoctorSpecialtyDelete(DeleteView):
     model = DoctorHasMedicalSpecialty
 
