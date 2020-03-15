@@ -49,6 +49,8 @@ class QueryCreate(CreateView):
         second_form = self.second_form_class
         third_form_class = self.third_form_class()
 
+        querys = Query.objects.filter(Patient_idPatient=patient_pk)
+    
         return self.render_to_response(
             self.get_context_data(
                 form=form,
@@ -56,7 +58,8 @@ class QueryCreate(CreateView):
                 patient=patient,
                 third_form_class=third_form_class,
                 patient_pk=patient_pk,
-                forwarding_pk=forwarding_pk
+                forwarding_pk=forwarding_pk,
+                last_query=querys[0].created_on
             )
         )
 
