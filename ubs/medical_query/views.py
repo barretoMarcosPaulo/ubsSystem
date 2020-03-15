@@ -55,6 +55,8 @@ class QueryCreate(CreateView):
                 second_form=second_form,
                 patient=patient,
                 third_form_class=third_form_class,
+                patient_pk=patient_pk,
+                forwarding_pk=forwarding_pk
             )
         )
 
@@ -119,6 +121,31 @@ class QueryCreate(CreateView):
 
 
 
+
+@method_decorator(login_required, name='dispatch')
+class QueryCancel(CreateView):
+    model = Query
+    template_name = 'querys/add.html'
+    form_class = MedicalQueryForm
+
+
+
+    def get(self, request,patient_pk,forwarding_pk,*args, **kwargs):
+        print("OII")
+        pusher_client.trigger('cancel-query', 'cancel', {'message': self.request.user.id})
+        self.object = None
+        patient = Patient.objects.get(id=patient_pk)
+        
+        # # Set patient in atendance
+        patient_forwarding = Forwarding.objects.get(patient=patient,id=forwarding_pk)
+        patient_forwarding.in_attendance=False
+        patient_forwarding.save()
+
+        return HttpResponseRedirect(self.get_success_url())
+
+
+    def get_success_url(self):
+        return reverse('medical_query:await_querys')
 
 @method_decorator(login_required, name='dispatch')
 class QueryUpdate(UpdateView):

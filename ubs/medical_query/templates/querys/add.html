@@ -15,8 +15,10 @@
                     <div class="col-md-10" style="margin: 20px auto;">
                         <div class="card">
                             <div class="card-header"><strong>{{patient.full_name}}</strong>
+                                <a href="{% url 'medical_query:cancel_query' patient_pk forwarding_pk %}">
+                                    <label class="btn btn-danger" style="margin-left: 70%; font-size: 12px; border-radius: 2px;">CANCELAR</label>
+                                </a>
                             </div>
-                            
                     <fieldset>
 
                         <div class="form-group">

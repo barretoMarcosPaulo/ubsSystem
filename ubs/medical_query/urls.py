@@ -6,6 +6,7 @@ app_name = 'medical_query'
 
 urlpatterns = [
     path('consultar/<int:patient_pk>/<int:forwarding_pk>', views.QueryCreate.as_view(), name='add_query'),
+    path('consulta/cancelar/<int:patient_pk>/<int:forwarding_pk>', views.QueryCancel.as_view(), name='cancel_query'),
     path('consulta-historico/list', views.ListQuerysHistory.as_view(), name='list_query_history'),
     path('consulta/edit/<int:pk> ', views.QueryUpdate.as_view(), name='update_query'),
     path('consulta/detalhes/<int:pk> ', views.Attendances.as_view(), name='detail_query'),

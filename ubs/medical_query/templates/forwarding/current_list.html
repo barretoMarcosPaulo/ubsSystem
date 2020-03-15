@@ -185,4 +185,14 @@
 
 </script>
 
+<script>
+
+    var channel = pusher.subscribe('cancel-query');
+    channel.bind('cancel', function (data) {
+
+        location.reload()
+
+    });
+</script>
+
 {% endblock%}
