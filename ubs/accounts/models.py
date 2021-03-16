@@ -7,6 +7,7 @@ from django.contrib.auth.models import AbstractBaseUser, UserManager, Permission
 from ubs.core.models import AuditModel
 from ubs.specialty.models import DoctorHasMedicalSpecialty
 
+
 class User(AbstractBaseUser, PermissionsMixin, AuditModel):
 
     username = models.CharField(
@@ -54,8 +55,6 @@ class User(AbstractBaseUser, PermissionsMixin, AuditModel):
         verbose_name = 'Usuário'
         verbose_name_plural = 'Usuários'
     
-
-
 
 class Clerk(User):
     register_clerk = models.CharField('registro do técnico', max_length=12)

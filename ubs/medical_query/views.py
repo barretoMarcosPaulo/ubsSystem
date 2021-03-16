@@ -50,7 +50,13 @@ class QueryCreate(CreateView):
         third_form_class = self.third_form_class()
 
         querys = Query.objects.filter(Patient_idPatient=patient_pk)
-    
+        
+        last_query = None
+        try:
+            querys[0].created_on
+        except:
+            pass
+        
         return self.render_to_response(
             self.get_context_data(
                 form=form,
@@ -59,7 +65,7 @@ class QueryCreate(CreateView):
                 third_form_class=third_form_class,
                 patient_pk=patient_pk,
                 forwarding_pk=forwarding_pk,
-                last_query=querys[0].created_on
+                last_query=last_query
             )
         )
 
@@ -134,7 +140,6 @@ class QueryCancel(CreateView):
 
 
     def get(self, request,patient_pk,forwarding_pk,*args, **kwargs):
-        print("OII")
         pusher_client.trigger('cancel-query', 'cancel', {'message': self.request.user.id})
         self.object = None
         patient = Patient.objects.get(id=patient_pk)
@@ -278,7 +283,6 @@ class Attendances(UpdateView):
         _super = super(Attendances, self)
         context = _super.get_context_data(**kwargs)
         medicines = QueryHasMedicine.objects.filter(Query_idQuery=self.object.id)
-        print(medicines)
         physical_exam = PhisicalExam.objects.get(id=self.object.PhisicalExam_idPhisicalExam.id)
         context.update({
             'no_edit': True ,
@@ -305,11 +309,7 @@ class ForwardingCreate(CreateView):
             return self.form_valid(form)
 
     def form_valid(self, form):
-
         forwarding = form.save()
-        print(forwarding.patient)
-        print(forwarding.medical)
-
         pusher_client.trigger('notification', 'recieve-notification', {'message': forwarding.medical.id})
 
         return HttpResponseRedirect(self.get_success_url())
