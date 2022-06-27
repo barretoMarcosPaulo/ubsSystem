@@ -128,8 +128,7 @@ class Patient(AuditModel):
 
     phone_number_main = models.CharField("Número de telefone (principal)", max_length=16, unique=True)
     phone_type_main = models.CharField("Tipo de telefone", choices=type_phone, default="CELL", max_length=11)
-    phone_number_optional = models.CharField("Número de telefone (opcional)", max_length=16, unique=True, null=True, blank=True)
-    phone_type_optional = models.CharField("Tipo de telefone", choices=type_phone, max_length=11, null=True, blank=True)
+
     email = models.EmailField("email", max_length=50, null=True, blank=True, unique=True)
 
     City_codIBGE = models.ForeignKey(City, verbose_name="Cidade", null=True, on_delete=models.SET_NULL)
@@ -137,7 +136,7 @@ class Patient(AuditModel):
         TypeLogradouro, verbose_name="Logradouro", null=True, on_delete=models.SET_NULL
     )
 
-    address_cep = models.CharField("Cep do Endereço", max_length=8)
+    address_cep = models.CharField("Cep do Endereço", max_length=8, null=True, blank=True)
     address_name = models.CharField("Endereço", max_length=60)
     address_number = models.CharField("Número do Endereço", max_length=6)
     address_complement = models.CharField("Complemento do Endereço", max_length=50, null=True, blank=True)
