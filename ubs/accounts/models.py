@@ -62,7 +62,7 @@ class User(AbstractBaseUser, PermissionsMixin, AuditModel):
 
 
 class Clerk(User):
-    register_clerk = models.CharField("registro do técnico", max_length=12)
+    register_clerk = models.CharField("registro do técnico", max_length=12, blank=True, null=True)
 
     def get_absolute_url(self):
         return reverse("accounts:list_all_clerk")
