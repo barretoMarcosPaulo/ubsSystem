@@ -40,25 +40,25 @@
                                             {% endfor%}
                                         </div>
                                     {%else%}
-                                            {% if field.name != 'cid10' and field.name != 'examRequest' and field.name != 'gestational_history' and field.name != 'repoductive_health'%}
+                                        {% if field.name != 'cid10' and field.name != 'examRequest' and field.name != 'gestational_history' and field.name != 'repoductive_health'%}
 
-                                                <div
-                                                    class="col-md-{% if field.name in 'summary\review_of_systems\main_complaint\current_health_history\type_query' %}12
-                                                    {% elif field.name in 'epidemiological_history/previous_pathological_history/family_history/physiological_personal_antecedents' %}6
-                                                    {% elif field.name in 'physical_exam\pa_exam\p_exam\fc_exam\fr_exam\tax_exam\peso_exam\heigth_exam' %}3         
-                                                    {% else %}6
-                                                    {% endif %} margin-bottom-15">
+                                            <div
+                                                class="col-md-{% if field.name in 'responsible_academics\type_query\staff_CRM' %}12
+                                                {% elif field.name in 'epidemiological_history/previous_pathological_history/family_history/physiological_personal_antecedents' %}6       
+                                                {% elif field.name in 'physical_exam\pa_exam\p_exam\fc_exam\fr_exam\tax_exam\peso_exam\heigth_exam\staff_CRM' %}3         
+                                                {% else %}6
+                                                {% endif %} margin-bottom-15">
 
-                                                    <label  class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
-                                                    {{ field|add_class:"form-control input-md" }}
-                                                    <span class="text-danger"> <strong>{{ field.help_text }}</strong></span>
-                                                </div>
-                                            {% endif %}
+                                                <label  class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
+                                                {{ field|add_class:"form-control input-md" }}
+                                                <span class="text-danger"> <strong>{{ field.help_text }}</strong></span>
+                                            </div>
+                                        {% endif %}
                                 {%endif%}
                                 {% endfor %}
                             </div>
 
-                            <div id="2" class="d-none">
+                            <div id="2">
                                 {% for field in second_form %}
                                     {% if field.errors %}
         
@@ -92,7 +92,7 @@
 
 
 
-                            <div id="3" class="d-none">
+                            <div id="3">
                                 {% for field in form %}
                                 {% if field.errors %}
                                 <div
@@ -118,21 +118,25 @@
                                 {% endfor %}
                             </div>
 
-
-                            <div id="4" class="d-none">
+                            
+                            <div id="4" >
                             
                                 <div class="col-md-12">
                                     <label class="control-label" style="margin-top: 10px;">{{ form.cid10.label }}</label>
                                     {{form.cid10|add_class:"col-md-12"}}
                                 </div>
                             
+                                <br>
                                 <div class="col-md-12">
                                     <label class="control-label" style="margin-top: 10px;">{{ form.examRequest.label }}</label>
                                     {{form.examRequest|add_class:"col-md-12"}}
                                 </div>
                             </div>
                             
-                            <div id="5" class="d-none">
+                            <br>
+                            <br>
+
+                            <div id="5">
                                 
                                 <div class="card">
                                     <div class="card-body" >
@@ -186,15 +190,8 @@
 
 
 
-                    <br>
                     
-
-                    
-                    <div class="form-actions form-group col-md-4" style="margin-top:3%;">
-                        <label onclick="back()"  class="btn btn-danger d-none" id="back" style="border-radius: 3px;">Voltar</label>
-                        <label  class="btn btn-primary" id="next" style="border-radius: 3px;" onclick="next()">Proximo</label>                            
-                    </div>
-                    <button type="submit" class="btn btn-success d-none" id="finished" style="border-radius: 3px;">Finalizar</button>
+                    <button type="submit" class="btn btn-success" id="finished" style="border-radius: 3px;">Finalizar</button>
 
 
 
@@ -208,47 +205,7 @@
 </div>
 </div>
 
-<script>
 
-    javascript:window.history.forward(1);
-
-    let current = 1
-
-    function next(){
-        
-        document.getElementById(current).className= "d-none"
-        current+=1
-        document.getElementById(current).className= ""
-        document.getElementById('back').className= "btn btn-danger"
-        if(current == 4){
-            let inputs_select = document.getElementsByClassName('select2')
-            for(i in inputs_select){
-                inputs_select[i].style="width:100%"
-            }
-        }
-        if(current == 5){
-            document.getElementById('finished').className="btn btn-success"
-            document.getElementById('next').className="d-none"
-        }
-    }
-    function back(){
-
-        document.getElementById(current).className= "d-none"
-        
-        if(current > 1){
-            current-=1
-        }
-        
-        if(current ==1){
-            document.getElementById('back').className="d-none"
-        }
-        document.getElementById('next').className="btn btn-primary"
-        document.getElementById('finished').className="d-none"
-        document.getElementById(current).className= ""
-
-    }
-
-</script>
 
 <script src="{% static 'js/jquery.min.js' %}"></script>
 <script src="{% static 'js/jquery.formset.js' %}"></script>

@@ -21,7 +21,7 @@
                                 {% for field in form %}
                                     {% if field.errors %}
                                         <div
-                                            class="col-md-{% if field.name in 'name' %}8{% elif field.name in 'main_complaint\email' %}6{% elif field.name in 'username\sex\birth_date\marital_status\phone\cpf\rg\matricula' %}4{% elif field.name in 'nome_mae\nome_pai' %}6{% else %}12{% endif %} margin-bottom-15 has-error has-feedback">
+                                            class="col-md-{% if field.name in 'name' %}8{% elif field.name in 'main_complaint\email\identification' %}6{% elif field.name in 'username\sex\birth_date\marital_status\phone\cpf\rg\matricula' %}4{% elif field.name in 'nome_mae\nome_pai' %}6{% else %}12{% endif %} margin-bottom-15 has-error has-feedback">
                                             <label class="control-label">{{ field.label }}</label>
                                             {{ field|add_class:"form-control input-md" }}
                                             <span class="text-danger"> <strong>{{ field.help_text }}</strong> </span>
@@ -59,7 +59,7 @@
                                 {% endfor %}
                             </div>
 
-                            <div id="2" class="d-none">
+                            <div id="2">
                                 {% for field in second_form %}
                                     {% if field.errors %}
         
@@ -92,7 +92,7 @@
                             </div>
 
 
-                        <div id="3" class="d-none">
+                        <div id="3">
                             {% for field in form %}
                             {% if field.errors %}
                             <div
@@ -118,7 +118,7 @@
                             {% endfor %}
                         </div>
 
-                            <div id="4" , class="d-none">
+                            <div id="4" >
 
                                 <div class="col-md-12">
                                     <br>
@@ -155,11 +155,6 @@
                     <br>
                     
 
-                    
-                    <div class="form-actions form-group col-md-4" style="margin-top:3%;">
-                        <label onclick="back()"  class="btn btn-danger d-none" id="back" style="border-radius: 3px;">Voltar</label>
-                        <label  class="btn btn-primary" id="next" style="border-radius: 3px;" onclick="next()">Proximo</label>                            
-                    </div>
 
                     </div>
 
@@ -171,37 +166,6 @@
 </div>
 </div>
 
-<script>
 
-    let current = 1
-
-    function next(){
-        
-        document.getElementById(current).className= "d-none"
-        current+=1
-        document.getElementById(current).className= ""
-        document.getElementById('back').className= "btn btn-danger"
-        
-        if(current == 4){
-            document.getElementById('next').className="d-none"
-        }
-    }
-    function back(){
-
-        document.getElementById(current).className= "d-none"
-        
-        if(current > 1){
-            current-=1
-        }
-        
-        if(current ==1){
-            document.getElementById('back').className="d-none"
-        }
-        document.getElementById('next').className="btn btn-primary"
-        document.getElementById(current).className= ""
-
-    }
-
-</script>
 
 {% endblock %}
