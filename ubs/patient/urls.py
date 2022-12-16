@@ -5,6 +5,7 @@ app_name = 'patient'
 
 urlpatterns = [
     path('listagem-paciente', views.ListPatient.as_view(), name='list_patient'),
+    path('pacientes-cadastrados', views.PatientByDoctor.as_view(), name='my_patients'),
     path('adicionar-paciente', views.PatientCreate.as_view(), name='add_patient'),
     path('editar-paciente/<int:pk> ', views.PatientUpdate.as_view(), name='update_patient'),
     path('detalhes-paciente/<int:pk> ', views.PatientDetail.as_view(), name='detail_patient'),
@@ -18,9 +19,9 @@ urlpatterns = [
 
     path('adicionar-estado', views.StateCreate.as_view(),name="add_state"),
     path('listagem-estado', views.ListState.as_view(),name="list_state"),
-    path('detalhes-estado/<int:pk> ', views.StateDetail.as_view(), name='detail_state'),
-    path('editar-estado/<int:pk> ', views.StateUpdate.as_view(), name='update_state'),
-    path('delete-estado/<int:pk>', views.DeleteState.as_view(), name='delete_state'),
+    path('detalhes-estado/<str:pk> ', views.StateDetail.as_view(), name='detail_state'),
+    path('editar-estado/<str:pk> ', views.StateUpdate.as_view(), name='update_state'),
+    path('delete-estado/<str:pk>', views.DeleteState.as_view(), name='delete_state'),
    
     path('adicionar-convenio', views.MedicalInsuranceCreate.as_view(),name="add_medical_insurance"),
     path('listagem-convenio', views.ListMedicalInsurance.as_view(),name="list_medical_insurance"),
@@ -52,4 +53,13 @@ urlpatterns = [
     path('editar-ocupacao/<int:pk> ', views.OcupationUpdate.as_view(), name='update_ocupation'),
     path('delete-ocupacao/<int:pk>', views.DeleteOcupation.as_view(), name='delete_ocupation'),
    
+    #autocomplete patient
+    path('logradouro-autocomplete', views.TypeLogradouroAutocomplete.as_view(),name="logradouro_autocomplete"),
+    path('city-autocomplete', views.CityAutocomplete.as_view(),name="city_autocomplete"),
+    path('medicalInsurance-autocomplete', views.MedicalInsuranceAutocomplete.as_view(),name="medicalInsurance_autocomplete"),
+    path('color-autocomplete', views.ColorAutocomplete.as_view(),name="color_autocomplete"),
+    path('maritalState-autocomplete', views.MaritalStateAutocomplete.as_view(),name="maritalState_autocomplete"),
+    path('ocupation-autocomplete', views.OcupationAutocomplete.as_view(),name="ocupation_autocomplete"),
+    path('patient-autocomplete', views.PatientAutocomplete.as_view(),name="patient_autocomplete"),
+
 ]

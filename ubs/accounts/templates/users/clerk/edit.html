@@ -1,7 +1,7 @@
 {% extends 'core/base.html' %}
 {% load widget_tweaks %}
 
-{% block title %}Editar Usuário{% endblock %}
+{% block title %}Editar Usuário Técnico{% endblock %}
 
 {% block body %}
 <div class="content col-md-12">
@@ -11,7 +11,7 @@
             <div class="row">
                 <div class="col-md-10" style="margin: 20px auto;">
                     <div class="card">
-                        <div class="card-header"><strong>Usuários</strong><small> Editar Usuário Atendente </small>
+                        <div class="card-header"><strong>Usuários</strong><small> Editar Usuário Técnico </small>
                         </div>
 
                         <fieldset>
@@ -63,5 +63,20 @@
 {% endblock %}
 
 {% block js %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
+    <script>
+
+        $(function(){
+            $("#id_cpf").inputmask({
+                mask: "999.999.999-99"
+            });
+            $("#id_phone").inputmask({
+                mask: "(99) 9 9999-9999 "
+            });
+            
+            $("#frmNumero").inputmask();
+        });
+    </script>
 
 {% endblock %}

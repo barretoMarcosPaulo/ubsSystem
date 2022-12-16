@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+
+<head>
+    <title>PDF</title>
+    <style>
+        .content {
+            width: 80%;
+            margin: 3% auto;
+            /*border: solid 1px red;*/
+        }
+
+        .logo {
+            width: 20%;
+            margin-left: 80%;
+            display: block;
+
+        }
+
+        .patient {
+            font-size: 20px;
+        }
+
+        .medical_info {
+            margin-top: 4%;
+            font-style: italic;
+        }
+
+        .medical_assinator {
+            width: 80%;
+            text-align: center;
+            margin-top: 10%;
+            margin: 10% auto;
+        }
+
+        .rodape {
+            width: 80%;
+            margin: 0 auto 8% auto;
+            /*border: 1px solid red;*/
+            text-align: center;
+        }
+
+        .rodape img {
+            width: 30%;
+            vertical-align: middle;
+            margin: 0 auto;
+            margin: 0 auto 5% auto;
+
+        }
+
+        .rodape p {
+            display: inline;
+            vertical-align: middle;
+        }
+
+        #button {
+            margin: 0 auto;
+            background-color: #007bff;
+            border: none;
+            color: white;
+            padding: 5px;
+            font-size: 18px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <div class="content">
+
+        <button id="button" class="btn btn-primary" onclick="print_pdf()">Imprimir</button>
+
+        <img class="logo" src="{% static 'images/emSaude.png' %}">
+
+
+        <div class="rodape">
+            <img src="{% static 'images/ufpi.png' %}">
+
+            <br>
+
+            <p> Ambulatório em Saúde
+                Curso de Medicina-UFPI/CSHNB
+            </p>
+
+
+            <br>
+            <p id="location"> R. Cícero Duarte, nº 905 - Junco, Picos - PI, 64607-670 </p>
+            <br>
+            <p id="phone"> 89 9945555487 </p>
+        </div>
+
+
+        <p class="patient">{{object.Patient_idPatient}}</p>
+        Requisição de Exames
+        <ol>
+            {% for exam in object.examRequest.all %}
+            <li>
+                {{exam}}
+            </li>
+            {% endfor %}
+        </ol>
+
+        <div class="medical_info">
+            <label>Picos-PI, {{current_date}}</label>
+            <label>,<strong> Dr(a) {{object.User_idUser}} - CRM {{object.User_idUser.crm_doc}}</strong></label>
+        </div>
+
+
+        <div class="medical_assinator">
+            <hr>
+            <label>Assinatura</label>
+        </div>
+
+
+
+    </div>
+
+
+
+    <script>
+
+        function print_pdf() {
+            document.getElementById('button').style = "display: none;"
+            window.print()
+        }
+
+    </script>
+</body>
+
+</html>

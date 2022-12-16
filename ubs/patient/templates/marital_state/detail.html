@@ -1,7 +1,7 @@
 {% extends 'core/base.html' %}
 {% load widget_tweaks %}
 
-{% block title %}Realizar Nova{% endblock %}
+{% block title %}Detalhamento Estado Conjugal{% endblock %}
 
 {% block body %}
 <div class="content col-md-12">
@@ -18,40 +18,40 @@
 
                             <div class="form-group">
                                 {% for field in form %}
-                                {% if field.errors %}
-                                <div
-                                    class="col-md-{% if field.name in 'name' %}8{% elif field.name in 'main_complaint\email' %}6{% elif field.name in 'username\sex\birth_date\marital_status\phone\cpf\rg\matricula' %}4{% elif field.name in 'nome_mae\nome_pai' %}6{% else %}12{% endif %} margin-bottom-15 has-error has-feedback">
-                                    <label class="control-label">{{ field.label }}</label>
-                                    {{ field|add_class:"form-control input-md" }}
-                                    <span class="text-danger"> <strong>{{ field.help_text }}</strong> </span>
-                                    {% for error in field.errors%}
-                                    <span class="help-inline error">{{ error}}</span>
-                                    {% endfor%}
-                                </div>
-                                {%else%}
-                                {% if field.name in 'priority\opened'%}
+                                    {% if field.errors %}
+                                        <div
+                                            class="col-md-{% if field.name in 'name' %}8{% elif field.name in 'main_complaint\email' %}6{% elif field.name in 'username\sex\birth_date\marital_status\phone\cpf\rg\matricula' %}4{% elif field.name in 'nome_mae\nome_pai' %}6{% else %}12{% endif %} margin-bottom-15 has-error has-feedback">
+                                            <label class="control-label">{{ field.label }}</label>
+                                            {{ field|add_class:"form-control input-md" }}
+                                            <span class="text-danger"> <strong>{{ field.help_text }}</strong> </span>
+                                            {% for error in field.errors%}
+                                            <span class="help-inline error">{{ error}}</span>
+                                            {% endfor%}
+                                        </div>
+                                    {%else%}
+                                        {% if field.name in 'priority\opened'%}
 
-                                <div class="checkbox col-md-12" style="margin-top: 15px;">
-                                    <label>
-                                        <input type="checkbox" name="{{ field.name }}" id="id_{{ field.name }}"
-                                            {% if field.value %} checked {% endif %}> {{ field.label }}
-                                    </label>
-                                </div>
+                                        <div class="checkbox col-md-12" style="margin-top: 15px;">
+                                            <label>
+                                                <input type="checkbox" name="{{ field.name }}" id="id_{{ field.name }}"
+                                                    {% if field.value %} checked {% endif %}> {{ field.label }}
+                                            </label>
+                                        </div>
 
-                                {%else%}
-                                <div class="col-md-{% if field.name in 'patient\summary\review_of_systems' %}12
-                                                {% elif field.name in 'main_complaint\current_health_history/epidemiological_history/previous_pathological_history/family_history/physiological_personal_antecedents' %}6
-                                                {% elif field.name in 'physical_exam\pa_exam\p_exam\fc_exam\fr_exam\tax_exam\peso_exam\heigth_exam' %}3         
+                                        {%else%}
+                                        <div class="col-md-{% if field.name in 'patient\summary\review_of_systems' %}12
+                                                        {% elif field.name in 'main_complaint\current_health_history/epidemiological_history/previous_pathological_history/family_history/physiological_personal_antecedents' %}6
+                                                        {% elif field.name in 'physical_exam\pa_exam\p_exam\fc_exam\fr_exam\tax_exam\peso_exam\heigth_exam' %}3         
 
-                                                {% else %}6
-                                                {% endif %} margin-bottom-15">
+                                                        {% else %}6
+                                                        {% endif %} margin-bottom-15">
 
-                                    <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
-                                    {{ field|add_class:"form-control input-md" }}
-                                    <span class="text-danger"> <strong>{{ field.help_text }}</strong></span>
-                                </div>
-                                {% endif %}
-                                {%endif%}
+                                            <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
+                                            {{ field|add_class:"form-control input-md" }}
+                                            <span class="text-danger"> <strong>{{ field.help_text }}</strong></span>
+                                        </div>
+                                        {% endif %}
+                                    {%endif%}
                                 {% endfor %}
                                 
                                 {% for field in second_form %}

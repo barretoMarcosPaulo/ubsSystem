@@ -2,7 +2,7 @@
 {% extends 'core/base.html' %}
 {% load staticfiles %}
 
-{% block title %} Listagem de cidade {% endblock %}
+{% block title %} Listagem de Cor {% endblock %}
 
 {% block head %}
     <link rel="stylesheet" href={% static "vendors/datatables.net-bs4/css/dataTables.bootstrap4.min.css" %}>
@@ -56,6 +56,18 @@
                 <div class="card">
                     <div class="card-header">
                         <strong class="card-title">Cores</strong>
+                        <form action="" method="get" class="float-right">
+                            <div class="col-10" >
+                                <input name="search_box" type="text" class="form-control" placeholder="Procurar na página">
+                            </div>
+                            <div class="col-1">
+                                <button type="submit" class="btn btn-primary" style="border-radius: 3px;">
+                                    <span class="icon">
+                                        <i class="fa fa-search"></i>
+                                    </span>
+                                </button>
+                            </div>
+                        </form>
                     </div>
                     <div class="card-body">
                         <a href="{% url 'patient:add_color' %}"> <button type="button" class="btn btn-success btn-sm" style="border-radius: 3px;"><i class="fa fa-plus-square-o" > Cadastrar</i></button></a>
@@ -89,19 +101,19 @@
                                                 </button>
                                             </a>
 
-
-                                            <a >
-                                                <button type="button" class="btn btn-danger btn-sm" 
-                                                    id = "{{ object.id }}" 
-                                                    name = "{{object.name_color}}"
-                                                    data-toggle="modal" 
-                                                    data-target="#staticModal"
-                                                    onclick="get_datas(this.name,this.id)"
-                                                    style="border-radius: 3px;">
-                                                    <i class="fa fa-trash"></i>
-                                                </button>
-                                            </a>
-
+                                            {% if request.user.is_superuser %}
+                                                <a >
+                                                    <button type="button" class="btn btn-danger btn-sm" 
+                                                        id = "{{ object.id }}" 
+                                                        name = "{{object.name_color}}"
+                                                        data-toggle="modal" 
+                                                        data-target="#staticModal"
+                                                        onclick="get_datas(this.name,this.id)"
+                                                        style="border-radius: 3px;">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
+                                                </a>
+                                            {% endif %}
                                         </div>
                                     </td>
                                 </tr>
@@ -114,6 +126,7 @@
         </div>
     </div><!-- .animated -->
 </div><!-- .content -->
+{% include 'core/pagination.html' %}
 
 
 {% endblock%}
@@ -131,7 +144,7 @@
         }
         function remove_user() {
 
-            urlDel = "http://localhost:8000/paciente/delete-cor/" + id_user
+            urlDel = "./delete-cor/" + id_user
 
             let xhr = new XMLHttpRequest()
 

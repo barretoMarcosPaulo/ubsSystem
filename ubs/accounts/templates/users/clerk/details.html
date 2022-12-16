@@ -1,0 +1,58 @@
+{% extends 'core/base.html' %}
+{% load widget_tweaks %}
+{% load staticfiles %}
+{% block title %}Adicionar Novo Usuário Técnico{% endblock %}
+
+{% block body %}
+
+<div class="col-lg-4 col-md-6">
+    <aside class="profile-nav alt">
+        <section class="card">
+            <div class="card-header user-header alt bg-dark">
+                <div class="media">
+                    <a href="#">
+                        <img class="align-self-center rounded-circle mr-3" style="width:85px; height:85px;" alt=""
+                            src="{% static 'images/admin.png' %}">
+                    </a>
+                    <div class="media-body">
+                        <h2 class="text-light display-6">{{object.get_short_name}}</h2>
+                        <p>Técnico</p>
+                    </div>
+                </div>
+            </div>
+
+
+            <ul class="list-group list-group-flush">
+
+                <li class="list-group-item">
+                    {{object.full_name}}
+                </li>
+
+
+                <li class="list-group-item">
+                    <a href="#"> <i class="fa fa-envelope-o"></i> {{object.email}}
+                </li>
+
+                <li class="list-group-item">
+                    <a href="#"> <i class="fa fa-address-card-o" aria-hidden="true"></i> {{object.cpf}}</a>
+                </li>
+
+                <li class="list-group-item">
+                    <a href="#"> <i class="fa fa-phone"></i> {{object.phone}}</a>
+                </li>
+
+            </ul>
+
+        </section>
+    </aside>
+</div>
+<div class="col-md-6 card" style="padding: 15px">
+    <h5>{{object.full_name}}, cadastrada no sistema no dia <strong>{{object.created_on}}</strong>. 
+        A última atualização foi em <strong>{{object.updated_on}}</strong></h5>
+</div>
+
+{% endblock %}
+
+{% block js %}
+
+{% endblock %}

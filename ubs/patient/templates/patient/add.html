@@ -7,6 +7,12 @@
 
 {% block body %}
 
+<style>
+    .box-select {
+        /* background-color: black; */
+    }
+</style>
+
 <div class="content col-md-12">
     <div class="animated fadeIn">
         <form enctype="multipart/form-data" method="post">
@@ -39,12 +45,26 @@
                                                 {% endfor%}
                                             </div>
                                         {% else %}
+                                         {% if field.name == "Type_Logradouro_idLogradouro" or field.name == "City_codIBGE" or field.name == "Color_idColor" or field.name == "Ocupation_idOcupation" or field.name == "Marital_State_idMarital_State" or field.name == "Medical_Insurance_idMedical_insurance" %}
+                                         <div class="col-md-6 col-sm-12 box-select" >   
+                                             <label class="control-label" style="margin-top: 12px;">{{ field.label }}</label>
+                                             {{field|add_class:"col-md-12 "}}
+                                            </div>
+                                            {% elif field.name == "date_birth" %}
+                                            <div class="col-md-4 box-select" >   
+                                                <label class="control-label" style="margin-top: 12px;">{{ field.label }}</label>
+                                                {{field|add_class:"form-control input-md"}}
+                                            </div>
+                                            {% else %}
                                             <div
-                                                class="col-md-{% if field.name in 'full_name\ocupation\email' %}6
-                                                {% elif field.name in 'color\sex\marital_state\date_birth\local_birth\Type_Logradouro_idLogradouro\address_number\address_cep\Medical_Insurance_idMedical_insurance\Color_idColor\Marital_State_idMarital_State' %}4
+                                                class="col-md-{% if field.name in 'full_name' %}6
+                                                {% elif field.name in 'color\sex\marital_state\date_birth\local_birth' %}4
                                                 {% elif field.name in 'Color_idColor' %}3
                                                 {% elif field.name in 'health_insurance' %}3
-                                                {% elif field.name in 'summary' %}12
+                                                {% elif field.name in 'address_cep' %}4
+                                                {% elif field.name in 'address_number' %}3
+                                                {% elif field.name in 'summary\email' %}12
+                                                {% elif field.name in 'address_name' %}5
                                                 {% else %}6
                                                 {% endif %} margin-bottom-15">
 
@@ -52,6 +72,7 @@
                                                 {{ field|add_class:"form-control input-md" }}
                                                 <span class="text-danger"> <strong>{{ field.help_text }}</strong></span>
                                             </div>
+                                        {% endif %}
                                         {% endif %}
                                     {% endfor %}
 
@@ -67,7 +88,6 @@
 
                         </div>
                     </div>
-                </div>
             </div>
         </form>
     </div>
@@ -77,6 +97,14 @@
 
 {% block js %}
     <script src="{% static 'js/jquery.min.js' %}"></script>
+    
+    <script>
+        valor = document.getElementById("id_date_birth").value
+        if ( !valor){
+            document.getElementById('id_date_birth').setAttribute('type','date')
+        }
+    </script>
+    
     <script>
         {% comment %} $( document ).ready(function() {
             if ({{alert}}==0){
@@ -94,4 +122,25 @@
             });
         });
     </script>
+    {{ form.media }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
+
+    <script>
+        $(function(){
+            $("#id_cpf_patient").inputmask({
+                mask: "999.999.999-99"
+            });
+            $("#id_phone_number_main").inputmask({
+                mask: "(99) 9 9999-9999 "
+            });
+            $("#id_phone_number_optional").inputmask({
+                mask: "(99) 9 9999-9999 "
+            });
+            
+            $("#frmNumero").inputmask();
+        });
+    </script>
+
+
 {% endblock %}

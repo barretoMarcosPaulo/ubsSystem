@@ -1,0 +1,98 @@
+{% extends 'core/base.html' %}
+{% load widget_tweaks %}
+{% load staticfiles %}
+
+
+{% block title %}Cadastro de Consulta-CID{% endblock %}
+
+{% block body %}
+
+<div class="content col-md-12">
+    <div class="animated fadeIn">
+        <form enctype="multipart/form-data" method="post">
+            {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-10" style="margin: 20px auto;">
+                        <div class="card">
+                            <div class="card-header"> 
+                            <strong class="card-title">CID</strong> <small> Classificação Internacional das Doenças</small>
+                            </div>
+                            
+                            <fieldset>
+
+                                <div class="form-group">
+                                    {% for field in form %}
+                                        {% if field.errors %}
+                                            <div
+                                                class="col-md-{% if field.name in 'full_name\ocupation\email' %}6
+                                                {% elif field.name in 'color\sex\marital_state\date_birth\local_birth\Type_Logradouro_idLogradouro\address_number\address_cep\Medical_Insurance_idMedical_insurance\Color_idColor\Marital_State_idMarital_State' %}4
+                                                {% elif field.name in 'Color_idColor' %}3
+                                                {% elif field.name in 'health_insurance' %}3
+                                                {% elif field.name in 'summary' %}12
+                                                {% else %}6
+                                                {% endif %} margin-bottom-15">
+                                                <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
+                                                {{ field|add_class:"form-control input-md" }}
+                                                <span class="text-danger"> <strong>{{ field.help_text }}</strong> </span>
+                                                
+                                                {% for error in field.errors%}
+                                                    <span class="help-inline error">{{ field.errors}}</span>
+                                                {% endfor%}
+                                            </div>
+                                        {% else %}
+                                            <div
+                                                class="col-md-{% if field.name in 'full_name\ocupation\email' %}6
+                                                {% elif field.name in 'color\sex\marital_state\date_birth\local_birth\Type_Logradouro_idLogradouro\address_number\address_cep\Medical_Insurance_idMedical_insurance\Color_idColor\Marital_State_idMarital_State' %}4
+                                                {% elif field.name in 'Color_idColor' %}3
+                                                {% elif field.name in 'health_insurance' %}3
+                                                {% elif field.name in 'summary' %}12
+                                                {% else %}6
+                                                {% endif %} margin-bottom-15">
+
+                                                <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
+                                                {{ field|add_class:"form-control input-md" }}
+                                                <span class="text-danger"> <strong>{{ field.help_text }}</strong></span>
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+
+                                </div>
+                                </fieldset>
+                        
+                                <br>
+                                <div class="form-actions form-group col-md-3">
+                                    <button type="submit" class="btn btn-success" style="border-radius: 3px;" >Finalizar</button>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script>
+        {% comment %} $( document ).ready(function() {
+            if ({{alert}}==0){
+                swal("Oops!", "Pelo menos um telefone é necessário para cadastrar o paciente", "error")
+            }
+        }); {% endcomment %}
+    </script>
+    <script type="text/javascript" src="{% static 'js/bootstrap-filestyle.js' %}"></script>
+    <script type="text/javascript">
+        $(function(){
+            $(":file").filestyle({
+                buttonName: "btn-primary",
+                buttonBefore:true,
+                buttonText: "Escolher arquivo"
+            });
+        });
+    </script>
+{% endblock %}

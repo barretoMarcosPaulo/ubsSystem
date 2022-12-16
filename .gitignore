@@ -1,6 +1,9 @@
 *.pyc
 *.pyo
 *.json
+*.env
+.env
+.idea/
 .vscodde
 db.sqlite3
 settings_local.py

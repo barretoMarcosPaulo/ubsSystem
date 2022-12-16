@@ -1,0 +1,105 @@
+{% extends 'core/base.html' %}
+{% load widget_tweaks %}
+
+{% block title %}Detalhamento Consulta-CID{% endblock %}
+
+{% block body %}
+<div class="content col-md-12">
+    <div class="animated fadeIn">
+        <form method="post">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-10" style="margin: 20px auto;">
+                    <div class="card">
+                        <div class="card-header">                        
+                        <strong class="card-title">CID</strong> <small> Classificação Internacional das Doenças</small>
+
+                        </div>
+
+                        <fieldset>
+                            <div class="form-group">
+                                {% for field in form %}
+                                        {% if field.name in 'Type_Logradouro_idLogradouro'   %}
+                                            <div class="col-md-4 margin-bottom-15">
+                                                <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
+                                                <input type="text" class="form-control input-md" readonly value={{ object.Type_Logradouro_idLogradouro}}> 
+                                                <span class="text-danger"> <strong>{{ field.help_text }}</strong></span>
+                                            </div>
+                                        {% elif field.name == 'City_codIBGE'%}
+                                            <div class="col-md-6 margin-bottom-15">
+                                                <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
+                                                <input type="text" class="form-control input-md" readonly value={{ object.City_codIBGE}}> 
+                                                <span class="text-danger"> <strong>{{ field.help_text }}</strong></span>
+                                            </div>
+                                        {% elif field.name in 'Color_idColor' %}
+                                            <div class="col-md-4 margin-bottom-15">
+                                                <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
+                                                <input type="text" class="form-control input-md" readonly value={{ object.Color_idColor}}> 
+                                                <span class="text-danger"> <strong>{{ field.help_text }}</strong></span>
+                                            </div>
+                                        {% elif field.name in 'Marital_State_idMarital_State'%}
+                                            <div class="col-md-4 margin-bottom-15">
+                                                <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
+                                                <input type="text" class="form-control input-md" readonly value={{ object.Marital_State_idMarital_State}}> 
+                                                <span class="text-danger"> <strong>{{ field.help_text }}</strong></span>
+                                            </div>
+                                        {% elif field.name in 'Ocupation_idOcupation'%}
+                                            <div class="col-md-6 margin-bottom-15">
+                                                <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
+                                                <input type="text" class="form-control input-md" readonly value={{ object.Ocupation_idOcupation}}> 
+                                                <span class="text-danger"> <strong>{{ field.help_text }}</strong></span>
+                                            </div>
+                                        {% elif field.name in 'Medical_Insurance_idMedical_insurance'%}
+                                            <div class="col-md-4 margin-bottom-15">
+                                                <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
+                                                <input type="text" class="form-control input-md" readonly value={{ object.Medical_Insurance_idMedical_insurance}}> 
+                                                <span class="text-danger"> <strong>{{ field.help_text }}</strong></span>
+                                            </div>
+                                        {% elif field.name in 'sex' %}
+                                            <div class="col-md-4 margin-bottom-15">
+                                                <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
+                                                <input type="text" class="form-control input-md" readonly value={% if object.sex == "M" %} "Masculino" {% elif object.sex == "F" %} "Feminino" {% else %} "Outro" {% endif %}> 
+                                                <span class="text-danger"> <strong>{{ field.help_text }}</strong></span>
+                                            </div>
+                                        {% elif field.name in 'image_patient' %}
+                                            <div class="col-md-6 margin-bottom-15">
+                                                <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
+                                                {% if object.image_patient %}
+                                                    <br>
+                                                    <button type="button" class="btn btn-outline-link"><a href="/ubs/media_images/{{ object.image_patient }}" target="blank"> Imagem do paciente <i class="fa fa-download"></i> </a></button>
+                                                {% else %}
+                                                    <input type="text" class="form-control input-md" readonly> 
+                                                {% endif %} 
+                                                <span class="text-danger"> <strong>{{ field.help_text }}</strong></span>
+                                            </div>
+                                        {% else %}
+                                            <div class="col-md-{% if field.name in 'date_birth\local_birth\address_number\address_cep' %}4
+                                                {% else %}6
+                                                {% endif %} margin-bottom-15">
+                                                <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
+                                                {{ field|add_class:"form-control input-md" }}
+                                                <span class="text-danger"> <strong>{{ field.help_text }}</strong></span>
+                                            </div>
+                                        {% endif %}
+                                {% endfor %}       
+                        </fieldset>
+
+                        <br>
+
+                        <div class="form-actions form-group col-md-3">
+                            <a href="{% url 'medical_query:list_CID' %}">
+                                <input class="btn btn-success" style="border-radius: 3px;" type="button" value="Finalizar" />
+                            </a>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+    </div>
+</div>
+</form>
+</div>
+</div>
+
+{% endblock %}

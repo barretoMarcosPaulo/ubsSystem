@@ -10,11 +10,17 @@ from django.http import HttpResponse, JsonResponse
 from django.db import IntegrityError, transaction
 
 from .models import User, Clerk ,Doctor
-from .forms import UserAdminForm, UserClerkForm, UserDoctorForm
+from .forms import UserAdminForm, UserClerkForm, UserDoctorForm, UserClerkEditForm, UserDoctorEditForm
+
+from django.db.models import Q
+from dal import autocomplete
+
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 
 
-
-# Views for admin
+@method_decorator(login_required, name='dispatch')
 class AdminCreate(CreateView):
     model = User
     template_name = 'users/admin/add.html'
@@ -44,6 +50,7 @@ class AdminCreate(CreateView):
         )
 
 
+@method_decorator(login_required, name='dispatch')
 class AdminList(ListView):
 
     model = User
@@ -55,7 +62,7 @@ class AdminList(ListView):
     def get_queryset(self):
         self.queryset = super(AdminList, self).get_queryset()
         if self.request.GET.get('search_box', False):
-            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']) | Q(first_name__icontains=self.q))
+            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']))
         return self.queryset
 
     def get_context_data(self, **kwargs):
@@ -80,6 +87,8 @@ class AdminList(ListView):
         return context
 
 
+
+@method_decorator(login_required, name='dispatch')
 class AdminUpdate(UpdateView):
     model = User
     template_name = 'users/admin/edit.html'
@@ -89,6 +98,8 @@ class AdminUpdate(UpdateView):
         return reverse('accounts:list_all_admin')
 
 
+
+@method_decorator(login_required, name='dispatch')
 class AdminDelete(DeleteView):
     model = User
 
@@ -102,7 +113,8 @@ class AdminDelete(DeleteView):
 
 
 
-# Views for clerk
+
+@method_decorator(login_required, name='dispatch')
 class ClerkCreate(CreateView):
     model = Clerk
     template_name = 'users/clerk/add.html'
@@ -132,6 +144,8 @@ class ClerkCreate(CreateView):
         )
 
 
+
+@method_decorator(login_required, name='dispatch')
 class ClerkList(ListView):
 
     model = Clerk
@@ -143,7 +157,7 @@ class ClerkList(ListView):
     def get_queryset(self):
         self.queryset = super(ClerkList, self).get_queryset()
         if self.request.GET.get('search_box', False):
-            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']) | Q(first_name__icontains=self.q))
+            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']))
         return self.queryset
 
     def get_context_data(self, **kwargs):
@@ -168,15 +182,43 @@ class ClerkList(ListView):
         return context
 
 
+
+@method_decorator(login_required, name='dispatch')
 class ClerkUpdate(UpdateView):
     model = Clerk
     template_name = 'users/clerk/edit.html'
-    form_class = UserClerkForm
-
-    def get_success_url(self):
-        return reverse('accounts:list_all_clerk')
+    form_class = UserClerkEditForm
 
 
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+		
+        form = self.form_class(self.request.POST, instance=self.object)
+
+        if form.is_valid():
+            return self.form_valid(form, request)
+
+
+    def form_valid(self, form , request):
+		
+        user = form.save(commit=False)
+        
+        equal_email = False
+        
+        # Verificando se o email foi mudado
+        if user.email == self.request.user.email:
+            equal_email = True
+
+        user.save()
+
+        if equal_email:
+            return HttpResponseRedirect(reverse('core:index'))
+        else:
+            return HttpResponseRedirect(reverse('accounts:logout'))
+
+
+@method_decorator(login_required, name='dispatch')
 class ClerkDelete(DeleteView):
     model = Clerk
 
@@ -189,8 +231,13 @@ class ClerkDelete(DeleteView):
             return JsonResponse({'msg': "Esse atendente não pôde ser excluído!", 'code': "0"})
 
 
+@method_decorator(login_required, name='dispatch')
+class ClerkDetail(DetailView):
+    model = Clerk
+    template_name = 'users/clerk/details.html'
 
-# Views for doctor
+
+@method_decorator(login_required, name='dispatch')
 class DoctorCreate(CreateView):
     model = Doctor
     template_name = 'users/doctor/add.html'
@@ -220,6 +267,8 @@ class DoctorCreate(CreateView):
         )
 
 
+
+@method_decorator(login_required, name='dispatch')
 class DoctorList(ListView):
 
     model = Doctor
@@ -231,7 +280,7 @@ class DoctorList(ListView):
     def get_queryset(self):
         self.queryset = super(DoctorList, self).get_queryset()
         if self.request.GET.get('search_box', False):
-            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']) | Q(first_name__icontains=self.q))
+            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']) )
         return self.queryset
 
     def get_context_data(self, **kwargs):
@@ -255,16 +304,43 @@ class DoctorList(ListView):
             })
         return context
 
-        
+     
+@method_decorator(login_required, name='dispatch')   
 class DoctorUpdate(UpdateView):
     model = Doctor
     template_name = 'users/doctor/edit.html'
-    form_class = UserDoctorForm
+    form_class = UserDoctorEditForm
 
-    def get_success_url(self):
-        return reverse('accounts:list_all_doctor')
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+		
+        form = self.form_class(self.request.POST, instance=self.object)
+
+        if form.is_valid():
+            return self.form_valid(form, request)
 
 
+    def form_valid(self, form , request):
+		
+        user = form.save(commit=False)
+        
+        equal_email = False
+        
+        # Verificando se o email foi mudado
+        if user.email == self.request.user.email:
+            equal_email = True
+
+        user.save()
+
+        if equal_email:
+            return HttpResponseRedirect(reverse('core:index'))
+        else:
+            return HttpResponseRedirect(reverse('accounts:logout'))
+
+
+
+
+@method_decorator(login_required, name='dispatch')
 class DoctorDelete(DeleteView):
     model = Doctor
 
@@ -275,3 +351,44 @@ class DoctorDelete(DeleteView):
             return JsonResponse({'msg': "Médico excluido com sucesso!", 'code': "1"})
         except:
             return JsonResponse({'msg': "Esse médico não pôde ser excluído!", 'code': "0"})
+
+
+
+@method_decorator(login_required, name='dispatch')
+class DoctorDetail(DetailView):
+    model = Doctor
+    template_name = 'users/doctor/details.html'
+
+
+
+@method_decorator(login_required, name='dispatch')
+class AllUsersList(ListView):
+
+    model = User
+    http_method_names = ['get']
+    template_name = 'users/list.html'
+    context_object_name = 'object_list'
+
+    def get_context_data(self, **kwargs):
+        _super = super(AllUsersList, self)
+        context = _super.get_context_data(**kwargs)
+       
+        context.update({
+            'clerks' : Clerk.objects.all().count(),
+            'doctors' : Doctor.objects.all().count(),
+            })
+        return context
+
+
+
+@method_decorator(login_required, name='dispatch')
+class DoctorAutocomplete(autocomplete.Select2QuerySetView):
+
+    def get_queryset(self):
+        
+        qs = Doctor.objects.all()
+
+        if self.q:
+            qs = qs.filter(Q(full_name__icontains=self.q))
+        
+        return qs

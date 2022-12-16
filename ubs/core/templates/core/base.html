@@ -11,12 +11,12 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{% block title %}UBS-Admin{% endblock %}</title>
+    <title>{% block title %}EmSaúde - UBS{% endblock %}</title>
     <meta name="description" content="Sufee Admin - HTML5 Admin Template">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="apple-touch-icon" href="{% static 'apple-icon.png' %}">
-    <link rel="shortcut icon" href="{% static 'favicon.ico' %}">
+    <link rel="apple-touch-icon" href="{% static 'images/logoEmsaudeCerta.png' %}">
+    <link rel="shortcut icon" href="{% static 'images/logoEmsaudeCerta.png' %}">
 
     
 
@@ -47,62 +47,19 @@
         <nav class="navbar navbar-expand-sm navbar-default">
 
             <div class="navbar-header">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
-                    <i class="fa fa-bars"></i>
-                </button>
-                <a class="navbar-brand" href="./"><img src="{% static 'images/logo.png' %}" alt="Logo"></a>
-                <a class="navbar-brand hidden" href="./"><img src="{% static 'images/logo2.png' %}" alt="Logo"></a>
+
+                
+                <a href=" {% url 'core:index' %}"><img src="{% static 'images/logoEmsaudeCerta.png' %}" alt="Logo" width="50%" style="margin: 0 auto; display: block;"> </a>
             </div>
 
-            <div id="main-menu" class="main-menu collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <li class="active">
-                        <a href=""> <i class="menu-icon fa fa-dashboard"></i>Dashboard </a>
-                    </li>
-                    <h3 class="menu-title">Pacientes</h3><!-- /.menu-title -->
-                    <li class="menu-item-has-children dropdown">
-                        <a href=" {% url 'patient:list_patient' %}" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-th-list"></i>Listar Pacientes</a>
-                    </li>
-                    <li class="menu-item-has-children dropdown">
-                        <a href=" {% url 'patient:list_city' %}" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-th-list"></i>Listar Cidades</a>
-                    </li>
-                    <li class="menu-item-has-children dropdown">
-                        <a href=" {% url 'patient:list_state' %}" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-th-list"></i>Listar Estados</a>
-                    </li>
-                    <li class="menu-item-has-children dropdown">
-                        <a href=" {% url 'patient:list_medical_insurance' %}" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-th-list"></i>Listar Convênios</a>
-                    </li>
-                    <li class="menu-item-has-children dropdown">
-                        <a href=" {% url 'patient:list_color' %}" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-th-list"></i>Listar Cores</a>
-                    </li>
-                    <li class="menu-item-has-children dropdown">
-                        <a href=" {% url 'patient:list_marital_state' %}" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-th-list"></i>Listar Estado Conjugal</a>
-                    </li>
-                    <li class="menu-item-has-children dropdown">
-                        <a href=" {% url 'patient:list_logradouro' %}" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-th-list"></i>Listar Logradouro</a>
-                    </li>
-                    <li class="menu-item-has-children dropdown">
-                        <a href=" {% url 'patient:list_ocupation' %}" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-th-list"></i>Listar Ocupação</a>
-                    </li>
-                    <h3 class="menu-title">Consultas</h3><!-- /.menu-title -->
+            {% if request.user.is_superuser %}
+                {% include "core/menu_admin.html" %}
+            {% elif request.user.is_medical %}
+                {% include "core/menu_medical.html" %}
+            {% else %}
+                {% include "core/menu_tecnical.html" %}
+            {% endif %}
 
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-tasks"></i>Icons</a>
-                    </li>
-                    <h3 class="menu-title">Exames Físico</h3><!-- /.menu-title -->
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-glass"></i>Pages</a>
-                    </li>
-                    <h3 class="menu-title">Usuários</h3><!-- /.menu-title -->
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-glass"></i>Pages</a>
-                    </li>
-                    <h3 class="menu-title">Relatórios</h3><!-- /.menu-title -->
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-glass"></i>Pages</a>
-                    </li>
-                </ul>
-            </div><!-- /.navbar-collapse -->
         </nav>
     </aside><!-- /#left-panel -->
  
@@ -119,32 +76,59 @@
 
                 <div class="col-sm-7">
                     <a id="menuToggle" class="menutoggle pull-left"><i class="fa fa fa-tasks"></i></a>
-                    <h4>Únidade Básica de Saúde - <strong>UFPI</strong> </h4>
+                    <h4>{{request.user}} - <strong>UFPI</strong> </h4>
                 </div>
 
                 <div class="col-sm-5">
                     <div class="user-area dropdown float-right">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img class="user-avatar rounded-circle" src="{% static 'images/admin.jpg' %}" alt="User Avatar">
+                            <img class="user-avatar rounded-circle" src="{% static 'images/admin.png' %}" alt="User Avatar">
                         </a>
 
                         <div class="user-menu dropdown-menu">
-                            <a class="nav-link" href="#"><i class="fa fa-user"></i> My Profile</a>
+                            <a class="nav-link" href="{% if  request.user.is_superuser %} {% url 'accounts:update_admin' request.user.id %} {% elif  request.user.is_medical %} {% url 'accounts:update_doctor' request.user.id %} {% else %} {% url 'accounts:update_clerk' request.user.id %}{% endif %} "><i class="fa fa-user"></i> Meu Perfil</a>
 
-                            <a class="nav-link" href="#"><i class="fa fa-user"></i> Notifications <span class="count">13</span></a>
-
-                            <a class="nav-link" href="#"><i class="fa fa-cog"></i> Settings</a>
-
-                            <a class="nav-link" href="#"><i class="fa fa-power-off"></i> Logout</a>
+                            <a class="nav-link" href="{% url 'accounts:logout'%}"><i class="fa fa-power-off"></i> Sair</a>
+                            <hr>
+                            <a class="nav-link" href="{% url 'accounts:password_change'%}"><i class="fa fa-lock"></i> Mudar Senha </a>
                         </div>
                     </div>
 
                 </div>
             </div>
 
-        </header><!-- /header -->
-        <!-- Header-->
+        </header>
+
         {% block body %}
+
+        <div class="breadcrumbs">
+            <div class="col-sm-4">
+                <div class="page-header float-left">
+                    <div class="page-title">
+                        <h1>Painel de Controle</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="page-header float-right">
+                    <div class="page-title">
+                        <ol class="breadcrumb text-right">
+                            <li class="active">Dashboard</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+            {% if request.user.is_superuser %}
+                {% include "core/dashboard_tecnical.html" %}
+            {% elif request.user.is_medical %}
+                {% include "core/dashboard_medical.html" %}
+            {% else %}
+                {% include "core/dashboard_tecnical.html" %}
+            {% endif %}
+
+
         {% endblock %}
 
     </div><!-- /#right-panel -->
@@ -168,7 +152,31 @@
     <script src="{% static 'vendors/jqvmap/dist/maps/jquery.vmap.world.js'%}"></script>
 
 
+    <script src="https://js.pusher.com/5.1/pusher.min.js"></script>
 
+    <script>
+
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+
+        var pusher = new Pusher('7c5598615bc9fbb306d2', {
+            cluster: 'us2',
+            forceTLS: true
+        });
+
+        var channel = pusher.subscribe('notification');
+        channel.bind('recieve-notification', function (data) {
+            response = data
+
+            if(response.message == {{request.user.id}}){
+                alert("Você possui um novo paciente disponível para atendimento")
+            }
+
+        });
+
+
+
+    </script>
     
     <script>
         (function($) {

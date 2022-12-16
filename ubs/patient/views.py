@@ -14,7 +14,16 @@ from django.urls import reverse, reverse_lazy
 from django.db import IntegrityError, transaction
 from django.http import HttpResponse, JsonResponse
 
+from django.db.models import Q
+from dal import autocomplete
 
+from ubs.medical_query.models import Query
+
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+
+
+@method_decorator(login_required, name='dispatch')
 class PatientCreate(CreateView):
     model = Patient
     template_name = 'patient/add.html'
@@ -24,6 +33,8 @@ class PatientCreate(CreateView):
     def get_success_url(self):
         return reverse('patient:list_patient')
 
+
+@method_decorator(login_required, name='dispatch')
 class ListPatient(ListView):
 
     model = Patient
@@ -35,7 +46,7 @@ class ListPatient(ListView):
     def get_queryset(self):
         self.queryset = super(ListPatient, self).get_queryset()
         if self.request.GET.get('search_box', False):
-            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']) | Q(first_name__icontains=self.q))
+            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']))
         return self.queryset
 
     def get_context_data(self, **kwargs):
@@ -59,6 +70,60 @@ class ListPatient(ListView):
             })
         return context
 
+
+
+
+@method_decorator(login_required, name='dispatch')
+class PatientByDoctor(ListView):
+
+    model = Patient
+    http_method_names = ['get']
+    template_name = 'patient/list_by_doctor.html'
+    context_object_name = 'object_list'
+    paginate_by = 20
+
+
+    def get_queryset(self):
+        self.queryset = super(PatientByDoctor, self).get_queryset()
+        if self.request.GET.get('search_box', False):
+            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']))
+        return self.queryset
+
+    def get_context_data(self, **kwargs):         
+        _super = super(PatientByDoctor, self)
+        context = _super.get_context_data(**kwargs)
+        adjacent_pages = 3
+        page_number = context['page_obj'].number
+        num_pages = context['paginator'].num_pages
+        startPage = max(page_number - adjacent_pages, 1)
+        if startPage <= 5:
+            startPage = 1
+        endPage = page_number + adjacent_pages + 1
+        if endPage >= num_pages - 1:
+            endPage = num_pages + 1
+        page_numbers = [n for n in range(startPage, endPage) \
+            if n > 0 and n <= num_pages]
+
+
+        all_patients = Patient.objects.all()
+        patient_by_doctor = list()
+        
+        for patient in all_patients:
+            have_query = Query.objects.filter(User_idUser=self.request.user.id, Patient_idPatient= patient.id)
+            if have_query:
+                patient_by_doctor.append(patient)
+
+        context.update({
+            'page_numbers': page_numbers,
+            'show_first': 1 not in page_numbers,
+            'show_last': num_pages not in page_numbers,
+            'object_list':patient_by_doctor
+            })
+        return context
+
+
+
+@method_decorator(login_required, name='dispatch')
 class PatientUpdate(UpdateView):
     model = Patient
     template_name = 'patient/add.html'
@@ -67,6 +132,8 @@ class PatientUpdate(UpdateView):
     def get_success_url(self):
         return reverse('patient:list_patient')
 
+
+@method_decorator(login_required, name='dispatch')
 class DeletePatient(DeleteView):
     model = Patient
     template_name="patient/list.html"
@@ -80,11 +147,15 @@ class DeletePatient(DeleteView):
         except:
             return JsonResponse({'msg': "Essa proposta não pôde ser excluída!", 'code': "0"})
 
+
+@method_decorator(login_required, name='dispatch')
 class PatientDetail(UpdateView):
     template_name = 'patient/detail.html'
     form_class = PatientDetailForm
     model = Patient
-        
+
+ 
+@method_decorator(login_required, name='dispatch')       
 #Initial City
 class CityCreate(CreateView):
 	model = City
@@ -94,6 +165,9 @@ class CityCreate(CreateView):
 	def get_success_url(self):
 		return reverse('patient:list_city')
 
+
+
+@method_decorator(login_required, name='dispatch')
 class ListCity(ListView):
 
     model = City
@@ -106,7 +180,7 @@ class ListCity(ListView):
     def get_queryset(self):
         self.queryset = super(ListCity, self).get_queryset()
         if self.request.GET.get('search_box', False):
-            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']) | Q(first_name__icontains=self.q))
+            self.queryset=self.queryset.filter(Q(name_city__icontains = self.request.GET['search_box']))
         return self.queryset
 
     def get_context_data(self, **kwargs):
@@ -130,6 +204,9 @@ class ListCity(ListView):
             })
         return context
 
+
+
+@method_decorator(login_required, name='dispatch')
 class CityUpdate(UpdateView):
 	model = City
 	template_name = 'city/add.html'
@@ -138,6 +215,9 @@ class CityUpdate(UpdateView):
 	def get_success_url(self):
 		return reverse('patient:list_city')
 
+
+
+@method_decorator(login_required, name='dispatch')
 class DeleteCity(DeleteView):
     model = City
     template_name="city/list.html"
@@ -151,13 +231,18 @@ class DeleteCity(DeleteView):
         except:
             return JsonResponse({'msg': "Essa proposta não pôde ser excluída!", 'code': "0"})
 
+
+
+@method_decorator(login_required, name='dispatch')
 class CityDetail(UpdateView):
 
     model = City
     template_name = 'city/detail.html'
     form_class = CityDetailForm
 
-#initial State
+
+
+@method_decorator(login_required, name='dispatch')
 class StateCreate(CreateView):
 	model = State
 	template_name = 'state/add.html'
@@ -166,6 +251,9 @@ class StateCreate(CreateView):
 	def get_success_url(self):
 		return reverse('patient:list_state')
 
+
+
+@method_decorator(login_required, name='dispatch')
 class ListState(ListView):
 
     model = State
@@ -177,8 +265,8 @@ class ListState(ListView):
 
     def get_queryset(self):
         self.queryset = super(ListState, self).get_queryset()
-        if self.request.GET.get('search_box', False):
-            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']) | Q(first_name__icontains=self.q))
+        if self.request.GET.get('search_box', False) :
+            self.queryset = self.queryset.filter(Q(State_codIBGE_UF__contains = self.request.GET['search_box']) )
         return self.queryset
 
     def get_context_data(self, **kwargs):
@@ -194,7 +282,8 @@ class ListState(ListView):
         if endPage >= num_pages - 1:
             endPage = num_pages + 1
         page_numbers = [n for n in range(startPage, endPage) \
-            if n > 0 and n <= num_pages]
+                        if n > 0 and n <= num_pages]
+
         context.update({
             'page_numbers': page_numbers,
             'show_first': 1 not in page_numbers,
@@ -202,6 +291,9 @@ class ListState(ListView):
             })
         return context
 
+
+
+@method_decorator(login_required, name='dispatch')
 class StateUpdate(UpdateView):
 	model = State
 	template_name = 'state/add.html'
@@ -210,6 +302,9 @@ class StateUpdate(UpdateView):
 	def get_success_url(self):
 		return reverse('patient:list_state')
 
+
+
+@method_decorator(login_required, name='dispatch')
 class DeleteState(DeleteView):
     model = State
     template_name="state/list.html"
@@ -223,13 +318,17 @@ class DeleteState(DeleteView):
         except:
             return JsonResponse({'msg': "Essa proposta não pôde ser excluída!", 'code': "0"})
 
+
+
+@method_decorator(login_required, name='dispatch')
 class StateDetail(UpdateView):
 
     model = State
     template_name = 'state/detail.html'
     form_class = StateDetailForm
 
-#initial MedicalInsurance
+
+@method_decorator(login_required, name='dispatch')
 class MedicalInsuranceCreate(CreateView):
 	model = MedicalInsurance
 	template_name = 'medical_insurance/add.html'
@@ -238,6 +337,9 @@ class MedicalInsuranceCreate(CreateView):
 	def get_success_url(self):
 		return reverse('patient:list_medical_insurance')
 
+
+
+@method_decorator(login_required, name='dispatch')
 class ListMedicalInsurance(ListView):
 
     model = MedicalInsurance
@@ -250,7 +352,7 @@ class ListMedicalInsurance(ListView):
     def get_queryset(self):
         self.queryset = super(ListMedicalInsurance, self).get_queryset()
         if self.request.GET.get('search_box', False):
-            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']) | Q(first_name__icontains=self.q))
+            self.queryset=self.queryset.filter(Q(desc_medical_insurance__icontains = self.request.GET['search_box']))
         return self.queryset
 
     def get_context_data(self, **kwargs):
@@ -274,6 +376,9 @@ class ListMedicalInsurance(ListView):
             })
         return context
 
+
+
+@method_decorator(login_required, name='dispatch')
 class MedicalInsuranceUpdate(UpdateView):
     model = MedicalInsurance
     template_name = 'medical_insurance/add.html'
@@ -282,6 +387,9 @@ class MedicalInsuranceUpdate(UpdateView):
     def get_success_url(self):
         return reverse('patient:list_medical_insurance')
 
+
+
+@method_decorator(login_required, name='dispatch')
 class DeleteMedicalInsurance(DeleteView):
     model = MedicalInsurance
     template_name="medica_insurance/list.html"
@@ -295,13 +403,18 @@ class DeleteMedicalInsurance(DeleteView):
         except:
             return JsonResponse({'msg': "Essa proposta não pôde ser excluída!", 'code': "0"})
 
+
+
+@method_decorator(login_required, name='dispatch')
 class MedicalInsuranceDetail(UpdateView):
 
     model = MedicalInsurance
     template_name = 'medical_insurance/detail.html'
     form_class = MedicalInsuranceDetailForm
 
-#initial Color
+
+
+@method_decorator(login_required, name='dispatch')
 class ColorCreate(CreateView):
 	model = Color
 	template_name = 'color/add.html'
@@ -310,6 +423,9 @@ class ColorCreate(CreateView):
 	def get_success_url(self):
 		return reverse('patient:list_color')
 
+
+
+@method_decorator(login_required, name='dispatch')
 class ListColor(ListView):
 
     model = Color
@@ -322,7 +438,7 @@ class ListColor(ListView):
     def get_queryset(self):
         self.queryset = super(ListColor, self).get_queryset()
         if self.request.GET.get('search_box', False):
-            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']) | Q(first_name__icontains=self.q))
+            self.queryset=self.queryset.filter(Q(name_color__icontains = self.request.GET['search_box']))
         return self.queryset
 
     def get_context_data(self, **kwargs):
@@ -346,6 +462,9 @@ class ListColor(ListView):
             })
         return context
 
+
+
+@method_decorator(login_required, name='dispatch')
 class ColorUpdate(UpdateView):
 	model = Color
 	template_name = 'color/add.html'
@@ -354,6 +473,9 @@ class ColorUpdate(UpdateView):
 	def get_success_url(self):
 		return reverse('patient:list_color')
 
+
+
+@method_decorator(login_required, name='dispatch')
 class DeleteColor(DeleteView):
     model = Color
     template_name="cor/list.html"
@@ -367,13 +489,18 @@ class DeleteColor(DeleteView):
         except:
             return JsonResponse({'msg': "Essa proposta não pôde ser excluída!", 'code': "0"})
 
+
+
+@method_decorator(login_required, name='dispatch')
 class ColorDetail(UpdateView):
 
     model = Color
     template_name = 'color/detail.html'
     form_class = ColorDetailForm
 
-#initial MaritalState
+
+
+@method_decorator(login_required, name='dispatch')
 class MaritalStateCreate(CreateView):
 	model = MaritalState
 	template_name = 'marital_state/add.html'
@@ -382,6 +509,9 @@ class MaritalStateCreate(CreateView):
 	def get_success_url(self):
 		return reverse('patient:list_marital_state')
 
+
+
+@method_decorator(login_required, name='dispatch')
 class ListMaritalState(ListView):
 
     model = MaritalState
@@ -394,7 +524,7 @@ class ListMaritalState(ListView):
     def get_queryset(self):
         self.queryset = super(ListMaritalState, self).get_queryset()
         if self.request.GET.get('search_box', False):
-            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']) | Q(first_name__icontains=self.q))
+            self.queryset=self.queryset.filter(Q(desc_marital_state__icontains = self.request.GET['search_box']) )
         return self.queryset
 
     def get_context_data(self, **kwargs):
@@ -418,6 +548,9 @@ class ListMaritalState(ListView):
             })
         return context
 
+
+
+@method_decorator(login_required, name='dispatch')
 class MaritalStateUpdate(UpdateView):
 	model = MaritalState
 	template_name = 'marital_state/add.html'
@@ -426,6 +559,9 @@ class MaritalStateUpdate(UpdateView):
 	def get_success_url(self):
 		return reverse('patient:list_marital_state')
 
+
+
+@method_decorator(login_required, name='dispatch')
 class DeleteMaritalState(DeleteView):
     model = MaritalState
     template_name="marital_state/list.html"
@@ -439,12 +575,17 @@ class DeleteMaritalState(DeleteView):
         except:
             return JsonResponse({'msg': "Essa proposta não pôde ser excluída!", 'code': "0"})
 
+
+
+@method_decorator(login_required, name='dispatch')
 class MaritalStateDetail(UpdateView):
     model = MaritalState
     template_name = 'marital_state/detail.html'
     form_class = MaritalStateDetailForm
 
-#initial TypeLogradouro
+
+
+@method_decorator(login_required, name='dispatch')
 class TypeLogradouroCreate(CreateView):
 	model = TypeLogradouro
 	template_name = 'logradouro/add.html'
@@ -453,6 +594,9 @@ class TypeLogradouroCreate(CreateView):
 	def get_success_url(self):
 		return reverse('patient:list_logradouro')
 
+
+
+@method_decorator(login_required, name='dispatch')
 class ListTypeLogradouro(ListView):
 
     model = TypeLogradouro
@@ -461,9 +605,39 @@ class ListTypeLogradouro(ListView):
     context_object_name = 'object_list'
     paginate_by = 20
 
+    def get_queryset(self):
+        self.queryset = super(ListTypeLogradouro, self).get_queryset()
+        if self.request.GET.get('search_box', False):
+            self.queryset=self.queryset.filter(Q(desc_logradouro__icontains = self.request.GET['search_box']))
+        return self.queryset
+
+    def get_context_data(self, **kwargs):
+        _super = super(ListTypeLogradouro, self)
+        context = _super.get_context_data(**kwargs)
+        adjacent_pages = 3
+        page_number = context['page_obj'].number
+        num_pages = context['paginator'].num_pages
+        startPage = max(page_number - adjacent_pages, 1)
+        if startPage <= 5:
+            startPage = 1
+        endPage = page_number + adjacent_pages + 1
+        if endPage >= num_pages - 1:
+            endPage = num_pages + 1
+        page_numbers = [n for n in range(startPage, endPage) \
+            if n > 0 and n <= num_pages]
+        context.update({
+            'page_numbers': page_numbers,
+            'show_first': 1 not in page_numbers,
+            'show_last': num_pages not in page_numbers,
+            })
+        return context
+
     def get_success_url(self):
         return reverse('patient:list_logradouro')
 
+
+
+@method_decorator(login_required, name='dispatch')
 class TypeLogradouroUpdate(UpdateView):
     model = TypeLogradouro
     template_name = 'logradouro/add.html'
@@ -472,6 +646,9 @@ class TypeLogradouroUpdate(UpdateView):
     def get_success_url(self):
         return reverse('patient:list_logradouro')
 
+
+
+@method_decorator(login_required, name='dispatch')
 class DeleteTypeLogradouro(DeleteView):
     model = TypeLogradouro
     template_name="logradouro/list.html"
@@ -484,12 +661,18 @@ class DeleteTypeLogradouro(DeleteView):
         except:
             return JsonResponse({'msg': "Essa proposta não pôde ser excluída!", 'code': "0"})
 
+
+
+@method_decorator(login_required, name='dispatch')
 class TypeLogradouroDetail(UpdateView):
 
     model = TypeLogradouro
     template_name = 'logradouro/detail.html'
     form_class = TypeLogradouroDetailForm
 
+
+
+@method_decorator(login_required, name='dispatch')
 #initial TypeLogradouro
 class OcupationCreate(CreateView):
 	model = Ocupation
@@ -499,6 +682,9 @@ class OcupationCreate(CreateView):
 	def get_success_url(self):
 		return reverse('patient:list_ocupation')
 
+
+
+@method_decorator(login_required, name='dispatch')
 class ListOcupation(ListView):
 
     model = Ocupation
@@ -511,7 +697,7 @@ class ListOcupation(ListView):
     def get_queryset(self):
         self.queryset = super(ListOcupation, self).get_queryset()
         if self.request.GET.get('search_box', False):
-            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']) | Q(first_name__icontains=self.q))
+            self.queryset=self.queryset.filter(Q(desc_ocupation__icontains = self.request.GET['search_box']))
         return self.queryset
 
     def get_context_data(self, **kwargs):
@@ -535,6 +721,9 @@ class ListOcupation(ListView):
             })
         return context
 
+
+
+@method_decorator(login_required, name='dispatch')
 class OcupationUpdate(UpdateView):
 	model = Ocupation
 	template_name = 'ocupation/add.html'
@@ -543,6 +732,9 @@ class OcupationUpdate(UpdateView):
 	def get_success_url(self):
 		return reverse('patient:list_ocupation')
 
+
+
+@method_decorator(login_required, name='dispatch')
 class DeleteOcupation(DeleteView):
     model = Ocupation
     template_name="ocupation/list.html"
@@ -556,8 +748,110 @@ class DeleteOcupation(DeleteView):
         except:
             return JsonResponse({'msg': "Essa proposta não pôde ser excluída!", 'code': "0"})
 
+
+
+@method_decorator(login_required, name='dispatch')
 class OcupationDetail(UpdateView):
 
     model = Ocupation
     template_name = 'ocupation/detail.html'
     form_class = OcupationDetailForm
+
+
+
+@method_decorator(login_required, name='dispatch')
+class TypeLogradouroAutocomplete(autocomplete.Select2QuerySetView):
+
+    def get_queryset(self):
+        
+        qs = TypeLogradouro.objects.all()
+
+        if self.q:
+            qs = qs.filter(Q(desc_logradouro__icontains=self.q))
+        
+        return qs
+
+
+
+@method_decorator(login_required, name='dispatch')
+class CityAutocomplete(autocomplete.Select2QuerySetView):
+
+    def get_queryset(self):
+        
+        qs = City.objects.all()
+
+        if self.q:
+            qs = qs.filter(Q(name_city__icontains=self.q))
+        
+        return qs
+
+
+
+@method_decorator(login_required, name='dispatch')
+class MedicalInsuranceAutocomplete(autocomplete.Select2QuerySetView):
+
+    def get_queryset(self):
+        
+        qs = MedicalInsurance.objects.all()
+
+        if self.q:
+            qs = qs.filter(Q(desc_medical_insurance_insurance__icontains=self.q))
+        
+        return qs
+
+
+
+@method_decorator(login_required, name='dispatch')
+class ColorAutocomplete(autocomplete.Select2QuerySetView):
+
+    def get_queryset(self):
+        
+        qs = Color.objects.all()
+
+        if self.q:
+            qs = qs.filter(Q(name_color__icontains=self.q))
+        
+        return qs
+
+
+
+@method_decorator(login_required, name='dispatch')
+class MaritalStateAutocomplete(autocomplete.Select2QuerySetView):
+
+    def get_queryset(self):
+        
+        qs = MaritalState.objects.all()
+
+        if self.q:
+            qs = qs.filter(Q(desc_marital_state__icontains=self.q))
+        
+        return qs
+
+
+
+@method_decorator(login_required, name='dispatch')
+class OcupationAutocomplete(autocomplete.Select2QuerySetView):
+
+    def get_queryset(self):
+        
+        qs = Ocupation.objects.all()
+
+        if self.q:
+            qs = qs.filter(Q(desc_ocupation__icontains=self.q))
+        
+        return qs
+
+
+
+
+@method_decorator(login_required, name='dispatch')
+class PatientAutocomplete(autocomplete.Select2QuerySetView):
+
+    def get_queryset(self):
+        
+        qs = Patient.objects.all()
+
+        if self.q:
+            qs = qs.filter(Q(full_name__icontains=self.q))
+        
+        return qs

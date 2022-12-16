@@ -10,9 +10,16 @@ from django.http import HttpResponse, JsonResponse
 from django.db import IntegrityError, transaction
 
 from .models import *
+from ubs.accounts.models import Doctor
 from .forms import *
+from django.db.models import Q
+
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 
+
+@method_decorator(login_required, name='dispatch')
 class SpecialtyCreate(CreateView):
     model = MedicalSpecialty
     template_name = 'specialty/add.html'
@@ -21,6 +28,9 @@ class SpecialtyCreate(CreateView):
     def get_success_url(self):
         return reverse('specialty:list_specialty')
 
+
+
+@method_decorator(login_required, name='dispatch')
 class SpecialtyList(ListView):
 
     model = MedicalSpecialty
@@ -32,7 +42,7 @@ class SpecialtyList(ListView):
     def get_queryset(self):
         self.queryset = super(SpecialtyList, self).get_queryset()
         if self.request.GET.get('search_box', False):
-            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']) | Q(first_name__icontains=self.q))
+            self.queryset=self.queryset.filter(Q(desc_specialty__icontains = self.request.GET['search_box']))
         return self.queryset
 
     def get_context_data(self, **kwargs):
@@ -57,6 +67,9 @@ class SpecialtyList(ListView):
         return context
 
 
+
+
+@method_decorator(login_required, name='dispatch')
 class SpecialtyUpdate(UpdateView):
     model = MedicalSpecialty
     template_name = 'specialty/edit.html'
@@ -66,6 +79,9 @@ class SpecialtyUpdate(UpdateView):
         return reverse('specialty:list_specialty')
 
 
+
+
+@method_decorator(login_required, name='dispatch')
 class  SpecialtyDelete(DeleteView):
     model = MedicalSpecialty
 
@@ -79,6 +95,8 @@ class  SpecialtyDelete(DeleteView):
 
 
 
+
+@method_decorator(login_required, name='dispatch')
 class DoctorSpecialtyCreate(CreateView):
     model = DoctorHasMedicalSpecialty
     template_name = 'doctor_specialty/add.html'
@@ -87,6 +105,9 @@ class DoctorSpecialtyCreate(CreateView):
     def get_success_url(self):
         return reverse('specialty:list_doctor_specialty')
 
+
+
+@method_decorator(login_required, name='dispatch')
 class DoctorSpecialtyList(ListView):
 
     model = DoctorHasMedicalSpecialty
@@ -98,7 +119,8 @@ class DoctorSpecialtyList(ListView):
     def get_queryset(self):
         self.queryset = super(DoctorSpecialtyList, self).get_queryset()
         if self.request.GET.get('search_box', False):
-            self.queryset=self.queryset.filter(Q(full_name__icontains = self.request.GET['search_box']) | Q(first_name__icontains=self.q))
+            self.queryset=self.queryset.filter(Q(doctor__full_name__icontains = self.request.GET['search_box']) | Q(MedicalSpecialty_idSpecialty__desc_specialty__icontains=self.request.GET['search_box']))
+            
         return self.queryset
 
     def get_context_data(self, **kwargs):
@@ -123,6 +145,9 @@ class DoctorSpecialtyList(ListView):
         return context
 
 
+
+
+@method_decorator(login_required, name='dispatch')
 class DoctorSpecialtyUpdate(UpdateView):
     model = DoctorHasMedicalSpecialty
     template_name = 'doctor_specialty/edit.html'
@@ -132,6 +157,8 @@ class DoctorSpecialtyUpdate(UpdateView):
         return reverse('specialty:list_doctor_specialty')
 
 
+
+@method_decorator(login_required, name='dispatch')
 class  DoctorSpecialtyDelete(DeleteView):
     model = DoctorHasMedicalSpecialty
 

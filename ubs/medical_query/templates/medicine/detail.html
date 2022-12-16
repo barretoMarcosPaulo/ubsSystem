@@ -1,0 +1,67 @@
+{% extends 'core/base.html' %}
+{% load widget_tweaks %}
+
+{% block title %}Detalhamento de Medicamento{% endblock %}
+
+{% block body %}
+<div class="content col-md-12">
+    <div class="animated fadeIn">
+        <form method="post">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-10" style="margin: 20px auto;">
+                    <div class="card">
+                        <div class="card-header">                        
+                        <strong class="card-title">Medicamento</strong>
+
+                        </div>
+
+                        <fieldset>
+                            <div class="form-group">
+                                {% for field in form %}
+                                    {% if field.name in 'unity'%}
+
+                                        <div class="col-md-6 margin-bottom-15">
+                                                <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
+                                                <input type="text" class="form-control input-md" readonly value={{ object.unity_name}}> 
+                                                <span class="text-danger"> <strong>{{ field.help_text }}</strong></span>
+                                                {% comment %} <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
+                                                <input class="form-control input-md" type="text" name="{{ field.name }}" id="id_{{ field.name }}"
+                                                    value={{field.value }}> {% endcomment %}
+                                        </div>
+
+                                    {%else%}
+                                        <div class="col-md-{% if field.name in 'patient\summary\review_of_systems' %}12
+                                                        {% elif field.name in 'main_complaint\current_health_history/epidemiological_history/previous_pathological_history/family_history/physiological_personal_antecedents' %}6
+                                                        {% elif field.name in 'physical_exam\pa_exam\p_exam\fc_exam\fr_exam\tax_exam\peso_exam\heigth_exam' %}3         
+
+                                                        {% else %}6
+                                                        {% endif %} margin-bottom-15">
+
+                                            <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
+                                            {{ field|add_class:"form-control input-md" }}
+                                            <span class="text-danger"> <strong>{{ field.help_text }}</strong></span>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                        </fieldset>
+
+                        <br>
+
+                        <div class="form-actions form-group col-md-3">
+                            <a href="{% url 'medical_query:list_medicine' %}">
+                                <input class="btn btn-success" style="border-radius: 3px;" type="button" value="Finalizar" />
+                            </a>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+    </div>
+</div>
+</form>
+</div>
+</div>
+
+{% endblock %}

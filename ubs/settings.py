@@ -1,7 +1,7 @@
 
 
 import os
-
+from decouple import config
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -10,12 +10,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '%2i%tj9ra24q4tph3ie_hds+6h(#76@q=o3z2=jo!12&rtyk6@'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['ubs.ufpi.br', 'www.ubs.ufpi.br']
+
+INTERNAL_IPS = ['127.0.0.1']
 
 
 # Application definition
@@ -38,6 +40,8 @@ INSTALLED_APPS = [
     #Terceiros
     'widget_tweaks',
     'import_export',
+    'dal',
+    'dal_select2',
 ]
 
 MIDDLEWARE = [
@@ -75,13 +79,14 @@ WSGI_APPLICATION = 'ubs.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST'),
+        'PORT': config('DB_PORT'),
+    },
 }
-
-
-
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -99,7 +104,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # auth
-LOGIN_URL = 'ubs.accounts:login'
+LOGIN_URL = 'accounts:login'
 LOGIN_REDIRECT_URL = 'core:index'
 
 LOGOUT_REDIRECT_URL = 'accounts:login'
@@ -123,12 +128,17 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 DATE_INPUT_FORMATS = ( "DD-MM-AAAA", )
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = '/var/www/html/ubsSystem/static/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = '/var/www/html/ubsSystem/media/'
 
-MEDIA_URL = '/ubs/media_images/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'ubs/media_images')
+# STATIC_URL = '/static/'
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+#
+# MEDIA_URL = '/ubs/media_images/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'ubs/media_images')

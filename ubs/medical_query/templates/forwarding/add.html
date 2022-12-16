@@ -29,12 +29,29 @@
                                     {% endfor%}
                                 </div>
                                 {%else%}
-                                <div class="col-md-12 margin-bottom-15">
 
-                                    <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
-                                    {{ field|add_class:"form-control input-md" }}
-                                    <span class="text-danger"> <strong>{{ field.help_text }}</strong></span>
-                                </div>
+                                    {% if field.name == "priority" %}
+
+                                        
+                                        <div class="checkbox col-md-12 margin-bottom-15 " style="margin-top: 3%;">
+                                            <label>
+                                                <input type="checkbox" name="{{ field.name }}" id="id_{{ field.name }}" {% if field.value %} checked
+                                                    {% endif %}> {{ field.label }}
+                                            </label>
+                                        </div>
+
+
+
+                                    {% else %}
+
+                                        <div class="col-md-12 margin-bottom-15">
+
+                                            <label class="control-label" style="margin-top: 10px;">{{ field.label }}</label>
+                                            {{ field|add_class:"form-control input-md col-md-12" }}
+                                            <span class="text-danger"> <strong>{{ field.help_text }}</strong></span>
+                                        </div>
+                                    {%endif%}
+
                                 {%endif%}
                                 {% endfor %}
                             </div>
@@ -56,4 +73,8 @@
 </div>
 </div>
 
+{% endblock %}
+
+{% block js %}
+    {{ form.media }}
 {% endblock %}
